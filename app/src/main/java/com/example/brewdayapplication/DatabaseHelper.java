@@ -1,5 +1,6 @@
 package com.example.brewdayapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,13 +9,11 @@ import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME="brew.db";
+    public static final String DB_NAME = "brew.db";
     private static final String INGREDIENTE_TABLE = "INGREDIENTE";
-    private static final String BIRRAIO_TABLE = "BIRRAIO";
+    private static final String MAGAZZINO_TABLE = "MAGAZZINO";
 
-    private static final String COLUMN_ID_BIRRAIO = "_ID_BIRRAIO";
-    private static final String COLUMN_NAME_BIRRAIO = "NOME";
-    private static final String COLUMN_SURNAME = "COGNOME";
+    private static final String COLUMN_ID_MAGAZZINO = "ID_MAGAZZINO";
     private static final String COLUMN_CAPACITY_EQUIPMENT = "CAPACITA_SET";
 
     private static final String COLUMN_NOME_INGREDIENTE = "NOME_INGREDIENTE";
@@ -28,20 +27,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String createTableStatementBirraio = " CREATE TABLE " + BIRRAIO_TABLE + " ( "
-                + COLUMN_ID_BIRRAIO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUMN_NAME_BIRRAIO + " TEXT NOT NULL, "
-                + COLUMN_SURNAME + " TEXT NOT NULL, "
+        String createTableStatementMagazzino = " CREATE TABLE " + MAGAZZINO_TABLE + " ( "
+                + COLUMN_ID_MAGAZZINO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_CAPACITY_EQUIPMENT + " DOUBLE NOT NULL )";
 
 
         String createTableStatementIngredient = " CREATE TABLE " + INGREDIENTE_TABLE + " ("
                 + COLUMN_NOME_INGREDIENTE + " TEXT PRIMARY KEY NOT NULL, "
-                + COLUMN_QUANTITA_DISPENSA + " DOUBLE NOT NULL,"
-                + COLUMN_ID_BIRRAIO + " INTEGER NOT NULL, " +
-                " FOREIGN KEY ( " + COLUMN_ID_BIRRAIO + " ) REFERENCES " + BIRRAIO_TABLE + " ( " + COLUMN_ID_BIRRAIO + " )" + " )";
+                + COLUMN_QUANTITA_DISPENSA + " DOUBLE NOT NULL, "
+                + COLUMN_ID_MAGAZZINO + " INTEGER NOT NULL, "
+                + " FOREIGN KEY ( " + COLUMN_ID_MAGAZZINO + " ) REFERENCES " + MAGAZZINO_TABLE + " ( " + COLUMN_ID_MAGAZZINO + " ))";
 
-        db.execSQL(createTableStatementBirraio);
+        db.execSQL(createTableStatementMagazzino);
         db.execSQL(createTableStatementIngredient);
     }
 

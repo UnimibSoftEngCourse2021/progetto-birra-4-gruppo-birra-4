@@ -14,4 +14,13 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void creazioneIngrediente_isCorrect() {
+        Ingrediente ingrediente = new Ingrediente("malto", 12);
+        assertEquals(12, ingrediente.getQuantita(), 0);
+        assertEquals("malto", ingrediente.getNome());
+    }
+
+
 }
