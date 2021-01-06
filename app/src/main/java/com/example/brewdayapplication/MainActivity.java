@@ -14,5 +14,7 @@ public class MainActivity extends AppCompatActivity {
         /*commento prova lara*/
         /* commento Ale*/
         /* commento Simone */
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
     }
 }
