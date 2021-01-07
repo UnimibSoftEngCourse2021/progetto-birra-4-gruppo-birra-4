@@ -1,5 +1,7 @@
 package com.example.brewdayapplication;
 
+import java.util.Objects;
+
 public class Ingrediente {
     private String nome;
     private double quantita;
@@ -22,7 +24,8 @@ public class Ingrediente {
     }
 
     public void setQuantita(double quantita) {
-        this.quantita = quantita;
+        if (quantita >= 0)
+            this.quantita = quantita;
     }
 
     @Override
@@ -32,4 +35,13 @@ public class Ingrediente {
                 ", quantita=" + quantita +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingrediente that = (Ingrediente) o;
+        return getNome().equals(that.getNome());
+    }
+
 }
