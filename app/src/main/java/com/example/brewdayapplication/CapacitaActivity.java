@@ -25,7 +25,10 @@ public class CapacitaActivity extends AppCompatActivity {
         editText_capacita = findViewById(R.id.editTextNumberDecimal_capacita);
         btn_conferma = findViewById(R.id.btn_conferma);
 
-        if(getSharedPreferences()){
+        //se è presente una preferences vuol dire che l'utente ha già inserito la capacità perciò parte MainActivity.
+        //Altrimenti vuol dire che è la prima volta che l'utente apre l'app dopo l'installazione e quindi gli si viene
+        //chiesto di inserire la capacità
+        if (getSharedPreferences()) {
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -33,27 +36,31 @@ public class CapacitaActivity extends AppCompatActivity {
         btn_conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editText_capacita.getText().toString().isEmpty() && Double.parseDouble(editText_capacita.getText().toString()) > 0){
+                //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
+                if (!editText_capacita.getText().toString().isEmpty() && Double.parseDouble(editText_capacita.getText().toString()) > 0) {
                     capacita = Double.parseDouble(editText_capacita.getText().toString());
                     /*salvataggio della capacità nel database*/
                     storeSharedPreferences(true);
+                    //Parte intent per andare in MainActivity
                     intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 }
-                Toast.makeText(getApplicationContext(),"Inserire un numero positivo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Inserire un numero positivo", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void storeSharedPreferences(Boolean b){
-        SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue",MODE_PRIVATE);
+    //salva preferences.
+    private void storeSharedPreferences(Boolean b) {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-        mEditor.putBoolean("button" , b);
+        mEditor.putBoolean("button", b);
         mEditor.apply();
     }
 
-    private boolean getSharedPreferences(){
-        SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue",MODE_PRIVATE);
+    //legge preferences
+    private boolean getSharedPreferences() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("button", false);
     }
 
