@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BrewDayApplication</string>
+    <string name="benvenuto">Benvenuto</string>
+    <string name="lista_ingredienti">Lista Ingredienti</string>
 </resources>

@@ -17,8 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CAPACITY_EQUIPMENT = "CAPACITA_SET";
 
     private static final String COLUMN_NOME_INGREDIENTE = "NOME_INGREDIENTE";
-    private static final String COLUMN_QUANTITA_DISPENSA = "QUANTITA_DISPENSA";
-
+    private static final String COLUMN_QUANTITA_MAGAZZINO = "QUANTITA_DISPENSA";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
@@ -34,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String createTableStatementIngredient = " CREATE TABLE " + INGREDIENTE_TABLE + " ("
                 + COLUMN_NOME_INGREDIENTE + " TEXT PRIMARY KEY NOT NULL, "
-                + COLUMN_QUANTITA_DISPENSA + " DOUBLE NOT NULL, "
+                + COLUMN_QUANTITA_MAGAZZINO + " DOUBLE NOT NULL, "
                 + COLUMN_ID_MAGAZZINO + " INTEGER NOT NULL, "
                 + " FOREIGN KEY ( " + COLUMN_ID_MAGAZZINO + " ) REFERENCES " + MAGAZZINO_TABLE + " ( " + COLUMN_ID_MAGAZZINO + " ))";
 
