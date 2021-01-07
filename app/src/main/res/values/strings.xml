@@ -5,4 +5,6 @@
     <string name="Modifica">Modifica Lista</string>
     <string name="Ingrediente">Ingrediente</string>
     <string name="Quantità">Quantità</string>
+    <string name="conferma">Conferma</string>
+    <string name="inserisci_capacit_equipment">Inserisci capacità equipment</string>
 </resources>
