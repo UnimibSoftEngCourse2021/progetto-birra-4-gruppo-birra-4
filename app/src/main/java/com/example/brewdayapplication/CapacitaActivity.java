@@ -2,6 +2,7 @@ package com.example.brewdayapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ public class CapacitaActivity extends AppCompatActivity {
     Button btn_conferma;
     private Intent intent;
     private double capacita;
+    DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,8 @@ public class CapacitaActivity extends AppCompatActivity {
                 //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
                 if (!editText_capacita.getText().toString().isEmpty() && Double.parseDouble(editText_capacita.getText().toString()) > 0) {
                     capacita = Double.parseDouble(editText_capacita.getText().toString());
-                    /*salvataggio della capacità nel database*/
+                    databaseManager = new DatabaseManager(getApplicationContext());
+                    databaseManager.saveCapacita(capacita);
                     storeSharedPreferences(true);
                     //Parte intent per andare in MainActivity
                     intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -71,4 +74,17 @@ public class CapacitaActivity extends AppCompatActivity {
     public void setCapacita(double capacita) {
         this.capacita = capacita;
     }
+
+ /*   private Magazzino createMagazzino() {
+        Cursor cursorMagazzino = databaseManager.getCapacita();
+        int id = 0;
+        double capacita = 0;
+        while (cursorMagazzino.moveToNext()){
+            id = cursorMagazzino.getInt(0);
+            capacita = cursorMagazzino.getDouble(1);
+        }
+        Magazzino magazzino = new Magazzino(id,capacita);
+        cursorMagazzino.close();
+        return magazzino;
+    } */
 }

@@ -11,7 +11,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "brew.db";
 
-
     public DatabaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
     }
@@ -25,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         String createTableStatementIngredient = " CREATE TABLE " + DataString.INGREDIENTE_TABLE + " ("
+               // + "_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
                 + DataString.COLUMN_NOME_INGREDIENTE + " TEXT PRIMARY KEY NOT NULL, "
                 + DataString.COLUMN_QUANTITA_MAGAZZINO + " DOUBLE NOT NULL, "
                 + DataString.COLUMN_ID_MAGAZZINO + " INTEGER NOT NULL, "

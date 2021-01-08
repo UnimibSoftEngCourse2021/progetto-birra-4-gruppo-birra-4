@@ -7,4 +7,10 @@
     <string name="Quantità">Quantità</string>
     <string name="conferma">Conferma</string>
     <string name="inserisci_capacit_equipment">Inserisci capacità equipment</string>
+    <string name="title_activity_ingrediente">IngredienteActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
