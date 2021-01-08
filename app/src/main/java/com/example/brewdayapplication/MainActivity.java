@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_ingredienti;
+    Button btnIngredienti;
 
 
     @Override
@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
         /* commento Simone */
 
 
-        btn_ingredienti = findViewById(R.id.btn_Ingredienti);
+        btnIngredienti = findViewById(R.id.btn_Ingredienti);
 
-        btn_ingredienti.setOnClickListener(new View.OnClickListener() {
+        btnIngredienti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), IngredienteActivity.class);

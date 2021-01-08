@@ -1,6 +1,7 @@
 package com.example.brewdayapplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Magazzino {
 
@@ -27,7 +28,7 @@ public class Magazzino {
         this.capacita = capacita;
     }
 
-    public ArrayList<Ingrediente> getDispensaIngrediente() {
+    public List<Ingrediente> getDispensaIngrediente() {
         return dispensaIngrediente;
     }
 

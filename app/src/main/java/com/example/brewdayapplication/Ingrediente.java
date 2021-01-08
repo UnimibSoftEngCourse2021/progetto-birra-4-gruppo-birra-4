@@ -1,6 +1,5 @@
 package com.example.brewdayapplication;
 
-import java.util.Objects;
 
 public class Ingrediente {
     private String nome;
@@ -44,4 +43,8 @@ public class Ingrediente {
         return getNome().equals(that.getNome());
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
