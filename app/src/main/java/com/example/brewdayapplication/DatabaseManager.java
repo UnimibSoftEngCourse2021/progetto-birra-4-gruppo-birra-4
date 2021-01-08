@@ -51,7 +51,7 @@ public class DatabaseManager {
         Cursor list_ingredients = null;
         try {
             db = databaseHelper.getReadableDatabase();
-            list_ingredients = db.query(DataString.INGREDIENTE_TABLE, new String[] {DataString.COLUMN_NOME_INGREDIENTE, DataString.COLUMN_QUANTITA_MAGAZZINO}, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
+            list_ingredients = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
             if (list_ingredients.moveToNext()){
                 do {
                     Ingrediente ingrediente = new Ingrediente(list_ingredients.getString(0),list_ingredients.getInt(1));
