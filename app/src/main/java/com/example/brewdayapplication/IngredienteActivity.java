@@ -44,25 +44,28 @@ public class IngredienteActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
 
-        printList(listviewIngredienti);
-
 
         /*definisce la funzione del bottone modifica ingrediente*/
         modifica_ingrediente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double quantita = Double.parseDouble(quantitaView.getText().toString());
-                String nome_ingrediente = ingredienteView.getSelectedItem().toString();
-                Ingrediente ingrediente = new Ingrediente(nome_ingrediente,quantita);
+                Ingrediente ingrediente = null;
+                try {
+                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
+                    Toast.makeText(getApplicationContext(), ingrediente.toString(), Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                }
+                databaseManager = new DatabaseManager(getApplicationContext());
                 databaseManager.saveIngredient(ingrediente);
-                printList(listviewIngredienti);
+                printList(databaseManager);
             }
         });
     }
 
-    private void printList(ListView listViewIngredienti) {
+    private void printList(DatabaseManager databaseManager) {
         ArrayAdapter resultQuery = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, databaseManager.mostraIngredienti());
-        listViewIngredienti.setAdapter(resultQuery);
+        listviewIngredienti.setAdapter(resultQuery);
     }
 
     private Magazzino getMagazzino() {
