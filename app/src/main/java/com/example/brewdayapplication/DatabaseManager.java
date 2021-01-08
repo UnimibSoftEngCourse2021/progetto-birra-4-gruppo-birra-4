@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.provider.ContactsContract;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class DatabaseManager {
     public void saveCapacita(double capacita) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        // cv.put(DataString.COLUMN_ID_MAGAZZINO, 1);
         cv.put(DataString.COLUMN_CAPACITY_EQUIPMENT, capacita);
         try {
             db.insert(DataString.MAGAZZINO_TABLE, null, cv);
@@ -45,34 +43,22 @@ public class DatabaseManager {
         }
     }
 
-    /*public List<Ingrediente> mostraIngredienti() {
-        List<Ingrediente> returnList = new ArrayList<>();
-        Cursor crs = null;
-        try {
-            db = databaseHelper.getReadableDatabase();
-            crs = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, null, null);
-            returnList.add((Ingrediente) crs);
-        } catch (SQLiteException sqle) {
-            return null;
-        }
-        crs.close();
-        return returnList;
-    }*/
 
     public ArrayList<Ingrediente> mostraIngredienti() {
-        ArrayList<Ingrediente> resultList= new ArrayList<Ingrediente>();
+        ArrayList<Ingrediente> resultList = new ArrayList<Ingrediente>();
         Cursor list_ingredients = null;
         try {
             db = databaseHelper.getReadableDatabase();
-            list_ingredients = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_NOME_INGREDIENTE, DataString.COLUMN_QUANTITA_MAGAZZINO}, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
-            /*if (list_ingredients.moveToNext()){
+            list_ingredients = db.query(DataString.INGREDIENTE_TABLE, null, null,
+                    null, null, null, null);
+            if (list_ingredients.moveToNext()) {
                 do {
                     String nome_ingrediente = list_ingredients.getString(0);
                     int quantita = list_ingredients.getInt(1);
-                    Ingrediente ingrediente = new Ingrediente(nome_ingrediente,quantita);
+                    Ingrediente ingrediente = new Ingrediente(nome_ingrediente, quantita);
                     resultList.add(ingrediente);
-                }while (list_ingredients.moveToNext());
-            }*/
+                } while (list_ingredients.moveToNext());
+            }
         } catch (SQLiteException e) {
             list_ingredients.close();
             db.close();
@@ -82,16 +68,21 @@ public class DatabaseManager {
         return resultList;
     }
 
-    public Cursor getCapacita() {
-        Cursor capacita = null;
+    public Magazzino getMagazzino() {
+        Cursor cursor = null;
+        int id = 0;
+        double capacitaDouble = 0.0;
+
         try {
             db = databaseHelper.getReadableDatabase();
-            capacita = db.query(DataString.MAGAZZINO_TABLE, new String[]{DataString.COLUMN_ID_MAGAZZINO, DataString.COLUMN_CAPACITY_EQUIPMENT}, null,
-                    null, null, null, null);
+            cursor = db.query(DataString.MAGAZZINO_TABLE, null, null, null, null, null, null);
+            id = cursor.getInt(0);
+            capacitaDouble = cursor.getDouble(1);
         } catch (SQLiteException e) {
-            return null;
+            /*da gestire*/
         }
-        return capacita;
+        cursor.close();
+        return new Magazzino(id, capacitaDouble);
     }
 
 
