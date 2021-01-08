@@ -27,6 +27,8 @@ public class CapacitaActivity extends AppCompatActivity {
         editText_capacita = findViewById(R.id.editTextNumberDecimal_capacita);
         btn_conferma = findViewById(R.id.btn_conferma);
 
+        databaseManager = new DatabaseManager(getApplicationContext());
+
         //se è presente una preferences vuol dire che l'utente ha già inserito la capacità perciò parte MainActivity.
         //Altrimenti vuol dire che è la prima volta che l'utente apre l'app dopo l'installazione e quindi gli si viene
         //chiesto di inserire la capacità
@@ -40,9 +42,10 @@ public class CapacitaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
                 if (!editText_capacita.getText().toString().isEmpty() && Double.parseDouble(editText_capacita.getText().toString()) > 0) {
+
                     capacita = Double.parseDouble(editText_capacita.getText().toString());
-                    databaseManager = new DatabaseManager(getApplicationContext());
                     databaseManager.saveCapacita(capacita);
+
                     storeSharedPreferences(true);
                     //Parte intent per andare in MainActivity
                     intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -66,25 +69,4 @@ public class CapacitaActivity extends AppCompatActivity {
         SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("button", false);
     }
-
-    public double getCapacita() {
-        return capacita;
-    }
-
-    public void setCapacita(double capacita) {
-        this.capacita = capacita;
-    }
-
- /*   private Magazzino createMagazzino() {
-        Cursor cursorMagazzino = databaseManager.getCapacita();
-        int id = 0;
-        double capacita = 0;
-        while (cursorMagazzino.moveToNext()){
-            id = cursorMagazzino.getInt(0);
-            capacita = cursorMagazzino.getDouble(1);
-        }
-        Magazzino magazzino = new Magazzino(id,capacita);
-        cursorMagazzino.close();
-        return magazzino;
-    } */
 }

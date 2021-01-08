@@ -67,16 +67,21 @@ public class DatabaseManager {
         return resultList;
     }
 
-    public Cursor getCapacita() {
-        Cursor capacita = null;
+    public Magazzino getMagazzino() {
+        Cursor cursor = null;
+        int id = 0;
+        double capacitaDouble = 0.0;
+
         try {
             db = databaseHelper.getReadableDatabase();
-            capacita = db.query(DataString.MAGAZZINO_TABLE, new String[]{DataString.COLUMN_ID_MAGAZZINO, DataString.COLUMN_CAPACITY_EQUIPMENT}, null,
-                    null, null, null, null);
+            cursor = db.query(DataString.MAGAZZINO_TABLE, null, null, null, null, null, null);
+            id = cursor.getInt(0);
+            capacitaDouble = cursor.getDouble(1);
         } catch (SQLiteException e) {
-            return null;
+            /*da gestire*/
         }
-        return capacita;
+        cursor.close();
+        return new Magazzino(id, capacitaDouble);
     }
 
 

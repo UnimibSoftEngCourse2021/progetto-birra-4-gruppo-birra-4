@@ -43,6 +43,7 @@ public class IngredienteActivity extends AppCompatActivity {
         ingredienteView = findViewById(R.id.nome_ingrediente);
 
         databaseManager = new DatabaseManager(getApplicationContext());
+        printList(listviewIngredienti);
 
 
         /*definisce la funzione del bottone modifica ingrediente*/
@@ -58,7 +59,7 @@ public class IngredienteActivity extends AppCompatActivity {
                 }
                 databaseManager = new DatabaseManager(getApplicationContext());
                 databaseManager.saveIngredient(ingrediente);
-                printList(databaseManager);
+                printList(listviewIngredienti);
             }
         });
     }
@@ -68,17 +69,6 @@ public class IngredienteActivity extends AppCompatActivity {
         listviewIngredienti.setAdapter(resultQuery);
     }
 
-    private Magazzino getMagazzino() {
-       Cursor datiMagazzino =  databaseManager.getCapacita();
-       int id = 0;
-       double capacita = 0;
-       while(datiMagazzino.moveToFirst()){
-           id = datiMagazzino.getInt(0);
-           capacita = datiMagazzino.getDouble(1);
-       }
-       datiMagazzino.close();
-       return new Magazzino(id,capacita);
-    }
 
 }
 
