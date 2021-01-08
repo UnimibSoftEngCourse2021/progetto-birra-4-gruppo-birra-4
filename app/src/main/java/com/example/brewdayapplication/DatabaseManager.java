@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.provider.ContactsContract;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class DatabaseManager {
     public void saveCapacita(double capacita) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
+        // cv.put(DataString.COLUMN_ID_MAGAZZINO, 1);
         cv.put(DataString.COLUMN_CAPACITY_EQUIPMENT, capacita);
         try {
             db.insert(DataString.MAGAZZINO_TABLE, null, cv);
@@ -49,18 +52,19 @@ public class DatabaseManager {
 
         db = databaseHelper.getReadableDatabase();
         listIngredients = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
-        if (listIngredients.moveToNext()) {
+        if (listIngredients.moveToNext() && listIngredients!=null){
             do {
                 Ingrediente ingrediente = new Ingrediente(listIngredients.getString(0), listIngredients.getInt(1));
                 resultList.add(ingrediente);
             } while (listIngredients.moveToNext());
-        }
-        if (listIngredients != null)
+        } else{
             listIngredients.close();
+        }
+        /*if (listIngredients != null)
+            listIngredients.close();*/
 
         return resultList;
     }
-
 
 
 }
