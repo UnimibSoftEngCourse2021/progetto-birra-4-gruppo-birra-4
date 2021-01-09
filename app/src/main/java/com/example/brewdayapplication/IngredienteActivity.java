@@ -36,7 +36,7 @@ public class IngredienteActivity extends AppCompatActivity {
         ingredienteView = findViewById(R.id.nome_ingrediente);
 
         databaseManager = new DatabaseManager(getApplicationContext());
-        printList(ingredienteList);
+        printList();
 
 
         /*definisce la funzione del bottone modifica ingrediente*/
@@ -56,11 +56,11 @@ public class IngredienteActivity extends AppCompatActivity {
             int mostra = databaseManager.saveIngredient(ingrediente);
             if (mostra == 2)
                 ingredienteList.add(ingrediente);
-            printList(ingredienteList);
+            printList();
         }
     }
 
-    private void printList(List<Ingrediente> ingredienteList) {
+    private void printList() {
         ingredienteList = databaseManager.mostraIngredienti();
         resultQuery = new ListAdapter(this, ingredienteList);
         listviewIngredienti.setAdapter(resultQuery);
