@@ -9,7 +9,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IngredienteActivity extends AppCompatActivity {
 
@@ -19,6 +23,7 @@ public class IngredienteActivity extends AppCompatActivity {
     EditText quantitaView;
     Spinner ingredienteView;
     ListView listviewIngredienti;
+    List<Ingrediente> ingredienteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,8 @@ public class IngredienteActivity extends AppCompatActivity {
         ingredienteView = findViewById(R.id.nome_ingrediente);
 
         databaseManager = new DatabaseManager(getApplicationContext());
-        printList(listviewIngredienti);
+        ingredienteList = databaseManager.mostraIngredienti();
+        printList(ingredienteList);
 
 
         /*definisce la funzione del bottone modifica ingrediente*/
@@ -40,24 +46,27 @@ public class IngredienteActivity extends AppCompatActivity {
 
     }
 
-    private void printList(ListView listviewIngredienti) {
-        ArrayAdapter<Ingrediente> resultQuery = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, databaseManager.mostraIngredienti());
-        listviewIngredienti.setAdapter(resultQuery);
-    }
-
-    private class ModificaIngredienteListener implements View.OnClickListener{
+    private class ModificaIngredienteListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Ingrediente ingrediente = null;
             try {
                 ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
-            }catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
             databaseManager.saveIngredient(ingrediente);
-            printList(listviewIngredienti);
+            ingredienteList.add(ingrediente);
+            printList(ingredienteList);
         }
     }
+
+
+    private void printList(List<Ingrediente> ingredienteList) {
+        ListAdapter resultQuery = new ListAdapter(this, ingredienteList);
+        listviewIngredienti.setAdapter(resultQuery);
+    }
+
 
 }
 

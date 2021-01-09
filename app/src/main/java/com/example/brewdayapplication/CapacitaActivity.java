@@ -15,7 +15,6 @@ public class CapacitaActivity extends AppCompatActivity {
     EditText editTextCapacita;
     Button btnConferma;
     private Intent intent;
-    private double capacita;
     DatabaseManager databaseManager;
 
     @Override
@@ -45,14 +44,13 @@ public class CapacitaActivity extends AppCompatActivity {
         return mSharedPreferences.getBoolean("button", false);
     }
 
-    private class ImpostaCapacitaListener implements View.OnClickListener{
+    private class ImpostaCapacitaListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
             if (!editTextCapacita.getText().toString().isEmpty() && Double.parseDouble(editTextCapacita.getText().toString()) > 0) {
-                capacita = Double.parseDouble(editTextCapacita.getText().toString());
                 databaseManager = new DatabaseManager(getApplicationContext());
-                databaseManager.saveCapacita(capacita);
+                databaseManager.saveCapacita(Double.parseDouble(editTextCapacita.getText().toString()));
 
                 storeSharedPreferences(true);
                 //Parte intent per andare in MainActivity

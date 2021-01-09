@@ -49,12 +49,12 @@ public class DatabaseManager {
 
         db = databaseHelper.getReadableDatabase();
         listIngredients = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
-        if (listIngredients.moveToNext()){
+        if (listIngredients.moveToNext()) {
             do {
                 Ingrediente ingrediente = new Ingrediente(listIngredients.getString(0), listIngredients.getInt(1));
                 resultList.add(ingrediente);
             } while (listIngredients.moveToNext());
-        } else{
+        } else {
             listIngredients.close();
         }
 
