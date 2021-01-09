@@ -3,7 +3,6 @@ package com.example.brewdayapplication;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IngredienteActivity extends AppCompatActivity {
@@ -55,9 +53,11 @@ public class IngredienteActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
-            databaseManager.saveIngredient(ingrediente);
-            ingredienteList.add(ingrediente);
+            int mostra = databaseManager.saveIngredient(ingrediente);
+            if (mostra == 2)
+                ingredienteList.add(ingrediente);
             printList(ingredienteList);
+
         }
     }
 
