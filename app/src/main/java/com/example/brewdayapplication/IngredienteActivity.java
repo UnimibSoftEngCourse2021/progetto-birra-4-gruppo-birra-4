@@ -34,7 +34,6 @@ public class IngredienteActivity extends AppCompatActivity {
         modificaIngrediente = findViewById(R.id.modifica_ingrediente);
         quantitaView = findViewById(R.id.quantita_ingrediente);
         ingredienteView = findViewById(R.id.nome_ingrediente);
-
         databaseManager = new DatabaseManager(getApplicationContext());
         printList();
 
