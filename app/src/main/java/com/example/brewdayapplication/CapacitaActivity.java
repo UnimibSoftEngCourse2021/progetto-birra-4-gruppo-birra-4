@@ -36,36 +36,38 @@ public class CapacitaActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        btnConferma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
-                if (!editTextCapacita.getText().toString().isEmpty() && Double.parseDouble(editTextCapacita.getText().toString()) > 0) {
-                    capacita = Double.parseDouble(editTextCapacita.getText().toString());
-                    databaseManager = new DatabaseManager(getApplicationContext());
-                    databaseManager.saveCapacita(capacita);
-
-                    storeSharedPreferences(true);
-                    //Parte intent per andare in MainActivity
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }
-                Toast.makeText(getApplicationContext(), "Inserire un numero positivo", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    //salva preferences.
-    private void storeSharedPreferences(Boolean b) {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
-        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-        mEditor.putBoolean("button", b);
-        mEditor.apply();
+        btnConferma.setOnClickListener(new ImpostaCapacitaListener());
     }
 
     //legge preferences
     private boolean getSharedPreferences() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("button", false);
+    }
+
+    private class ImpostaCapacitaListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            //controllo dell'input. Se adeguato salva la capacita e la preferences altrimenti crea un toast.
+            if (!editTextCapacita.getText().toString().isEmpty() && Double.parseDouble(editTextCapacita.getText().toString()) > 0) {
+                capacita = Double.parseDouble(editTextCapacita.getText().toString());
+                databaseManager = new DatabaseManager(getApplicationContext());
+                databaseManager.saveCapacita(capacita);
+
+                storeSharedPreferences(true);
+                //Parte intent per andare in MainActivity
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+            Toast.makeText(getApplicationContext(), "Inserire un numero positivo", Toast.LENGTH_SHORT).show();
+        }
+
+        //salva preferences.
+        private void storeSharedPreferences(Boolean b) {
+            SharedPreferences mSharedPreferences = getSharedPreferences("ButtonValue", MODE_PRIVATE);
+            SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+            mEditor.putBoolean("button", b);
+            mEditor.apply();
+        }
     }
 }

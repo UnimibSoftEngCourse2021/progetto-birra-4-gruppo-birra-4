@@ -1,6 +1,10 @@
 package com.example.brewdayapplication;
 
 public class DataString {
+
+    private DataString() {
+    }
+
     public static final String INGREDIENTE_TABLE = "INGREDIENTE";
     public static final String MAGAZZINO_TABLE = "MAGAZZINO";
 

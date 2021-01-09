@@ -15,7 +15,7 @@ public class IngredienteActivity extends AppCompatActivity {
 
 
     DatabaseManager databaseManager;
-    Button modifica_ingrediente;
+    Button modificaIngrediente;
     EditText quantitaView;
     Spinner ingredienteView;
     ListView listviewIngredienti;
@@ -27,7 +27,7 @@ public class IngredienteActivity extends AppCompatActivity {
 
 
         listviewIngredienti = findViewById(R.id.listview_ingredients);
-        modifica_ingrediente = findViewById(R.id.modifica_ingrediente);
+        modificaIngrediente = findViewById(R.id.modifica_ingrediente);
         quantitaView = findViewById(R.id.quantita_ingrediente);
         ingredienteView = findViewById(R.id.nome_ingrediente);
 
@@ -36,19 +36,8 @@ public class IngredienteActivity extends AppCompatActivity {
 
 
         /*definisce la funzione del bottone modifica ingrediente*/
-        modifica_ingrediente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Ingrediente ingrediente = null;
-                try {
-                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-                }
-                databaseManager.saveIngredient(ingrediente);
-                printList(listviewIngredienti);
-            }
-        });
+        modificaIngrediente.setOnClickListener(new ModificaIngredienteListener());
+
     }
 
     private void printList(ListView listviewIngredienti) {
@@ -56,6 +45,19 @@ public class IngredienteActivity extends AppCompatActivity {
         listviewIngredienti.setAdapter(resultQuery);
     }
 
+    private class ModificaIngredienteListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Ingrediente ingrediente = null;
+            try {
+                ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            }
+            databaseManager.saveIngredient(ingrediente);
+            printList(listviewIngredienti);
+        }
+    }
 
 }
 

@@ -24,13 +24,16 @@ public class MainActivity extends AppCompatActivity {
 
         btnIngredienti = findViewById(R.id.btn_Ingredienti);
 
-        btnIngredienti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), IngredienteActivity.class);
-                startActivity(intent);
-            }
-        });
+        btnIngredienti.setOnClickListener(new StartIngredienteActivity());
 
+    }
+
+
+    private class StartIngredienteActivity implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), IngredienteActivity.class);
+            startActivity(intent);
+        }
     }
 }
