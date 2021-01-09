@@ -30,18 +30,41 @@ public class DatabaseManager {
     }
 
     public void saveIngredient(Ingrediente ingrediente) {
+        if(mostraIngredienti().contains(ingrediente)) {
+            List<Ingrediente> listaIngredienti = mostraIngredienti();
+            for(int i=0; i<listaIngredienti.size(); i++){
+                if(listaIngredienti.get(i).equals(ingrediente))
+                    updateIngredient(listaIngredienti.get(i));
+            }
+            /*int index = mostraIngredienti().indexOf(ingrediente);
+            updateIngredient(mostraIngredienti().get(index));*/
+        }
+        else{
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        cv.put(DataString.COLUMN_NOME_INGREDIENTE, ingrediente.getNome());
-        cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, ingrediente.getQuantita());
-        cv.put(DataString.COLUMN_ID_MAGAZZINO, 1);
-        try {
-            db.insert(DataString.INGREDIENTE_TABLE, null, cv);
-        } catch (SQLiteException sqle) {
-            // Gestione delle eccezioni
+            cv.put(DataString.COLUMN_NOME_INGREDIENTE, ingrediente.getNome());
+            cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, ingrediente.getQuantita());
+            cv.put(DataString.COLUMN_ID_MAGAZZINO, 1);
+            try {
+                db.insert(DataString.INGREDIENTE_TABLE, null, cv);
+            } catch (SQLiteException sqle) {
+                // Gestione delle eccezioni
+            }
         }
     }
 
+
+    public void updateIngredient(Ingrediente ingrediente){
+        db = databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, ingrediente.getQuantita());
+        try{
+            db.update(DataString.INGREDIENTE_TABLE, cv,
+                    DataString.COLUMN_NOME_INGREDIENTE + " = " + ingrediente.getNome(),
+                    null);
+        }
+        catch(SQLiteException sqle){}
+    }
 
     public List<Ingrediente> mostraIngredienti() {
         List<Ingrediente> resultList = new ArrayList<>();
