@@ -39,8 +39,6 @@ public class DatabaseManager {
                     j = 1;
                 }
             }
-            /*int index = mostraIngredienti().indexOf(ingrediente);
-            updateIngredient(mostraIngredienti().get(index));*/
         } else {
             db = databaseHelper.getWritableDatabase();
             cv = new ContentValues();
@@ -50,7 +48,7 @@ public class DatabaseManager {
             try {
                 db.insert(DataString.INGREDIENTE_TABLE, null, cv);
                 j = 2;
-            } catch (SQLiteException sqle) {
+            } catch (SQLiteException e) {
                 // Gestione delle eccezioni
             }
         }
@@ -66,8 +64,8 @@ public class DatabaseManager {
             db.update(DataString.INGREDIENTE_TABLE, cv,
                     DataString.COLUMN_NOME_INGREDIENTE + " = ? ",
                     new String[]{ingrediente1.getNome()});
-        } catch (SQLiteException sqle) {
-
+        } catch (SQLiteException e) {
+            // Gestione eccezioni
         }
     }
 

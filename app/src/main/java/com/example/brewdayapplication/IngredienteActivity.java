@@ -57,7 +57,6 @@ public class IngredienteActivity extends AppCompatActivity {
             if (mostra == 2)
                 ingredienteList.add(ingrediente);
             printList(ingredienteList);
-
         }
     }
 
