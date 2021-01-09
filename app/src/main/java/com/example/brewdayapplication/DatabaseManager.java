@@ -67,6 +67,7 @@ public class DatabaseManager {
         } catch (SQLiteException e) {
             // Gestione eccezioni
         }
+
     }
 
     public List<Ingrediente> mostraIngredienti() {

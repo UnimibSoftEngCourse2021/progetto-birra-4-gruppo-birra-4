@@ -22,6 +22,7 @@ public class IngredienteActivity extends AppCompatActivity {
     Spinner ingredienteView;
     ListView listviewIngredienti;
     List<Ingrediente> ingredienteList;
+    ListAdapter resultQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class IngredienteActivity extends AppCompatActivity {
         ingredienteView = findViewById(R.id.nome_ingrediente);
 
         databaseManager = new DatabaseManager(getApplicationContext());
-        ingredienteList = databaseManager.mostraIngredienti();
         printList(ingredienteList);
 
 
@@ -60,9 +60,9 @@ public class IngredienteActivity extends AppCompatActivity {
         }
     }
 
-
     private void printList(List<Ingrediente> ingredienteList) {
-        ListAdapter resultQuery = new ListAdapter(this, ingredienteList);
+        ingredienteList = databaseManager.mostraIngredienti();
+        resultQuery = new ListAdapter(this, ingredienteList);
         listviewIngredienti.setAdapter(resultQuery);
     }
 
