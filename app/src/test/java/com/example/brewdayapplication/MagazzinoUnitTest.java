@@ -28,24 +28,24 @@ public class MagazzinoUnitTest {
 
     @Test
     public void getIdTest(){
-        assertEquals(magazzino.getId(), 23);
+        assertEquals(23,magazzino.getId());
     }
 
     @Test
     public void getCapacitaTest(){
-        assertEquals(magazzino.getCapacita(), 500, 0.01);
+        assertEquals(500, magazzino.getCapacita(),0.01);
     }
 
     @Test
     public void setCapacitaTest(){
         magazzino.setCapacita(200);
-        assertEquals(magazzino.getCapacita(), 200, 0.01);
+        assertEquals( 200, magazzino.getCapacita(),0.01);
     }
 
-    @Ignore //setId non implementato
+    //setId non implementato
     public void setIdTest(){
        // magazzino.setId(34);
-        assertEquals(magazzino.getId(), 34);
+        assertEquals( 34,magazzino.getId());
     }
 
     @Test
@@ -66,6 +66,6 @@ public class MagazzinoUnitTest {
         Ingrediente orzo2 = new Ingrediente("orzo", 100.0);
         magazzino.aggiungiIngrediente(orzo1);
         magazzino.modificaQuantitaIngrediente(orzo2);
-        assertEquals(magazzino.getDispensaIngrediente().get(0).getQuantita(), 134.0, 0.01);
+        assertEquals(134.0,magazzino.getDispensaIngrediente().get(0).getQuantita(), 0.01);
     }
 }

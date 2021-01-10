@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="nameIngredient">
-<!--        <item>-ingrediente-</item>-->
         <item>Malto</item>
         <item>Orzo</item>
         <item>Acqua</item>

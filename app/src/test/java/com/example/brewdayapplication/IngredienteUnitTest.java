@@ -20,29 +20,29 @@ public class IngredienteUnitTest {
 
     @Test
     public void getNomeTest(){
-        assertEquals(ingrediente.getNome(), "acqua");
+        assertEquals("acqua", ingrediente.getNome());
     }
 
     @Test
     public void getQuantitaTest(){
-        assertEquals(ingrediente.getQuantita(), 1, 0.01);
+        assertEquals( 1, ingrediente.getQuantita(),0.01);
     }
 
     @Test
     public void setNomeTest(){
         ingrediente.setNome("orzo");
-        assertEquals(ingrediente.getNome(), "orzo");
+        assertEquals("orzo",ingrediente.getNome());
     }
 
     @Test
     public void setQuantitaTest(){
         ingrediente.setQuantita(2);
-        assertEquals(ingrediente.getQuantita(), 2, 0.01);
+        assertEquals( 2,ingrediente.getQuantita(), 0.01);
     }
 
     @Test
     public void toStringTest(){
-        assertEquals(ingrediente.toString(),"Ingrediente{" + "nome='" + "acqua" + '\'' + ", quantita=" + "1.0" + '}');
+        assertEquals("Ingrediente{" + "nome='" + "acqua" + '\'' + ", quantita=" + "1.0" + '}',ingrediente.toString());
     }
 
     @Test

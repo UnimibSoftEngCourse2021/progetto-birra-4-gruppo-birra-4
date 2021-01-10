@@ -27,9 +27,9 @@ public class DataBaseHelperUnitTest {
     public void onCreateTest(){
         SQLiteDatabase db;
         db = databaseHelperTest.getReadableDatabase();
-        assertEquals(db.query(MAGAZZINO_TABLE,null,
+        assertEquals("ID_MAGAZZINO", db.query(MAGAZZINO_TABLE,null,
                 null, null, null, null, null, null).
-                getColumnName(0),"ID_MAGAZZINO");
+                getColumnName(0));
     }
 
 
