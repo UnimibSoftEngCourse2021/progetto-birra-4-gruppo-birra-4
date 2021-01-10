@@ -2,8 +2,7 @@ package com.example.brewdayapplication;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 public class IngredienteUnitTest {
     Ingrediente ingrediente;
@@ -49,10 +48,10 @@ public class IngredienteUnitTest {
     @Test
     public void equalsTest(){
         Ingrediente o = new Ingrediente("acqua", 1);
-        assertTrue(ingrediente.equals(ingrediente));
-        assertFalse(ingrediente.equals(null));
+        assertEquals(ingrediente, ingrediente);
+        assertNotEquals(null, ingrediente);
         Ingrediente p = new Ingrediente("orzo", 3);
-        assertFalse(p.equals(ingrediente));
-        assertTrue(o.getNome().equals(ingrediente.getNome()));
+        assertNotEquals(p, ingrediente);
+        assertEquals(o.getNome(), ingrediente.getNome());
     }
 }
