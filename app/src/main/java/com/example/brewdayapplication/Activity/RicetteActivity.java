@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RicetteActivity extends AppCompatActivity {
 
-
+    //Dichiarazioni
     DatabaseManager databaseManager;
     ListView listViewRicette;
     FloatingActionButton aggiungiRicetta;
@@ -26,22 +26,26 @@ public class RicetteActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set layout
         setContentView(R.layout.activity_list_ricette);
 
-        databaseManager = new DatabaseManager(getApplicationContext());
+        //dichiarazione
         listViewRicette = findViewById(R.id.layoutListaRicette);
         aggiungiRicetta = findViewById(R.id.addRicetta);
-
+        databaseManager = new DatabaseManager(getApplicationContext());
         dialogRicetta = new Dialog(this);
-        aggiungiRicetta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogRicetta.setContentView(R.layout.activity_dialog_new_ricetta);
-                dialogRicetta.show();
-            }
-        });
 
+        //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
+        aggiungiRicetta.setOnClickListener(new CreaRicetta());
     }
 
 
+    //classe innestata per creare la ricetta
+    private class CreaRicetta implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            dialogRicetta.setContentView(R.layout.activity_dialog_new_ricetta);
+            dialogRicetta.show();
+        }
+    }
 }

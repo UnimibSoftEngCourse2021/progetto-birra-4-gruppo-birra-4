@@ -38,6 +38,7 @@ public class CapacitaActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+
         btnConferma.setOnClickListener(new ImpostaCapacitaListener());
     }
 
@@ -47,6 +48,7 @@ public class CapacitaActivity extends AppCompatActivity {
         return mSharedPreferences.getBoolean("button", false);
     }
 
+    //classe innestata che legge il valore in input lo controlla, lo salva nel db se idoneo e fa partire MainActivity
     private class ImpostaCapacitaListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

@@ -30,10 +30,9 @@ public class MainActivity extends AppCompatActivity {
         btnRicette = findViewById(R.id.btn_Ricette);
         btnRicette.setOnClickListener(new StartRicetteActivity());
 
-
-
     }
 
+    //permette di uscire dall'app e non tornare nell'activity che richiede la capacità dell'equipment
     @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //se premuto il bottone, parte IngredienteActivity.class
     private class StartIngredienteActivity implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //se premuto il bottone, parte RicetteActivity.class
     private class StartRicetteActivity implements View.OnClickListener {
         @Override
         public void onClick(View v) {

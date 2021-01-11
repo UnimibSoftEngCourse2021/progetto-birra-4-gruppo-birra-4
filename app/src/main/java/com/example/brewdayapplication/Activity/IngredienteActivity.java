@@ -48,6 +48,11 @@ public class IngredienteActivity extends AppCompatActivity {
 
     }
 
+
+    //crea l'ingrediente con nome selezionato dallo spinner e quantità  inserita dall'utente
+    //creato l'ingrediente lo salva nel db
+    //se mostra = 2, l'ingrediente non era presente nella lista (era la prima volta che lo aggiungeva) allora lo aggiunge alla lista
+    //chiama metodo che stampa la lista
     private class ModificaIngredienteListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -64,6 +69,7 @@ public class IngredienteActivity extends AppCompatActivity {
         }
     }
 
+    //metodo che stampa gli ingredienti presenti nel db
     private void printList() {
         ingredienteList = databaseManager.mostraIngredienti();
         resultQuery = new ListAdapter(this, ingredienteList);
