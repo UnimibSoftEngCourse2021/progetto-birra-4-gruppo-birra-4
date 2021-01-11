@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <EditText
+        android:id="@+id/editTextTitoloRicetta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/titolo_new_ricetta"/>
+
+    <TextView
+        android:id="@+id/quantita_birra_ricetta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/birra_ricetta" />
+
+    <ListView
+        android:id="@+id/listaIngredientiRicetta"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"/>
+
+    <Button
+        android:id="@+id/btn_save_ricetta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/salvaricetta" />
+
+</LinearLayout>
