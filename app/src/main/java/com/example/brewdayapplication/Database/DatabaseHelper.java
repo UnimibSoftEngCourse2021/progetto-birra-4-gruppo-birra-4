@@ -1,4 +1,4 @@
-package com.example.brewdayapplication;
+package com.example.brewdayapplication.Database;
 
 
 import android.content.Context;

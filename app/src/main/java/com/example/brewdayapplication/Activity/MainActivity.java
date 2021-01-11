@@ -1,4 +1,4 @@
-package com.example.brewdayapplication;
+package com.example.brewdayapplication.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.brewdayapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 

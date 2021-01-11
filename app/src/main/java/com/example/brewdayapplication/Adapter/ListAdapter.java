@@ -1,4 +1,4 @@
-package com.example.brewdayapplication;
+package com.example.brewdayapplication.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.brewdayapplication.Ingrediente;
+import com.example.brewdayapplication.R;
 
 import java.util.List;
 

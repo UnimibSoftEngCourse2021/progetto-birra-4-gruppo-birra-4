@@ -1,4 +1,4 @@
-package com.example.brewdayapplication;
+package com.example.brewdayapplication.Activity;
 
 
 import android.os.Bundle;
@@ -10,6 +10,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.brewdayapplication.Database.DatabaseManager;
+import com.example.brewdayapplication.Ingrediente;
+import com.example.brewdayapplication.Adapter.ListAdapter;
+import com.example.brewdayapplication.R;
 
 import java.util.List;
 

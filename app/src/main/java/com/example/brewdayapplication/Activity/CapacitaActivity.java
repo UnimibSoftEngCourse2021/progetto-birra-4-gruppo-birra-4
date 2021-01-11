@@ -1,4 +1,4 @@
-package com.example.brewdayapplication;
+package com.example.brewdayapplication.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.brewdayapplication.Database.DatabaseManager;
+import com.example.brewdayapplication.R;
 
 public class CapacitaActivity extends AppCompatActivity {
 
