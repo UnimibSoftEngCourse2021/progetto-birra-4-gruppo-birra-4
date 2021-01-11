@@ -34,6 +34,7 @@ public class Ingrediente {
                 "nome='" + nome + '\'' +
                 ", quantita=" + quantita +
                 '}'; */
+
     }
 
     @Override
