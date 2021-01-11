@@ -1,16 +1,22 @@
 <resources>
     <string name="app_name">BrewDayApplication</string>
     <string name="benvenuto">Benvenuto</string>
-    <string name="lista_ingredienti">Lista Ingredienti</string>
+    <string name="lista_ingredienti">Dispensa</string>
     <string name="Modifica">Modifica Lista</string>
     <string name="Ingrediente">Ingrediente</string>
     <string name="Quantità">Quantità</string>
     <string name="conferma">Conferma</string>
     <string name="inserisci_capacit_equipment">Inserisci capacità equipment</string>
-    <string name="title_activity_ingrediente">IngredienteActivity</string>
+    <string name="title_activity_ingrediente">Ingrediente Activity</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+    <string name="lista_ricette">Ricette</string>
+    <string name="titolo_new_ricetta">Titolo Ricetta</string>
+    <string name="birra_ricetta">Quantità birra prodotta: 1 litro</string>
+    <string name="salvaricetta">Salva Ricetta</string>
+    <string name="title_activity_main2">Main Activity</string>
+    <string name="title_activity_list_ricette">List Ricette Activity</string>
+
 </resources>

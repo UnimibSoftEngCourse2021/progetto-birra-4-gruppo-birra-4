@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnIngredienti;
+    Button btnRicette;
     long backPressedTime;
     Toast toastBack;
 
@@ -19,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*commento prova Jury*/
-        /*commento prova lara*/
-        /* commento Ale*/
-        /* commento Simone */
 
 
         btnIngredienti = findViewById(R.id.btn_Ingredienti);
         btnIngredienti.setOnClickListener(new StartIngredienteActivity());
+
+        btnRicette = findViewById(R.id.btn_Ricette);
+        btnRicette.setOnClickListener(new StartRicetteActivity());
+
 
 
     }
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), IngredienteActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private class StartRicetteActivity implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), RicetteActivity.class);
             startActivity(intent);
         }
     }
