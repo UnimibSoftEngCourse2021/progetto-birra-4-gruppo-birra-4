@@ -1,10 +1,13 @@
 package com.example.brewdayapplication.Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -20,7 +23,11 @@ public class RicetteActivity extends AppCompatActivity {
     DatabaseManager databaseManager;
     ListView listViewRicette;
     FloatingActionButton aggiungiRicetta;
-    Dialog dialogRicetta;
+    Button btnTornaIndietroNewRicetta;
+    Button btnSalvaRicetta;
+    AlertDialog alertDialog;
+    AlertDialog.Builder alert;
+    View viewNewRicetta;
 
 
     @Override
@@ -32,11 +39,14 @@ public class RicetteActivity extends AppCompatActivity {
         //dichiarazione
         listViewRicette = findViewById(R.id.layoutListaRicette);
         aggiungiRicetta = findViewById(R.id.addRicetta);
+
         databaseManager = new DatabaseManager(getApplicationContext());
-        dialogRicetta = new Dialog(this);
+
 
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
+        //btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
+
     }
 
 
@@ -44,8 +54,38 @@ public class RicetteActivity extends AppCompatActivity {
     private class CreaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            dialogRicetta.setContentView(R.layout.activity_dialog_new_ricetta);
-            dialogRicetta.show();
+            alert = new AlertDialog.Builder(RicetteActivity.this);
+            viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
+
+            alert.setView(viewNewRicetta);
+
+            alertDialog = alert.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+
+            btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
+            btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
+
+            btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
+            btnSalvaRicetta.setOnClickListener(new SalvaRicetta());
+
+        }
+
+
+    }
+
+    private class BackRicetta implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            alertDialog.dismiss();
         }
     }
+
+    private class SalvaRicetta implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            /*metodo salva ricetta databse*/
+        }
+    }
+
 }

@@ -18,5 +18,6 @@
     <string name="salvaricetta">Salva Ricetta</string>
     <string name="title_activity_main2">Main Activity</string>
     <string name="title_activity_list_ricette">List Ricette Activity</string>
+    <string name="backricetta">Torna Indietro</string>
 
 </resources>
