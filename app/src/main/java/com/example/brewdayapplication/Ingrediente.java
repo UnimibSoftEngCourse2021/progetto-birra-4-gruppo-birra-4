@@ -29,10 +29,11 @@ public class Ingrediente {
 
     @Override
     public String toString() {
-        return "Ingrediente{" +
+       return nome + " quantita: " + quantita + "g";
+        /* return "Ingrediente{" +
                 "nome='" + nome + '\'' +
                 ", quantita=" + quantita +
-                '}';
+                '}'; */
     }
 
     @Override

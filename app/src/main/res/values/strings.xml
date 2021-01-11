@@ -4,7 +4,7 @@
     <string name="lista_ingredienti">Dispensa</string>
     <string name="Modifica">Modifica Lista</string>
     <string name="Ingrediente">Ingrediente</string>
-    <string name="Quantità">Quantità</string>
+    <string name="Quantità">Quantità(g)</string>
     <string name="conferma">Conferma</string>
     <string name="inserisci_capacit_equipment">Inserisci capacità equipment</string>
     <string name="title_activity_ingrediente">Ingrediente Activity</string>
