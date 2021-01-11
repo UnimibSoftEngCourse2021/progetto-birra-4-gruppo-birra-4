@@ -1,4 +1,4 @@
-package com.example.brewdayapplication.Database;
+package com.example.brewdayapplication.database;
 
 public class DataString {
 

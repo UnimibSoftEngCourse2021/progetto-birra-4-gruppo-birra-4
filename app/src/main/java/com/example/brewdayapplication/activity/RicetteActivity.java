@@ -1,10 +1,6 @@
-package com.example.brewdayapplication.Activity;
+package com.example.brewdayapplication.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +9,7 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.brewdayapplication.Database.DatabaseManager;
+import com.example.brewdayapplication.database.DatabaseManager;
 import com.example.brewdayapplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,7 +41,7 @@ public class RicetteActivity extends AppCompatActivity {
 
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
-        //btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
+        btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
 
     }
 

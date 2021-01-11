@@ -2,12 +2,12 @@ package com.example.brewdayapplication;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.brewdayapplication.Database.DatabaseHelper;
+import com.example.brewdayapplication.database.DatabaseHelper;
 
 import org.junit.Test;
 import org.junit.Before;
 
-import static com.example.brewdayapplication.Database.DataString.MAGAZZINO_TABLE;
+import static com.example.brewdayapplication.database.DataString.MAGAZZINO_TABLE;
 import static org.junit.Assert.assertEquals;
 
 public class DataBaseHelperUnitTest {

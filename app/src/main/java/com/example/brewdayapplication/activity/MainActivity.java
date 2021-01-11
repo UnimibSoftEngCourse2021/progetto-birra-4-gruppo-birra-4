@@ -1,4 +1,4 @@
-package com.example.brewdayapplication.Activity;
+package com.example.brewdayapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

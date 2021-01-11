@@ -2,13 +2,14 @@ package com.example.brewdayapplication;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Ricetta {
     private int idRicetta;
     private String nome;
     private Date dataCreazione;
     private double quantitaBirraProdotta;
-    private ArrayList<Ingrediente> dispensaIngrediente;
+    private List<Ingrediente> dispensaIngrediente;
 
     public Ricetta(int idRicetta, String nome, Date dataCreazione, double quantitaBirraProdotta) {
         this.idRicetta = idRicetta;
@@ -50,11 +51,11 @@ public class Ricetta {
         this.quantitaBirraProdotta = quantitaBirraProdotta;
     }
 
-    public ArrayList<Ingrediente> getDispensaIngrediente() {
+    public List<Ingrediente> getDispensaIngrediente() {
         return dispensaIngrediente;
     }
 
-    public void setDispensaIngrediente(ArrayList<Ingrediente> dispensaIngrediente) {
+    public void setDispensaIngrediente(List<Ingrediente> dispensaIngrediente) {
         this.dispensaIngrediente = dispensaIngrediente;
     }
 

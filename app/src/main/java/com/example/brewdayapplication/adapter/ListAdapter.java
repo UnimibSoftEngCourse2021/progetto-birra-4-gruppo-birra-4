@@ -1,4 +1,4 @@
-package com.example.brewdayapplication.Adapter;
+package com.example.brewdayapplication.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
