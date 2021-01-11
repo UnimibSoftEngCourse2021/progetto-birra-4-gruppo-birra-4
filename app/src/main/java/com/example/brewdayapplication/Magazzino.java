@@ -32,6 +32,7 @@ public class Magazzino {
         return dispensaIngrediente;
     }
 
+    //aggiunge un ingrediente al magazzino
     public boolean aggiungiIngrediente(Ingrediente ingrediente) {
         if (ingrediente == null)
             return false;
@@ -40,6 +41,9 @@ public class Magazzino {
         return true;
     }
 
+    /*se l'ingrediente in input viene trovato nell'array, permette di aggiornare la quantità dell'ingrediente presente nell'array
+    * in particolare viene aggiornato con la sua quantità + quantità dell'ingrediente in input
+    */
     public void modificaQuantitaIngrediente(Ingrediente ingrediente) {
         int i = 0;
         boolean uguale = true;

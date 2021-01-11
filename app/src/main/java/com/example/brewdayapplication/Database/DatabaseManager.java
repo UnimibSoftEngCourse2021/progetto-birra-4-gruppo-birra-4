@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
+
     private final DatabaseHelper databaseHelper;
     private ContentValues cv;
     private SQLiteDatabase db;
@@ -20,17 +21,28 @@ public class DatabaseManager {
         databaseHelper = new DatabaseHelper(ctx);
     }
 
+    //salva sul db la capacità dell'equipment del birraio
     public void saveCapacita(double capacita) {
+
+        //accende al db in scrittura
         db = databaseHelper.getWritableDatabase();
+        // cv è il contenutp da inserire nel db
         cv = new ContentValues();
         cv.put(DataString.COLUMN_CAPACITY_EQUIPMENT, capacita);
         try {
+            //inserisce nella tabella magazzino cv che contiene la capacità dell'equipment
             db.insert(DataString.MAGAZZINO_TABLE, null, cv);
         } catch (SQLiteException sqle) {
             // Gestione delle eccezioni
         }
     }
 
+    /*
+    *se l'ingrediente in input è presente nel db chiamata updateIngredient(ingrediente, listaIngredienti.get(i))
+    passando l'ingrediente presente nell'array e quello dato in input dall''utente
+    * se l'ingrediente in input non è presente nel db lo aggiunge
+    * return j per capire se si tratta di update o insert
+     */
     public int saveIngredient(Ingrediente ingrediente) {
         int j = 0;
         if (mostraIngredienti().contains(ingrediente)) {
@@ -57,10 +69,14 @@ public class DatabaseManager {
         return j;
     }
 
-
+    /*
+    * aggiorna la quantità dell'ingrediente avente nome ingrediente.getNome()
+    * nuova quantità = vecchia quantità + quantità passata in input dall'utente
+    s */
     public void updateIngredient(Ingrediente ingrediente1, Ingrediente ingrediente2) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
+        //la quantità da inserire deve essere la sommma delle due quantità
         cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, ingrediente1.getQuantita() + ingrediente2.getQuantita());
         try {
             db.update(DataString.INGREDIENTE_TABLE, cv,
@@ -72,21 +88,30 @@ public class DatabaseManager {
 
     }
 
+    /*
+     * legge dal db gli ingredienti presenti e ritorna l'arraylist
+     */
     public List<Ingrediente> mostraIngredienti() {
         List<Ingrediente> resultList = new ArrayList<>();
-        Cursor listIngredients = null;
-
+        Cursor listIngredients;
+        //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
+        //salva nell'array il risultato della select (query = select)
         listIngredients = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
+
+        /*il cursore permette di aumentare riga per riga
+         *ad ogni iterazione il cursore si posiziona su un ingrediente della tabella
+         *creo un ingrediente avente come nome e quantità quelli puntati dal cursore
+         *aggiungo tale ingrediente all'array
+         *aumento il cursore per puntare alla prossima riga, quando le righe finiscono esco dal ciclo e returno la lista
+         */
         if (listIngredients.moveToNext()) {
             do {
                 Ingrediente ingrediente = new Ingrediente(listIngredients.getString(0), listIngredients.getInt(1));
                 resultList.add(ingrediente);
             } while (listIngredients.moveToNext());
-        } else {
+        } else
             listIngredients.close();
-        }
-
         return resultList;
     }
 

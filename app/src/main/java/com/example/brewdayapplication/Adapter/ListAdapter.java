@@ -21,6 +21,9 @@ public class ListAdapter extends ArrayAdapter<Ingrediente> {
         super(context, 0, ingredienteList);
     }
 
+    /* permette di creare un adpter personallizato per la listView
+     * è un layout personallizato su come stampare la lista
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

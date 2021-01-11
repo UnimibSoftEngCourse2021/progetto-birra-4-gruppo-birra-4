@@ -17,18 +17,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        //creazione tabella magazzino
         String createTableStatementMagazzino = " CREATE TABLE " + DataString.MAGAZZINO_TABLE + " ( "
                 + DataString.COLUMN_ID_MAGAZZINO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + DataString.COLUMN_CAPACITY_EQUIPMENT + " DOUBLE NOT NULL )";
 
-
+        //creazione tabella ingredienti
         String createTableStatementIngredient = " CREATE TABLE " + DataString.INGREDIENTE_TABLE + " ("
                 + DataString.COLUMN_NOME_INGREDIENTE + " TEXT PRIMARY KEY NOT NULL, "
                 + DataString.COLUMN_QUANTITA_MAGAZZINO + " DOUBLE NOT NULL, "
                 + DataString.COLUMN_ID_MAGAZZINO + " INTEGER NOT NULL, "
                 + " FOREIGN KEY ( " + DataString.COLUMN_ID_MAGAZZINO + " ) REFERENCES " + DataString.MAGAZZINO_TABLE + " ( " + DataString.COLUMN_ID_MAGAZZINO + " ))";
 
+        //esecuzione delle due query
         db.execSQL(createTableStatementMagazzino);
         db.execSQL(createTableStatementIngredient);
     }
