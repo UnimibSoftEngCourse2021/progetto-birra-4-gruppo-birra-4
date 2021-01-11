@@ -41,7 +41,6 @@ public class RicetteActivity extends AppCompatActivity {
 
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
-        btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
 
     }
 
@@ -80,7 +79,7 @@ public class RicetteActivity extends AppCompatActivity {
     private class SalvaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            /*metodo salva ricetta databse*/
+            /*metodo salva ricetta database*/
         }
     }
 
