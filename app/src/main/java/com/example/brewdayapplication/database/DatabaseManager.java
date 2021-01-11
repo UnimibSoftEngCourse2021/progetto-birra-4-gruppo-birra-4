@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.brewdayapplication.Ingrediente;
 
@@ -115,5 +116,14 @@ public class DatabaseManager {
         return resultList;
     }
 
+    //azioni neccessarie solo ai test
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
 
+    //azioni necessarie solo ai test
+    public Context getContext(){
+        return getContext();
+
+    }
 }
