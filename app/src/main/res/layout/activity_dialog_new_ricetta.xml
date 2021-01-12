@@ -1,206 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="15dp">
+    android:orientation="vertical">
+
 
     <EditText
-        android:id="@+id/editTextTitoloRicetta"
+        android:id="@+id/titoloRicetta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/titolo_new_ricetta" />
+        android:hint="@string/titolo_new_ricetta"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/quantita_birra_ricetta"
+        android:id="@+id/birra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/birra_ricetta" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteMalto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/malto"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
+        android:hint="@string/birra_ricetta"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/titoloRicetta"
+        app:layout_constraintTop_toBottomOf="@+id/titoloRicetta" />
 
 
-        <EditText
-            android:id="@+id/quantitaIngredienteMalto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteOrzo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/orzo"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteOrzo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteLievito"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lievito"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteLievito"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteAcqua"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/acqua"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteAcqua"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteZucchero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zucchero"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteZucchero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteLuppolo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/luppolo"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteLuppolo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/ingredienteAdditivi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/additivi"
-            android:textSize="20sp"
-            android:layout_marginEnd="50dp"/>
-
-
-        <EditText
-            android:id="@+id/quantitaIngredienteAdditivi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/birra"
+        app:layout_constraintTop_toBottomOf="@+id/birra"
+        android:columnCount="3">
 
-        <Button
-            android:id="@+id/btn_back_ricetta"
+        <TextView
+            android:id="@+id/nome_ingrediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            android:layout_weight="1"
-            android:text="@string/backricetta" />
+            android:layout_gravity="start"
+            android:hint="@string/malto"
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_save_ricetta"
+        <EditText
+            android:id="@+id/quantita_ingrediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1"
-            android:text="@string/salvaricetta" />
+            android:inputType="numberDecimal"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:hint="Inserisci quantità"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/plus_ingrediente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_gravity="end"
+            android:background="@drawable/ic_baseline_add_24" />
+    </GridLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_back_ricetta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:text="@string/backricetta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birra" />
+
+    <Button
+        android:id="@+id/btn_save_ricetta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:text="@string/salvaricetta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toEndOf="@+id/btn_back_ricetta"
+        app:layout_constraintTop_toBottomOf="@+id/birra" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

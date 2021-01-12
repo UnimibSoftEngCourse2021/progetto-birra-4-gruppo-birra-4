@@ -1,6 +1,5 @@
 package com.example.brewdayapplication;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,14 +8,18 @@ public class Ricetta {
     private String nome;
     private Date dataCreazione;
     private double quantitaBirraProdotta;
-    private List<Ingrediente> dispensaIngrediente;
+    private List<Ingrediente> listIngrediente;
 
-    public Ricetta(int idRicetta, String nome, Date dataCreazione, double quantitaBirraProdotta) {
+    public Ricetta(int idRicetta, String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.idRicetta = idRicetta;
         this.nome = nome;
         this.dataCreazione = dataCreazione;
         this.quantitaBirraProdotta = quantitaBirraProdotta;
-        dispensaIngrediente = new ArrayList<>();
+        this.listIngrediente = listIngrediente;
+    }
+
+    public Ricetta(int idRicetta, String nome, Date dataCreazione, List<Ingrediente> listIngrediente){
+        new Ricetta(idRicetta, nome, dataCreazione, 1, listIngrediente);
     }
 
     public int getIdRicetta() {
@@ -52,18 +55,18 @@ public class Ricetta {
     }
 
     public List<Ingrediente> getDispensaIngrediente() {
-        return dispensaIngrediente;
+        return listIngrediente;
     }
 
-    public void setDispensaIngrediente(List<Ingrediente> dispensaIngrediente) {
-        this.dispensaIngrediente = dispensaIngrediente;
+    public void setDispensaIngrediente(List<Ingrediente> listIngrediente) {
+        this.listIngrediente = listIngrediente;
     }
 
     public boolean aggiungiIngrediente(Ingrediente ingrediente){
         if (ingrediente == null)
             return false;
         else
-            dispensaIngrediente.add(ingrediente);
+            listIngrediente.add(ingrediente);
         return true;
     }
 
@@ -71,14 +74,26 @@ public class Ricetta {
         if (ingrediente == null)
             return false;
         else
-            dispensaIngrediente.remove(ingrediente);
+            listIngrediente.remove(ingrediente);
         return true;
     }
 
+    public String toStringAllInformation() {
+        StringBuilder s = new StringBuilder("Ricetta{" +
+                "nome='" + nome + '\'' +
+                ", dataCreazione=" + dataCreazione +
+                '}');
+        for (int i = 0; i < listIngrediente.size(); i++) {
+            s.append(listIngrediente.get(i).toString());
+        }
+        return s.toString();
+    }
 
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Ricetta{" +
+                "nome='" + nome + '\'' +
+                ", dataCreazione=" + dataCreazione +
+                '}';
+    }
 }
