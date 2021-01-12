@@ -3,8 +3,6 @@ package com.example.brewdayapplication;
 
 public class Ingrediente {
     private int id;
-
-
     private String nome;
     private double quantita;
 
