@@ -19,12 +19,6 @@ public class DataBaseHelperUnitTest {
         databaseHelperTest = new DatabaseHelper(null);
     }
 
-    @Test
-    public void DatabaseHelperTest(){
-        DatabaseHelper o = new DatabaseHelper(null);
-        assertEquals(o.getClass(), databaseHelperTest.getClass());
-    }
-
     //problema di mocking, risolto aggiungendo in grandle
     //problema NullPointerException linea 34
     /*@Test

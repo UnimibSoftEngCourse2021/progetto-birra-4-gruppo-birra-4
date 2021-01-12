@@ -44,7 +44,6 @@ public class RicetteActivity extends AppCompatActivity {
 
     }
 
-
     //classe innestata per creare la ricetta
     private class CreaRicetta implements View.OnClickListener {
         @Override

@@ -21,12 +21,6 @@ public class MagazzinoUnitTest {
     }
 
     @Test
-    public void MagazzinoTest(){
-        Magazzino o = new Magazzino(1,1.0);
-        assertEquals(o.getClass(), magazzino.getClass());
-    }
-
-    @Test
     public void getIdTest(){
         assertEquals(23,magazzino.getId());
     }

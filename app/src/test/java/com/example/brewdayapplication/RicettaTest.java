@@ -12,7 +12,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-
 public class RicettaTest {
 
     Ricetta ricettaTest;
@@ -20,16 +19,16 @@ public class RicettaTest {
 
     @Before
     public void initMethod(){
-        data = new Date(1/1/2020);
+        data = new Date("1/1/2020");
         ricettaTest = new Ricetta(1, "birra", data, 1);
     }
 
     @Test
     public void getTests(){
-        assertEquals(ricettaTest.getDataCreazione(), data);
-        assertEquals(ricettaTest.getIdRicetta(), 1);
-        assertEquals(ricettaTest.getNome(), "birra");
-        assertEquals(ricettaTest.getQuantitaBirraProdotta(), 1, 0.01);
+        assertEquals("Wed Jan 01 00:00:00 CET 2020", ricettaTest.getDataCreazione().toString());
+        assertEquals(1, ricettaTest.getIdRicetta());
+        assertEquals("birra", ricettaTest.getNome() );
+        assertEquals(1, ricettaTest.getQuantitaBirraProdotta(),  0.01);
     }
 
     @Test
@@ -39,10 +38,10 @@ public class RicettaTest {
         ricettaTest.setIdRicetta(2);
         ricettaTest.setNome("birraChiara");
         ricettaTest.setQuantitaBirraProdotta(2);
-        assertEquals(ricettaTest.getDataCreazione(), data);
-        assertEquals(ricettaTest.getIdRicetta(), 2);
-        assertEquals(ricettaTest.getNome(), "birraChiara");
-        assertEquals(ricettaTest.getQuantitaBirraProdotta(), 2, 0.01);
+        assertEquals("Tue Dec 31 00:00:00 CET 2019", ricettaTest.getDataCreazione().toString());
+        assertEquals(2, ricettaTest.getIdRicetta() );
+        assertEquals("birraChiara", ricettaTest.getNome());
+        assertEquals(2, ricettaTest.getQuantitaBirraProdotta(), 0.01);
     }
 
     @Test
@@ -63,7 +62,7 @@ public class RicettaTest {
         Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
         assertFalse(ricettaTest.aggiungiIngrediente(null));
         assertTrue(ricettaTest.aggiungiIngrediente(ingrediente1));
-        assertEquals(ricettaTest.getDispensaIngrediente().get(0), ingrediente1);
+        assertEquals(ingrediente1, ricettaTest.getDispensaIngrediente().get(0));
     }
 
     @Test
