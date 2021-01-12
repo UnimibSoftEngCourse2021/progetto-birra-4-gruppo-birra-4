@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.brewdayapplication.Ingrediente;
+import com.example.brewdayapplication.Ricetta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,8 +123,40 @@ public class DatabaseManager {
     }
 
     //azioni necessarie solo ai test
-    public Context getContext(){
+    public Context getContext() {
         return getContext();
 
     }
+
+    public void saveRicetta(Ricetta ricetta) {
+        db = databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        cv.put(DataString.COLUMN_NOME_RICETTA, ricetta.getNome());
+        cv.put(DataString.COLUMN_DATA_RICETTA, ricetta.getDataCreazione().toString());
+        cv.put(DataString.COLUMN_QUANTITA_BIRRA, 0);
+        try {
+            db.insert(DataString.RICETTA_TABLE, null, cv);
+            saveRicettario(ricetta);
+        } catch (SQLiteException e) {
+            // Gestione delle eccezioni
+        }
+    }
+
+    private void saveRicettario(Ricetta ricetta) {
+        db = databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        cv.put(DataString.COLUMN_ID_RICETTA, ricetta.getIdRicetta());
+        for (int i = 0; i < ricetta.getDispensaIngrediente().size(); i++) {
+            cv.put(DataString.COLUMN_ID_INGREDIENTE, ricetta.getDispensaIngrediente().get(i).getId());
+            cv.put(DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA, ricetta.getDispensaIngrediente().get(i).getQuantita());
+        }
+        try {
+            db.insert(DataString.RELAZIONE_TABLE, null, cv);
+        } catch (SQLiteException e) {
+            // Gestione delle eccezioni
+        }
+    }
+
+
 }
+

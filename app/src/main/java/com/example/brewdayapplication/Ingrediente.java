@@ -2,6 +2,9 @@ package com.example.brewdayapplication;
 
 
 public class Ingrediente {
+    private int id;
+
+
     private String nome;
     private double quantita;
 
@@ -9,6 +12,15 @@ public class Ingrediente {
         this.nome = nome;
         this.quantita = quantita;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getNome() {
         return nome;
@@ -29,7 +41,7 @@ public class Ingrediente {
 
     @Override
     public String toString() {
-       return nome + " quantita: " + quantita + "g";
+        return nome + " quantita: " + quantita + "g";
         /* return "Ingrediente{" +
                 "nome='" + nome + '\'' +
                 ", quantita=" + quantita +
