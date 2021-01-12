@@ -41,11 +41,7 @@ public class Ingrediente {
 
     @Override
     public String toString() {
-        return nome + " quantita: " + quantita + "g";
-        /* return "Ingrediente{" +
-                "nome='" + nome + '\'' +
-                ", quantita=" + quantita +
-                '}'; */
+       return nome + " quantita: " + quantita + "g";
 
     }
 
