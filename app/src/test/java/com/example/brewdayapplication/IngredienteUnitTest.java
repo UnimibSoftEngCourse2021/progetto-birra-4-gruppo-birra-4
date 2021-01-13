@@ -3,19 +3,15 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class IngredienteUnitTest {
     Ingrediente ingrediente;
 
     @Before
     public void initMethod() {
-        ingrediente = new Ingrediente("acqua", 1);
-    }
-
-    @Test
-    public  void IngredienteTest(){
-        Ingrediente o = new Ingrediente("acqua", 1);
-        assertEquals(o.getClass(), ingrediente.getClass());
+        ingrediente = new Ingrediente(1,"acqua", 1);
     }
 
     @Test
@@ -27,6 +23,9 @@ public class IngredienteUnitTest {
     public void getQuantitaTest(){
         assertEquals( 1, ingrediente.getQuantita(),0.01);
     }
+
+    @Test
+    public void getIdTest(){assertEquals(1, ingrediente.getId());}
 
     @Test
     public void setNomeTest(){
@@ -41,17 +40,22 @@ public class IngredienteUnitTest {
     }
 
     @Test
+    public void setIdTest(){
+        ingrediente.setId(2);
+        assertEquals(2, ingrediente.getId());
+    }
+
+    @Test
     public void toStringTest(){
-        assertEquals("Ingrediente{" + "nome='" + "acqua" + '\'' + ", quantita=" + "1.0" + '}',ingrediente.toString());
+        assertEquals("acqua" + " quantita: " + "1.0" + "g",ingrediente.toString());
     }
 
     @Test
     public void equalsTest(){
-        Ingrediente o = new Ingrediente("acqua", 1);
-        assertEquals(ingrediente, ingrediente);
-        assertNotEquals(null, ingrediente);
-        Ingrediente p = new Ingrediente("orzo", 3);
-        assertNotEquals(p, ingrediente);
-        assertEquals(o.getNome(), ingrediente.getNome());
+        Ingrediente o = new Ingrediente(1,"acqua", 1);
+        assertTrue(ingrediente.equals(o));
+        assertFalse(ingrediente.equals(null));
+        Ingrediente p = new Ingrediente(1,"orzo", 3);
+        assertFalse(ingrediente.equals(p));
     }
 }

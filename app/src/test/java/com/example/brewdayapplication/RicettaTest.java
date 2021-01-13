@@ -16,11 +16,16 @@ public class RicettaTest {
 
     Ricetta ricettaTest;
     Date data;
+    List<Ingrediente> listaIngredienteTest;
+    Ingrediente ingredienteTest;
 
     @Before
     public void initMethod(){
         data = new Date("1/1/2020");
-        ricettaTest = new Ricetta(1, "birra", data, 1);
+        listaIngredienteTest = new ArrayList<>();
+        ingredienteTest = new Ingrediente(1,"acqua", 1);
+        listaIngredienteTest.add(ingredienteTest);
+        ricettaTest = new Ricetta(1, "birra", data, 1, listaIngredienteTest);
     }
 
     @Test
@@ -29,6 +34,7 @@ public class RicettaTest {
         assertEquals(1, ricettaTest.getIdRicetta());
         assertEquals("birra", ricettaTest.getNome() );
         assertEquals(1, ricettaTest.getQuantitaBirraProdotta(),  0.01);
+        assertEquals(1, ricettaTest.getIdRicetta());
     }
 
     @Test
@@ -38,18 +44,21 @@ public class RicettaTest {
         ricettaTest.setIdRicetta(2);
         ricettaTest.setNome("birraChiara");
         ricettaTest.setQuantitaBirraProdotta(2);
+        ricettaTest.setIdRicetta(2);
         assertEquals("Tue Dec 31 00:00:00 CET 2019", ricettaTest.getDataCreazione().toString());
         assertEquals(2, ricettaTest.getIdRicetta() );
         assertEquals("birraChiara", ricettaTest.getNome());
         assertEquals(2, ricettaTest.getQuantitaBirraProdotta(), 0.01);
+        assertEquals(2, ricettaTest.getIdRicetta());
     }
 
     @Test
     public void setDispensaIngredienteTest(){
         List<Ingrediente> listaIngredienti = new ArrayList<>();
-        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
-        Ingrediente ingrediente2 = new Ingrediente("orzo", 11);
-        Ingrediente ingrediente3 = new Ingrediente("luppolo", 12);
+        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
+        Ingrediente ingrediente2 = new Ingrediente(2,"orzo", 11);
+        Ingrediente ingrediente3 = new Ingrediente(3,"luppolo", 12);
+        listaIngredienti.add(ingredienteTest);
         listaIngredienti.add(ingrediente1);
         listaIngredienti.add(ingrediente2);
         listaIngredienti.add(ingrediente3);
@@ -59,17 +68,19 @@ public class RicettaTest {
 
     @Test
     public void aggiungiIngredienteTest(){
-        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
+        Ingrediente ingrediente1 = new Ingrediente(2,"malto", 10);
+        ricettaTest.aggiungiIngrediente(ingrediente1);
         assertFalse(ricettaTest.aggiungiIngrediente(null));
         assertTrue(ricettaTest.aggiungiIngrediente(ingrediente1));
-        assertEquals(ingrediente1, ricettaTest.getDispensaIngrediente().get(0));
+        assertEquals(ingrediente1, ricettaTest.getDispensaIngrediente().get(1));
     }
 
     @Test
     public void getDispensaIngredienteTest(){
         List<Ingrediente> listaIngredienti = new ArrayList<>();
+        listaIngredienti.add(ingredienteTest);
         assertEquals(listaIngredienti, ricettaTest.getDispensaIngrediente());
-        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
+        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
         listaIngredienti.add(ingrediente1);
         ricettaTest.setDispensaIngrediente(listaIngredienti);
         assertEquals(listaIngredienti, ricettaTest.getDispensaIngrediente());
@@ -77,11 +88,29 @@ public class RicettaTest {
 
     @Test
     public void eliminaIngredienteTest(){
-        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
+        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
         ricettaTest.aggiungiIngrediente(ingrediente1);
         assertFalse(ricettaTest.eliminaIngrediente(null));
         assertTrue(ricettaTest.eliminaIngrediente(ingrediente1));
         ricettaTest.eliminaIngrediente(ingrediente1);
+    }
+
+    @Test
+    public void toStringAllInformationTest(){
+        Ingrediente ingrediente = new Ingrediente(2, "orzo", 2);
+        ricettaTest.aggiungiIngrediente(ingrediente);
+        assertEquals("Ricetta{nome='birra', dataCreazione=Wed Jan 01 00:00:00 CET 2020}" +
+                "acqua quantita: 1.0" +
+                "gorzo quantita: 2.0g",
+                ricettaTest.toStringAllInformation());
+    }
+
+    @Test
+    public void toStringTest(){
+        assertEquals("Ricetta{" +
+                "nome='" + "birra" + '\'' +
+                ", dataCreazione=" + "Wed Jan 01 00:00:00 CET 2020" +
+                '}', ricettaTest.toString());
     }
 
 }

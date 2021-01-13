@@ -2,11 +2,13 @@ package com.example.brewdayapplication;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 
 import com.example.brewdayapplication.database.DatabaseHelper;
 
 import org.junit.Test;
 import org.junit.Before;
+
 
 import static com.example.brewdayapplication.database.DataString.MAGAZZINO_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -21,7 +23,7 @@ public class DataBaseHelperUnitTest {
 
     //problema di mocking, risolto aggiungendo in grandle
     //problema NullPointerException linea 34
-    /*@Test
+   /* @Test
     public void onCreateTest(){
         SQLiteDatabase db;
         db = databaseHelperTest.getReadableDatabase();

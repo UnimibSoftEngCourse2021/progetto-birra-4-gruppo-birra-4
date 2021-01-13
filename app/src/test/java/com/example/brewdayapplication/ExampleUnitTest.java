@@ -17,7 +17,7 @@ public class ExampleUnitTest {
 
     @Test
     public void creazioneIngrediente_isCorrect() {
-        Ingrediente ingrediente = new Ingrediente("malto", 12);
+        Ingrediente ingrediente = new Ingrediente(1,"malto", 12);
         assertEquals(12, ingrediente.getQuantita(), 0);
         assertEquals("malto", ingrediente.getNome());
     }
