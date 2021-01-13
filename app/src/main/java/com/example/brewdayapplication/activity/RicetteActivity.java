@@ -2,7 +2,9 @@ package com.example.brewdayapplication.activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.view.contentcapture.DataRemovalRequest;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.R;
 import com.example.brewdayapplication.Ricetta;
 import com.example.brewdayapplication.adapter.ListAdapterRicetta;
+import com.example.brewdayapplication.database.DataString;
 import com.example.brewdayapplication.database.DatabaseManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -102,10 +105,12 @@ public class RicetteActivity extends AppCompatActivity {
     private class PlusIngrediente implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            String nome = textView.getText().toString();
+            int id = databaseManager.getIngredienteId(nome);
             if (!editText.getText().toString().isEmpty())
-                ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
+                ricettario.add(new Ingrediente(id,nome, Double.parseDouble(editText.getText().toString())));
             else
-                ricettario.add(new Ingrediente(textView.getText().toString(), 0));
+                ricettario.add(new Ingrediente(id,nome, 0));
 
             if (i < arrayIngredienti.length) {
                 textView.setText(arrayIngredienti[i]);
@@ -131,8 +136,8 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
-                //int lastRicettaInDB = databaseManager.getLastRicettaID();
-                ricetta = new Ricetta(1, editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
+                int lastRicettaInDB = databaseManager.getLastId(DataString.RICETTA_TABLE, DataString.COLUMN_ID_RICETTA);
+                ricetta = new Ricetta(lastRicettaInDB, editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();

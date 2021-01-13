@@ -6,7 +6,8 @@ public class Ingrediente {
     private String nome;
     private double quantita;
 
-    public Ingrediente(String nome, double quantita) {
+    public Ingrediente(int id, String nome, double quantita) {
+        this.id = id;
         this.nome = nome;
         this.quantita = quantita;
     }

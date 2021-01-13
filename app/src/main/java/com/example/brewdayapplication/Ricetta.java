@@ -21,7 +21,6 @@ public class Ricetta {
     public Ricetta(int idRicetta, String nome, Date dataCreazione, List<Ingrediente> listIngrediente){
         new Ricetta(idRicetta, nome, dataCreazione, 1, listIngrediente);
     }
-
     public int getIdRicetta() {
         return idRicetta;
     }

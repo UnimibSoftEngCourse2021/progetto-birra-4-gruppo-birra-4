@@ -9,8 +9,12 @@ import android.database.sqlite.SQLiteException;
 import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.Ricetta;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseManager {
 
@@ -108,7 +112,7 @@ public class DatabaseManager {
          */
         if (listIngredients.moveToNext()) {
             do {
-                Ingrediente ingrediente = new Ingrediente(listIngredients.getString(0), listIngredients.getInt(1));
+                Ingrediente ingrediente = new Ingrediente(listIngredients.getInt(0), listIngredients.getString(1), listIngredients.getInt(2));
                 resultList.add(ingrediente);
             } while (listIngredients.moveToNext());
         } else
@@ -116,16 +120,6 @@ public class DatabaseManager {
         return resultList;
     }
 
-    //azioni neccessarie solo ai test
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
-    }
-
-    //azioni necessarie solo ai test
-    public Context getContext() {
-        return getContext();
-
-    }
 
     public void saveRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
@@ -148,14 +142,96 @@ public class DatabaseManager {
         for (int i = 0; i < ricetta.getDispensaIngrediente().size(); i++) {
             cv.put(DataString.COLUMN_ID_INGREDIENTE, ricetta.getDispensaIngrediente().get(i).getId());
             cv.put(DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA, ricetta.getDispensaIngrediente().get(i).getQuantita());
-        }
-        try {
-            db.insert(DataString.RELAZIONE_TABLE, null, cv);
-        } catch (SQLiteException e) {
-            // Gestione delle eccezioni
+            try {
+                db.insert(DataString.RELAZIONE_TABLE, null, cv);
+            } catch (SQLiteException e) {
+                // Gestione delle eccezioni
+            }
         }
     }
 
+    public List<Ricetta> mostraRicette() throws ParseException {
+        List<Ricetta> resultList = new ArrayList<>();
+        Cursor listRicette;
+        //accesso in lettura al db
+        db = databaseHelper.getReadableDatabase();
+        //salva nell'array il risultato della select (query = select)
+        listRicette = db.query(DataString.RICETTA_TABLE, null, null, null,
+                null, null, DataString.COLUMN_NOME_RICETTA);
+        if (listRicette.moveToNext()) {
+            do {
+                String nomeRicetta = listRicette.getString(1);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                String dateString = listRicette.getString(2);
+                Date date = formatter.parse(dateString);
+                List<Ingrediente> listIngredienti = getIngredientiRicetta(nomeRicetta);
+                Ricetta ricetta = new Ricetta(listRicette.getInt(0), nomeRicetta, date, listRicette.getDouble(3), listIngredienti);
+                resultList.add(ricetta);
+            } while (listRicette.moveToNext());
+        } else
+            listRicette.close();
+        return resultList;
+    }
+
+    // DA FINIRE, VEDERE COME SI FANNO JOIN CON METODO QUERY
+    private List<Ingrediente> getIngredientiRicetta(String nome) {
+        List<Ingrediente> listIngredienti = new ArrayList<Ingrediente>();
+        Cursor listaIngredientiCursor = null;
+        //accesso in lettura al db
+        db = databaseHelper.getReadableDatabase();
+      /*  listaIngredientiCursor = db.query(DataString.RELAZIONE_TABLE, new String [] { DataString.COLUMN_ID_INGREDIENTE},
+                DataString.COLUMN_NOME_INGRE + " = ?", new String [] {nome}, null, null, null); */
+        if (listaIngredientiCursor.moveToNext()) {
+
+        } else
+            listaIngredientiCursor.close();
+        return listIngredienti;
+    }
+
+    // restitutisce l'id dell'ultimo ingrediente o tabella salvato sul db
+    public int getLastId(String nomeTabella, String nomeColonna) {
+        int id = 0;
+        Cursor lastIdCurson;
+        //accesso in lettura al db
+        db = databaseHelper.getReadableDatabase();
+        lastIdCurson = db.query(nomeTabella, new String[]{"MAX(" + nomeColonna + ") as MaxId"},
+                null, null, null, null, null);
+        if (lastIdCurson.moveToNext()) {
+            id = lastIdCurson.getInt(0);
+        } else
+            lastIdCurson.close();
+        if(id == 0)
+            id = 1;
+        return id;
+    }
+
+    // restitutisce l'id dell' ingrediente avente il nome passato salvato sul db
+    public int getIngredienteId(String nome) {
+        int id = 0;
+        Cursor idCurson;
+        //accesso in lettura al db
+        db = databaseHelper.getReadableDatabase();
+        idCurson = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_ID_INGREDIENTE},
+                DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{nome}, null, null, null);
+        if (idCurson.moveToNext()) {
+            id = idCurson.getInt(0);
+        } else
+            idCurson.close();
+        if(id == 0)
+            id = 1;
+        return id;
+    }
+
+    //azioni neccessarie solo ai test
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
+
+    //azioni necessarie solo ai test
+    public Context getContext() {
+        return getContext();
+
+    }
 
 }
 
