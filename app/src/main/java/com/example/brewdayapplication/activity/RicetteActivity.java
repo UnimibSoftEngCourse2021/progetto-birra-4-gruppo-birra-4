@@ -140,7 +140,7 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            if (!editTextTitoloRicetta.getText().toString().isEmpty() && ricettario.size() != 0) {
+            if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 int lastRicettaInDB = databaseManager.getLastId(DataString.RICETTA_TABLE, DataString.COLUMN_ID_RICETTA);
                 ricetta = new Ricetta(lastRicettaInDB, editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
                 databaseManager.saveRicetta(ricetta);

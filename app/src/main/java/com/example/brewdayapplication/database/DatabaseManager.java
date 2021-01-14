@@ -164,7 +164,7 @@ public class DatabaseManager {
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL dd HH:mm:ss zzz yyyy");
                 String dateString = listRicette.getString(2);
                 Date date = formatter.parse(dateString);
-                listIngredienti = getIngredientiRicetta(nomeRicetta);
+                listIngredienti = getIngredientiRicetta();
                 Ricetta ricetta = new Ricetta(listRicette.getInt(0), nomeRicetta, date, listRicette.getDouble(3), listIngredienti);
                 resultList.add(ricetta);
             } while (listRicette.moveToNext());
@@ -173,9 +173,9 @@ public class DatabaseManager {
         return resultList;
     }
 
-    private List<Ingrediente> getIngredientiRicetta(String nome) {
-        List<Ingrediente> listIngredienti = new ArrayList<Ingrediente>();
-        Cursor listaIngredientiCursor = null;
+    private List<Ingrediente> getIngredientiRicetta() {
+        List<Ingrediente> listIngredienti = new ArrayList<>();
+        Cursor listaIngredientiCursor;
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
         String listaIngredientiRicettaQuery = "SELECT i.ID_INGREDIENTE, i.NOME_INGREDIENTE, rl.QUANTITA_INGREDIENTE " +

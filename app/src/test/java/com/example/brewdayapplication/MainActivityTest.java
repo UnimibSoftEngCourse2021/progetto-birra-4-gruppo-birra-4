@@ -28,7 +28,4 @@ public class MainActivityTest {
         mainActivityTest = new MainActivity();
     }
 
-    @Test
-    public void onCreateTest(){
-    }
 }

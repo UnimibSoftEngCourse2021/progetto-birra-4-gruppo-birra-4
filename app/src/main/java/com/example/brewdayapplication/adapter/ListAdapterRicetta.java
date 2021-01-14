@@ -16,8 +16,8 @@ import com.example.brewdayapplication.Ricetta;
 import java.util.List;
 
 public class ListAdapterRicetta extends ArrayAdapter<Ricetta> {
-    public ListAdapterRicetta(@NonNull Context context, List<Ricetta> RicettaList) {
-        super(context, 0, RicettaList);
+    public ListAdapterRicetta(@NonNull Context context, List<Ricetta> ricettaList) {
+        super(context, 0, ricettaList);
     }
 
     /* permette di creare un adpter personallizato per la listView

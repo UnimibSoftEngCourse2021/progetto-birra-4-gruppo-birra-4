@@ -2,6 +2,7 @@ package com.example.brewdayapplication.database;
 
 public class DataString {
 
+
     //creato solo per evitare smell
     private DataString() {
     }
@@ -20,6 +21,8 @@ public class DataString {
     public static final String CREA_TABELLA = "CREATE TABLE";
     public static final String CHIAVE_ESTERNA = "FOREIGN KEY";
     public static final String INTERO_CHIAVE = "INTEGER PRIMARY KEY AUTOINCREMENT";
+    public static final String REFERENCES = "REFERENCES";
+
 
     //dechiarazione e assegnamento delle colonne del db per ogni tabella
 
