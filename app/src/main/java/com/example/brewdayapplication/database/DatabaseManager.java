@@ -20,6 +20,12 @@ public class DatabaseManager {
     private final DatabaseHelper databaseHelper;
     private ContentValues cv;
     private SQLiteDatabase db;
+    private List<Ingrediente> listaIngredienti;
+    private List<Ricetta> listaRicette;
+    private Cursor listaRicetteCursor;
+    private Cursor listaIngredientiCursor;
+    private Cursor idCursor;
+
 
     public DatabaseManager(Context ctx) {
         databaseHelper = new DatabaseHelper(ctx);
@@ -49,7 +55,7 @@ public class DatabaseManager {
     public int saveIngredient(Ingrediente ingrediente) {
         int j = 0;
         if (mostraIngredienti().contains(ingrediente)) {
-            List<Ingrediente> listaIngredienti = mostraIngredienti();
+            listaIngredienti = mostraIngredienti();
             for (int i = 0; i < listaIngredienti.size(); i++) {
                 if (listaIngredienti.get(i).equals(ingrediente)) {
                     updateIngredient(ingrediente, listaIngredienti.get(i));
@@ -95,12 +101,11 @@ public class DatabaseManager {
      * legge dal db gli ingredienti presenti e ritorna l'arraylist
     */
     public List<Ingrediente> mostraIngredienti() {
-        List<Ingrediente> resultList = new ArrayList<>();
-        Cursor listIngredients;
+        listaIngredienti = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
         //salva nell'array il risultato della select (query = select)
-        listIngredients = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
+        listaIngredientiCursor = db.query(DataString.INGREDIENTE_TABLE, null, null, null, null, null, DataString.COLUMN_NOME_INGREDIENTE);
 
         /*il cursore permette di aumentare riga per riga
          *ad ogni iterazione il cursore si posiziona su un ingrediente della tabella
@@ -108,14 +113,14 @@ public class DatabaseManager {
          *aggiungo tale ingrediente all'array
          *aumento il cursore per puntare alla prossima riga, quando le righe finiscono esco dal ciclo e returno la lista
          */
-        if (listIngredients.moveToNext()) {
+        if (listaIngredientiCursor.moveToNext()) {
             do {
-                Ingrediente ingrediente = new Ingrediente(listIngredients.getInt(0), listIngredients.getString(1), listIngredients.getDouble(2));
-                resultList.add(ingrediente);
-            } while (listIngredients.moveToNext());
+                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getInt(0), listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
+                listaIngredienti.add(ingrediente);
+            } while (listaIngredientiCursor.moveToNext());
         } else
-            listIngredients.close();
-        return resultList;
+            listaIngredientiCursor.close();
+        return listaIngredienti;
     }
 
     //salva la ricetta passata in input dall'utente sul db
@@ -151,35 +156,32 @@ public class DatabaseManager {
 
     // restituisce le ricette presenti nel db tramite un ArraList
     public List<Ricetta> mostraRicette() throws ParseException {
-        List<Ricetta> resultList = new ArrayList<>();
-        Cursor listRicette;
+        listaRicette = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
         //salva nell'array il risultato della select (query = select)
-        listRicette = db.query(DataString.RICETTA_TABLE, null, null, null,
+        listaRicetteCursor = db.query(DataString.RICETTA_TABLE, null, null, null,
                 null, null, DataString.COLUMN_NOME_RICETTA);
-        if (listRicette.moveToNext()) {
-            List<Ingrediente> listIngredienti;
+        if (listaRicetteCursor.moveToNext()) {
             do {
-                String nomeRicetta = listRicette.getString(1);
+                String nomeRicetta = listaRicetteCursor.getString(1);
                 // creato un formato per la data
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL dd HH:mm:ss zzz yyyy");
-                String dateString = listRicette.getString(2);
+                String dateString = listaRicetteCursor.getString(2);
                 // conversione da stringa a date
                 Date date = formatter.parse(dateString);
-                listIngredienti = getIngredientiRicetta();
-                Ricetta ricetta = new Ricetta(listRicette.getInt(0), nomeRicetta, date, listRicette.getDouble(3), listIngredienti);
-                resultList.add(ricetta);
-            } while (listRicette.moveToNext());
+                listaIngredienti = getIngredientiRicetta();
+                Ricetta ricetta = new Ricetta(listaRicetteCursor.getInt(0), nomeRicetta, date, listaRicetteCursor.getDouble(3), listaIngredienti);
+                listaRicette.add(ricetta);
+            } while (listaRicetteCursor.moveToNext());
         } else
-            listRicette.close();
-        return resultList;
+            listaRicetteCursor.close();
+        return listaRicette;
     }
 
     // restituisce la lista degli ingredienti presenti in ogni ricetta per ogni ricetta nel db
     private List<Ingrediente> getIngredientiRicetta() {
-        List<Ingrediente> listIngredienti = new ArrayList<>();
-        Cursor listaIngredientiCursor;
+        listaIngredienti = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
         String listaIngredientiRicettaQuery = "SELECT i.ID_INGREDIENTE, i.NOME_INGREDIENTE, rl.QUANTITA_INGREDIENTE " +
@@ -192,25 +194,24 @@ public class DatabaseManager {
         if (listaIngredientiCursor.moveToNext()) {
             do {
                 Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getInt(0), listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
-                listIngredienti.add(ingrediente);
+                listaIngredienti.add(ingrediente);
             } while (listaIngredientiCursor.moveToNext());
         } else
             listaIngredientiCursor.close();
-        return listIngredienti;
+        return listaIngredienti;
     }
 
     // restitutisce l'id dell'ultimo elemento salvato sul db, dato il nome e un campo della tabella passato in input
     public int getLastId(String nomeTabella, String nomeColonna) {
         int id = 0;
-        Cursor lastIdCurson;
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
-        lastIdCurson = db.query(nomeTabella, new String[]{"MAX(" + nomeColonna + ") as MaxId"},
+        idCursor = db.query(nomeTabella, new String[]{"MAX(" + nomeColonna + ") as MaxId"},
                 null, null, null, null, null);
-        if (lastIdCurson.moveToNext()) {
-            id = lastIdCurson.getInt(0);
+        if (idCursor.moveToNext()) {
+            id = idCursor.getInt(0);
         } else
-            lastIdCurson.close();
+            idCursor.close();
         if(id == 0)
             id = 1;
         return id;
@@ -219,15 +220,14 @@ public class DatabaseManager {
     // restitutisce l'id dell' ingrediente avente il nome passato dall'utente salvato sul db
     public int getIngredienteId(String nome) {
         int id = 0;
-        Cursor idCurson;
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
-        idCurson = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_ID_INGREDIENTE},
+        idCursor = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_ID_INGREDIENTE},
                 DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{nome}, null, null, null);
-        if (idCurson.moveToNext()) {
-            id = idCurson.getInt(0);
+        if (idCursor.moveToNext()) {
+            id = idCursor.getInt(0);
         } else
-            idCurson.close();
+            idCursor.close();
         if(id == 0)
             id = 1;
         return id;
