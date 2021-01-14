@@ -1,9 +1,11 @@
 package com.example.brewdayapplication.activity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,6 +79,36 @@ public class RicetteActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        listViewRicette.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+                alert = new AlertDialog.Builder(RicetteActivity.this);
+                alert.setTitle("Cancellare?")
+                        .setNegativeButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                databaseManager.deleteRicetta(ricetta);
+                                try {
+                                    printList();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                alert.setCancelable(true);
+                            }
+                        })
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                alertDialog = alert.create();
+                alertDialog.show();
+                return true;
+            }
+        });
     }
 
     //classe innestata per creare la ricetta
@@ -113,15 +145,16 @@ public class RicetteActivity extends AppCompatActivity {
             String nome = textView.getText().toString();
             int id = databaseManager.getIngredienteId(nome);
             if (!editText.getText().toString().isEmpty())
-                ricettario.add(new Ingrediente(id, nome, Double.parseDouble(editText.getText().toString())));
+                ricettario.add(new Ingrediente(nome, Double.parseDouble(editText.getText().toString())));
             else
-                ricettario.add(new Ingrediente(id, nome, 0));
+                ricettario.add(new Ingrediente(nome, 0));
 
 
             if (i < arrayIngredienti.length) {
                 textView.setText(arrayIngredienti[i]);
                 i++;
             } else {
+                i = 0;
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
             }

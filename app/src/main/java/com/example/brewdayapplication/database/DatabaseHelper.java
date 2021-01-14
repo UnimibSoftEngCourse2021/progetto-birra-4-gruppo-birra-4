@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA + " DOUBLE NOT NULL,"
                 + "CONSTRAINT " + DataString.PK_RELAZIONE_RI + " PRIMARY KEY (" + DataString.COLUMN_ID_RICETTA + ", " + DataString.COLUMN_ID_INGREDIENTE + "),"
                 + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + "),"
-                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
+                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + ") ON DELETE CASCADE )";
 
         //esecuzione delle degli statement sql per la creazione delle tabelle nel db
         db.execSQL(createTableStatementMagazzino);

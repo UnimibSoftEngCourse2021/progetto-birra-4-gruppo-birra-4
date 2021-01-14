@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.database.DatabaseManager;
 import com.example.brewdayapplication.R;
 
@@ -20,16 +21,27 @@ public class CapacitaActivity extends AppCompatActivity {
     Button btnConferma;
     private Intent intent;
     DatabaseManager databaseManager;
+    Ingrediente ingrediente;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipment);
 
+        databaseManager = new DatabaseManager(getApplicationContext());
+
+        String[] listIngredienti = {"malto", "orzo", "luppolo", "acqua", "lievito", "zucchero", "additivi"};
+        for (int i = 0; i < listIngredienti.length; i++) {
+            ingrediente = new Ingrediente(listIngredienti[i], 0);
+            databaseManager.saveIngredient(ingrediente);
+        }
+
+
         editTextCapacita = findViewById(R.id.editTextNumberDecimal_capacita);
         btnConferma = findViewById(R.id.btn_conferma);
 
-        databaseManager = new DatabaseManager(getApplicationContext());
+
 
         //se è presente una preferences vuol dire che l'utente ha già inserito la capacità perciò parte MainActivity.
         //Altrimenti vuol dire che è la prima volta che l'utente apre l'app dopo l'installazione e quindi gli si viene

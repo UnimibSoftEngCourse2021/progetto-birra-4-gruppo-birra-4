@@ -47,11 +47,11 @@ public class DatabaseManager {
     }
 
     /*
-    * se l'ingrediente in input è presente nel db chiamata updateIngredient(ingrediente, listaIngredienti.get(i))
-    * passando l'ingrediente presente nell'array e quello dato in input dall''utente
-    * se l'ingrediente in input non è presente nel db lo aggiunge
-    * return j per capire se si tratta di update o insert
-    */
+     * se l'ingrediente in input è presente nel db chiamata updateIngredient(ingrediente, listaIngredienti.get(i))
+     * passando l'ingrediente presente nell'array e quello dato in input dall''utente
+     * se l'ingrediente in input non è presente nel db lo aggiunge
+     * return j per capire se si tratta di update o insert
+     */
     public int saveIngredient(Ingrediente ingrediente) {
         int j = 0;
         if (mostraIngredienti().contains(ingrediente)) {
@@ -79,9 +79,9 @@ public class DatabaseManager {
     }
 
     /*
-    * aggiorna la quantità dell'ingrediente avente nome ingrediente.getNome()
-    * nuova quantità = vecchia quantità + quantità passata in input dall'utente
-    */
+     * aggiorna la quantità dell'ingrediente avente nome ingrediente.getNome()
+     * nuova quantità = vecchia quantità + quantità passata in input dall'utente
+     */
     public void updateIngredient(Ingrediente ingrediente1, Ingrediente ingrediente2) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
@@ -99,7 +99,7 @@ public class DatabaseManager {
 
     /*
      * legge dal db gli ingredienti presenti e ritorna l'arraylist
-    */
+     */
     public List<Ingrediente> mostraIngredienti() {
         listaIngredienti = new ArrayList<>();
         //accesso in lettura al db
@@ -115,7 +115,7 @@ public class DatabaseManager {
          */
         if (listaIngredientiCursor.moveToNext()) {
             do {
-                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getInt(0), listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
+                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
                 listaIngredienti.add(ingrediente);
             } while (listaIngredientiCursor.moveToNext());
         } else
@@ -190,10 +190,10 @@ public class DatabaseManager {
                 "JOIN INGREDIENTE i " +
                 "ON rl.ID_INGREDIENTE = i.ID_INGREDIENTE " +
                 "ORDER BY i.ID_INGREDIENTE";
-        listaIngredientiCursor = db.rawQuery(listaIngredientiRicettaQuery,null);
+        listaIngredientiCursor = db.rawQuery(listaIngredientiRicettaQuery, null);
         if (listaIngredientiCursor.moveToNext()) {
             do {
-                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getInt(0), listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
+                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
                 listaIngredienti.add(ingrediente);
             } while (listaIngredientiCursor.moveToNext());
         } else
@@ -212,7 +212,7 @@ public class DatabaseManager {
             id = idCursor.getInt(0);
         } else
             idCursor.close();
-        if(id == 0)
+        if (id == 0)
             id = 1;
         return id;
     }
@@ -228,7 +228,7 @@ public class DatabaseManager {
             id = idCursor.getInt(0);
         } else
             idCursor.close();
-        if(id == 0)
+        if (id == 0)
             id = 1;
         return id;
     }
@@ -242,6 +242,15 @@ public class DatabaseManager {
     public Context getContext() {
         return getContext();
 
+    }
+
+    public boolean deleteRicetta(Ricetta ricetta) {
+        db = databaseHelper.getWritableDatabase();
+        try {
+            return db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_ID_RICETTA + "=?", new String[]{Integer.toString(ricetta.getIdRicetta())}) <= 0;
+        } catch (SQLiteException sqle) {
+            return false;
+        }
     }
 
 }

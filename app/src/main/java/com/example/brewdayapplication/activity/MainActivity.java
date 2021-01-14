@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.R;
+import com.example.brewdayapplication.database.DatabaseHelper;
+import com.example.brewdayapplication.database.DatabaseManager;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
     long backPressedTime;
     Toast toastBack;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         btnIngredienti = findViewById(R.id.btn_Ingredienti);
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnRicette = findViewById(R.id.btn_Ricette);
         btnRicette.setOnClickListener(new StartRicetteActivity());
+
 
     }
 
