@@ -64,6 +64,7 @@ public class IngredienteActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
+            // l'ingrediente viene aggiunto all'arraylist solo se già non presente in esso
             int mostra = databaseManager.saveIngredient(ingrediente);
             if (mostra == 2)
                 ingredienteList.add(ingrediente);

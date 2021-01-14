@@ -27,10 +27,9 @@ public class DatabaseManager {
 
     //salva sul db la capacità dell'equipment del birraio
     public void saveCapacita(double capacita) {
-
         //accende al db in scrittura
         db = databaseHelper.getWritableDatabase();
-        // cv è il contenutp da inserire nel db
+        // cv è il contenuto da inserire nel db
         cv = new ContentValues();
         cv.put(DataString.COLUMN_CAPACITY_EQUIPMENT, capacita);
         try {
@@ -42,11 +41,11 @@ public class DatabaseManager {
     }
 
     /*
-    *se l'ingrediente in input è presente nel db chiamata updateIngredient(ingrediente, listaIngredienti.get(i))
-    passando l'ingrediente presente nell'array e quello dato in input dall''utente
+    * se l'ingrediente in input è presente nel db chiamata updateIngredient(ingrediente, listaIngredienti.get(i))
+    * passando l'ingrediente presente nell'array e quello dato in input dall''utente
     * se l'ingrediente in input non è presente nel db lo aggiunge
     * return j per capire se si tratta di update o insert
-     */
+    */
     public int saveIngredient(Ingrediente ingrediente) {
         int j = 0;
         if (mostraIngredienti().contains(ingrediente)) {
@@ -76,7 +75,7 @@ public class DatabaseManager {
     /*
     * aggiorna la quantità dell'ingrediente avente nome ingrediente.getNome()
     * nuova quantità = vecchia quantità + quantità passata in input dall'utente
-    s */
+    */
     public void updateIngredient(Ingrediente ingrediente1, Ingrediente ingrediente2) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
@@ -94,7 +93,7 @@ public class DatabaseManager {
 
     /*
      * legge dal db gli ingredienti presenti e ritorna l'arraylist
-     */
+    */
     public List<Ingrediente> mostraIngredienti() {
         List<Ingrediente> resultList = new ArrayList<>();
         Cursor listIngredients;
@@ -119,7 +118,7 @@ public class DatabaseManager {
         return resultList;
     }
 
-
+    //salva la ricetta passata in input dall'utente sul db
     public void saveRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
@@ -134,6 +133,7 @@ public class DatabaseManager {
         }
     }
 
+    // per ogni ricetta salva i riferimenti agli id degli ingredienti presenti nella ricetta
     private void saveRicettario(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
@@ -149,6 +149,7 @@ public class DatabaseManager {
         }
     }
 
+    // restituisce le ricette presenti nel db tramite un ArraList
     public List<Ricetta> mostraRicette() throws ParseException {
         List<Ricetta> resultList = new ArrayList<>();
         Cursor listRicette;
@@ -161,8 +162,10 @@ public class DatabaseManager {
             List<Ingrediente> listIngredienti;
             do {
                 String nomeRicetta = listRicette.getString(1);
+                // creato un formato per la data
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL dd HH:mm:ss zzz yyyy");
                 String dateString = listRicette.getString(2);
+                // conversione da stringa a date
                 Date date = formatter.parse(dateString);
                 listIngredienti = getIngredientiRicetta();
                 Ricetta ricetta = new Ricetta(listRicette.getInt(0), nomeRicetta, date, listRicette.getDouble(3), listIngredienti);
@@ -173,6 +176,7 @@ public class DatabaseManager {
         return resultList;
     }
 
+    // restituisce la lista degli ingredienti presenti in ogni ricetta per ogni ricetta nel db
     private List<Ingrediente> getIngredientiRicetta() {
         List<Ingrediente> listIngredienti = new ArrayList<>();
         Cursor listaIngredientiCursor;
@@ -195,7 +199,7 @@ public class DatabaseManager {
         return listIngredienti;
     }
 
-    // restitutisce l'id dell'ultimo ingrediente o tabella salvato sul db
+    // restitutisce l'id dell'ultimo elemento salvato sul db, dato il nome e un campo della tabella passato in input
     public int getLastId(String nomeTabella, String nomeColonna) {
         int id = 0;
         Cursor lastIdCurson;
@@ -212,7 +216,7 @@ public class DatabaseManager {
         return id;
     }
 
-    // restitutisce l'id dell' ingrediente avente il nome passato salvato sul db
+    // restitutisce l'id dell' ingrediente avente il nome passato dall'utente salvato sul db
     public int getIngredienteId(String nome) {
         int id = 0;
         Cursor idCurson;

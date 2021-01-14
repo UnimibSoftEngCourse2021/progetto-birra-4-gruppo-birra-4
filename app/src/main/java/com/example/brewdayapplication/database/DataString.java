@@ -2,14 +2,9 @@ package com.example.brewdayapplication.database;
 
 public class DataString {
 
-
     //creato solo per evitare smell
     private DataString() {
     }
-
-
-    public static final String PK_RELAZIONE_RI = "PK_RICETTARIO";
-
 
     //dechiarazione e assegnamento delle tabelle del db
     public static final String INGREDIENTE_TABLE = "INGREDIENTE";
@@ -24,8 +19,7 @@ public class DataString {
     public static final String REFERENCES = "REFERENCES";
 
 
-    //dechiarazione e assegnamento delle colonne del db per ogni tabella
-
+    //dichiarazione e assegnamento delle colonne del db per ogni tabella
     public static final String COLUMN_ID_MAGAZZINO = "ID_MAGAZZINO";
     public static final String COLUMN_CAPACITY_EQUIPMENT = "CAPACITA_SET";
 
@@ -39,6 +33,7 @@ public class DataString {
     public static final String COLUMN_QUANTITA_BIRRA = "QUANTITA_BIRRA";
 
     public static final String COLUMN_QUANTITA_INGREDIENTE_RICETTA ="QUANTITA_INGREDIENTE";
+    public static final String PK_RELAZIONE_RI = "PK_RICETTARIO";
 
 
 }

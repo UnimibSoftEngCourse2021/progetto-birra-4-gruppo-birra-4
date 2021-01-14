@@ -106,6 +106,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // classe innestata per aggiungere gli ingredienti alla ricetta
     private class PlusIngrediente implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -129,6 +130,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // classe innestata per chiudere la dialog
     private class BackRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -136,6 +138,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // classe innestata per salvare la ricetta sul db
     private class SalvaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -157,6 +160,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // stampa su una listview le ricette presenti sul db
     private void printList() throws ParseException {
         listRicette = databaseManager.mostraRicette();
         resultQuery = new ListAdapterRicetta(this, listRicette);

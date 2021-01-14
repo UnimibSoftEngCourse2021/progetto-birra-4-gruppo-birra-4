@@ -61,6 +61,7 @@ public class Ricetta {
         this.listIngrediente = listIngrediente;
     }
 
+    // aggiunge un ingrediente alla ricetta
     public boolean aggiungiIngrediente(Ingrediente ingrediente){
         if (ingrediente == null)
             return false;
@@ -69,6 +70,7 @@ public class Ricetta {
         return true;
     }
 
+    // rimuove un ingrediente dalla ricette
     public  boolean eliminaIngrediente(Ingrediente ingrediente){
         if (ingrediente == null)
             return false;

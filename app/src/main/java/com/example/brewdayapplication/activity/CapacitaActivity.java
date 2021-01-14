@@ -15,6 +15,7 @@ import com.example.brewdayapplication.R;
 
 public class CapacitaActivity extends AppCompatActivity {
 
+    // Dichiarazioni
     EditText editTextCapacita;
     Button btnConferma;
     private Intent intent;

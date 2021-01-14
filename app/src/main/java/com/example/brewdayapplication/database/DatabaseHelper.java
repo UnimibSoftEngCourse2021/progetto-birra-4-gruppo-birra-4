@@ -15,6 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
     }
 
+    // metodo chiamato quando viene installata l'app per la prima volta
     @Override
     public void onCreate(SQLiteDatabase db) {
         //creazione tabella magazzino
@@ -46,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + "),"
                 + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
 
-        //esecuzione delle due query
+        //esecuzione delle degli statement sql per la creazione delle tabelle nel db
         db.execSQL(createTableStatementMagazzino);
         db.execSQL(createTableStatementIngredient);
         db.execSQL(createTableStatementRicetta);
