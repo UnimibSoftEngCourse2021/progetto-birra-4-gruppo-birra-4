@@ -129,7 +129,7 @@ public class DatabaseManager {
         cv = new ContentValues();
         cv.put(DataString.COLUMN_NOME_RICETTA, ricetta.getNome());
         cv.put(DataString.COLUMN_DATA_RICETTA, ricetta.getDataCreazione().toString());
-        cv.put(DataString.COLUMN_QUANTITA_BIRRA, 0);
+        cv.put(DataString.COLUMN_QUANTITA_BIRRA, ricetta.getQuantitaBirraProdotta());
         try {
             db.insert(DataString.RICETTA_TABLE, null, cv);
             saveRicettario(ricetta);
@@ -140,11 +140,13 @@ public class DatabaseManager {
 
     // per ogni ricetta salva i riferimenti agli id degli ingredienti presenti nella ricetta
     private void saveRicettario(Ricetta ricetta) {
+        int idRicetta = readIdRicetta(ricetta);
         db = databaseHelper.getWritableDatabase();
-        cv = new ContentValues();
-        cv.put(DataString.COLUMN_ID_RICETTA, ricetta.getIdRicetta());
+
         for (int i = 0; i < ricetta.getDispensaIngrediente().size(); i++) {
-            cv.put(DataString.COLUMN_ID_INGREDIENTE, ricetta.getDispensaIngrediente().get(i).getId());
+            cv = new ContentValues();
+            cv.put(DataString.COLUMN_ID_RICETTA, idRicetta);
+            cv.put(DataString.COLUMN_ID_INGREDIENTE, readIdIngrediente(ricetta.getDispensaIngrediente().get(i)));
             cv.put(DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA, ricetta.getDispensaIngrediente().get(i).getQuantita());
             try {
                 db.insert(DataString.RELAZIONE_TABLE, null, cv);
@@ -152,6 +154,30 @@ public class DatabaseManager {
                 // Gestione delle eccezioni
             }
         }
+    }
+
+    private int readIdRicetta(Ricetta ricetta) {
+        db = databaseHelper.getReadableDatabase();
+        int id = 0;
+        Cursor cursor = db.query(DataString.RICETTA_TABLE,null,
+                DataString.COLUMN_NOME_RICETTA + " = ?", new String[]{ricetta.getNome()}, null, null, null);
+        if (cursor.moveToNext()) {
+            id = cursor.getInt(0);
+        } else
+            cursor.close();
+        return id;
+    }
+
+    private int readIdIngrediente(Ingrediente ingrediente) {
+        db = databaseHelper.getReadableDatabase();
+        int id = 0;
+        Cursor cursor = db.query(DataString.INGREDIENTE_TABLE,null,
+                DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{ingrediente.getNome()}, null, null, null);
+        if (cursor.moveToNext()) {
+            id = cursor.getInt(0);
+        } else
+            cursor.close();
+        return id;
     }
 
     // restituisce le ricette presenti nel db tramite un ArraList
@@ -171,7 +197,7 @@ public class DatabaseManager {
                 // conversione da stringa a date
                 Date date = formatter.parse(dateString);
                 listaIngredienti = getIngredientiRicetta();
-                Ricetta ricetta = new Ricetta(listaRicetteCursor.getInt(0), nomeRicetta, date, listaRicetteCursor.getDouble(3), listaIngredienti);
+                Ricetta ricetta = new Ricetta(nomeRicetta, date, listaRicetteCursor.getDouble(3), listaIngredienti);
                 listaRicette.add(ricetta);
             } while (listaRicetteCursor.moveToNext());
         } else
@@ -201,38 +227,6 @@ public class DatabaseManager {
         return listaIngredienti;
     }
 
-    // restitutisce l'id dell'ultimo elemento salvato sul db, dato il nome e un campo della tabella passato in input
-    public int getLastId(String nomeTabella, String nomeColonna) {
-        int id = 0;
-        //accesso in lettura al db
-        db = databaseHelper.getReadableDatabase();
-        idCursor = db.query(nomeTabella, new String[]{"MAX(" + nomeColonna + ") as MaxId"},
-                null, null, null, null, null);
-        if (idCursor.moveToNext()) {
-            id = idCursor.getInt(0);
-        } else
-            idCursor.close();
-        if (id == 0)
-            id = 1;
-        return id;
-    }
-
-    // restitutisce l'id dell' ingrediente avente il nome passato dall'utente salvato sul db
-    public int getIngredienteId(String nome) {
-        int id = 0;
-        //accesso in lettura al db
-        db = databaseHelper.getReadableDatabase();
-        idCursor = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_ID_INGREDIENTE},
-                DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{nome}, null, null, null);
-        if (idCursor.moveToNext()) {
-            id = idCursor.getInt(0);
-        } else
-            idCursor.close();
-        if (id == 0)
-            id = 1;
-        return id;
-    }
-
     //azioni neccessarie solo ai test
     public DatabaseHelper getDatabaseHelper() {
         return databaseHelper;
@@ -247,7 +241,7 @@ public class DatabaseManager {
     public boolean deleteRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         try {
-            return db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_ID_RICETTA + "=?", new String[]{Integer.toString(ricetta.getIdRicetta())}) <= 0;
+            return db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_NOME_RICETTA + "=?", new String[]{ricetta.getNome()}) <= 0;
         } catch (SQLiteException sqle) {
             return false;
         }

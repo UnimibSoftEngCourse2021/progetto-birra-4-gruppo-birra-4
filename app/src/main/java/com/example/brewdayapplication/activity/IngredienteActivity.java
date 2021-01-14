@@ -11,11 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.brewdayapplication.database.DataString;
-import com.example.brewdayapplication.database.DatabaseManager;
 import com.example.brewdayapplication.Ingrediente;
-import com.example.brewdayapplication.adapter.ListAdapter;
 import com.example.brewdayapplication.R;
+import com.example.brewdayapplication.adapter.ListAdapter;
+import com.example.brewdayapplication.database.DatabaseManager;
 
 import java.util.List;
 
@@ -58,7 +57,6 @@ public class IngredienteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Ingrediente ingrediente = null;
-            int id = databaseManager.getLastId(DataString.INGREDIENTE_TABLE, DataString.COLUMN_ID_INGREDIENTE);
             try {
                 ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
             } catch (Exception e) {

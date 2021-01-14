@@ -10,17 +10,17 @@ public class Ricetta {
     private double quantitaBirraProdotta;
     private List<Ingrediente> listIngrediente;
 
-    public Ricetta(int idRicetta, String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
-        this.idRicetta = idRicetta;
+    public Ricetta(String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.nome = nome;
         this.dataCreazione = dataCreazione;
         this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
 
-    public Ricetta(int idRicetta, String nome, Date dataCreazione, List<Ingrediente> listIngrediente){
-        new Ricetta(idRicetta, nome, dataCreazione, 1, listIngrediente);
+    public Ricetta(String nome, Date dataCreazione, List<Ingrediente> listIngrediente){
+        new Ricetta(nome, dataCreazione, 1, listIngrediente);
     }
+
     public int getIdRicetta() {
         return idRicetta;
     }

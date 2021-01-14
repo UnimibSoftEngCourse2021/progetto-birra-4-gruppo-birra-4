@@ -11,8 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.brewdayapplication.Ingrediente;
-import com.example.brewdayapplication.database.DatabaseManager;
 import com.example.brewdayapplication.R;
+import com.example.brewdayapplication.database.DatabaseManager;
 
 public class CapacitaActivity extends AppCompatActivity {
 
@@ -31,9 +31,9 @@ public class CapacitaActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
 
-        String[] listIngredienti = {"malto", "orzo", "luppolo", "acqua", "lievito", "zucchero", "additivi"};
-        for (int i = 0; i < listIngredienti.length; i++) {
-            ingrediente = new Ingrediente(listIngredienti[i], 0);
+        String[] listIngredienti = {"Malto", "Orzo", "Luppolo", "Acqua", "Lievito", "Zucchero", "Additivi"};
+        for (String s : listIngredienti) {
+            ingrediente = new Ingrediente(s, 0);
             databaseManager.saveIngredient(ingrediente);
         }
 

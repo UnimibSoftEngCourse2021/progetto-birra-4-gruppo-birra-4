@@ -3,7 +3,6 @@ package com.example.brewdayapplication.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +20,6 @@ import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.R;
 import com.example.brewdayapplication.Ricetta;
 import com.example.brewdayapplication.adapter.ListAdapterRicetta;
-import com.example.brewdayapplication.database.DataString;
 import com.example.brewdayapplication.database.DatabaseManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,7 +47,7 @@ public class RicetteActivity extends AppCompatActivity {
     Ricetta ricetta;
 
 
-    String[] arrayIngredienti = new String[]{"Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
+    String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
     int i = 0;
     GridLayout gridLayout;
     TextView textView;
@@ -128,6 +126,8 @@ public class RicetteActivity extends AppCompatActivity {
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
 
+            textView.setText(arrayIngredienti[i]);
+
             btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
             btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
 
@@ -142,17 +142,13 @@ public class RicetteActivity extends AppCompatActivity {
     private class PlusIngrediente implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            String nome = textView.getText().toString();
-            int id = databaseManager.getIngredienteId(nome);
             if (!editText.getText().toString().isEmpty())
-                ricettario.add(new Ingrediente(nome, Double.parseDouble(editText.getText().toString())));
+                ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
             else
-                ricettario.add(new Ingrediente(nome, 0));
+                ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
-
-            if (i < arrayIngredienti.length) {
-                textView.setText(arrayIngredienti[i]);
-                i++;
+            if (i < arrayIngredienti.length-1) {
+                textView.setText(arrayIngredienti[++i]);
             } else {
                 i = 0;
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
@@ -177,8 +173,7 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
-                int lastRicettaInDB = databaseManager.getLastId(DataString.RICETTA_TABLE, DataString.COLUMN_ID_RICETTA);
-                ricetta = new Ricetta(lastRicettaInDB, editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
+                ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();

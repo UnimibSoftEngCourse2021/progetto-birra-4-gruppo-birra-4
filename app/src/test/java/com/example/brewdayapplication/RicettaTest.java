@@ -1,7 +1,7 @@
 package com.example.brewdayapplication;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,41 +23,41 @@ public class RicettaTest {
     public void initMethod(){
         data = new Date("1/1/2020");
         listaIngredienteTest = new ArrayList<>();
-        ingredienteTest = new Ingrediente(1,"acqua", 1);
+        ingredienteTest = new Ingrediente("acqua", 1);
         listaIngredienteTest.add(ingredienteTest);
-        ricettaTest = new Ricetta(1, "birra", data, 1, listaIngredienteTest);
+        ricettaTest = new Ricetta("birra", data, 1, listaIngredienteTest);
     }
 
     @Test
     public void getTests(){
         assertEquals("Wed Jan 01 00:00:00 CET 2020", ricettaTest.getDataCreazione().toString());
-        assertEquals(1, ricettaTest.getIdRicetta());
+        //assertEquals(1, ricettaTest.getIdRicetta());
         assertEquals("birra", ricettaTest.getNome() );
         assertEquals(1, ricettaTest.getQuantitaBirraProdotta(),  0.01);
-        assertEquals(1, ricettaTest.getIdRicetta());
+        //assertEquals(1, ricettaTest.getIdRicetta());
     }
 
     @Test
     public void setTests(){
         data.setDate(1/1/2020);
         ricettaTest.setDataCreazione(data);
-        ricettaTest.setIdRicetta(2);
+        //ricettaTest.setIdRicetta(2);
         ricettaTest.setNome("birraChiara");
         ricettaTest.setQuantitaBirraProdotta(2);
-        ricettaTest.setIdRicetta(2);
+        //ricettaTest.setIdRicetta(2);
         assertEquals("Tue Dec 31 00:00:00 CET 2019", ricettaTest.getDataCreazione().toString());
-        assertEquals(2, ricettaTest.getIdRicetta() );
+        //assertEquals(2, ricettaTest.getIdRicetta() );
         assertEquals("birraChiara", ricettaTest.getNome());
-        assertEquals(2, ricettaTest.getQuantitaBirraProdotta(), 0.01);
-        assertEquals(2, ricettaTest.getIdRicetta());
+        assertEquals(ricettaTest.getQuantitaBirraProdotta(), 0.01);
+        //assertEquals(2, ricettaTest.getIdRicetta());
     }
 
     @Test
     public void setDispensaIngredienteTest(){
         List<Ingrediente> listaIngredienti = new ArrayList<>();
-        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
-        Ingrediente ingrediente2 = new Ingrediente(2,"orzo", 11);
-        Ingrediente ingrediente3 = new Ingrediente(3,"luppolo", 12);
+        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
+        Ingrediente ingrediente2 = new Ingrediente("orzo", 11);
+        Ingrediente ingrediente3 = new Ingrediente("luppolo", 12);
         listaIngredienti.add(ingredienteTest);
         listaIngredienti.add(ingrediente1);
         listaIngredienti.add(ingrediente2);
@@ -68,7 +68,7 @@ public class RicettaTest {
 
     @Test
     public void aggiungiIngredienteTest(){
-        Ingrediente ingrediente1 = new Ingrediente(2,"malto", 10);
+        Ingrediente ingrediente1 = new Ingrediente("malto", 10);
         ricettaTest.aggiungiIngrediente(ingrediente1);
         assertFalse(ricettaTest.aggiungiIngrediente(null));
         assertTrue(ricettaTest.aggiungiIngrediente(ingrediente1));
@@ -80,7 +80,7 @@ public class RicettaTest {
         List<Ingrediente> listaIngredienti = new ArrayList<>();
         listaIngredienti.add(ingredienteTest);
         assertEquals(listaIngredienti, ricettaTest.getDispensaIngrediente());
-        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
+        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
         listaIngredienti.add(ingrediente1);
         ricettaTest.setDispensaIngrediente(listaIngredienti);
         assertEquals(listaIngredienti, ricettaTest.getDispensaIngrediente());
@@ -88,7 +88,7 @@ public class RicettaTest {
 
     @Test
     public void eliminaIngredienteTest(){
-        Ingrediente ingrediente1 = new Ingrediente(1,"acqua", 10);
+        Ingrediente ingrediente1 = new Ingrediente("acqua", 10);
         ricettaTest.aggiungiIngrediente(ingrediente1);
         assertFalse(ricettaTest.eliminaIngrediente(null));
         assertTrue(ricettaTest.eliminaIngrediente(ingrediente1));
@@ -97,7 +97,7 @@ public class RicettaTest {
 
     @Test
     public void toStringAllInformationTest(){
-        Ingrediente ingrediente = new Ingrediente(2, "orzo", 2);
+        Ingrediente ingrediente = new Ingrediente("orzo", 2);
         ricettaTest.aggiungiIngrediente(ingrediente);
         assertEquals("Ricetta{nome='birra', dataCreazione=Wed Jan 01 00:00:00 CET 2020}" +
                 "acqua quantita: 1.0" +
