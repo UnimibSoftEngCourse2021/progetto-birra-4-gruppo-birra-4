@@ -122,7 +122,7 @@ public class RicetteActivity extends AppCompatActivity {
                             + "'\n");
                 }
                 alert.setTitle(ricetta.getNome());
-                alert.setMessage("data: " +
+                alert.setMessage("data : " +
                         ricetta.getDataCreazione().toString().substring(4,9) + " "
                         + ricetta.getDataCreazione().toString().substring(24) + "'\n '\n"
                         + listaIngString);
