@@ -82,7 +82,7 @@ public class DatabaseManager {
      * aggiorna la quantità dell'ingrediente avente nome ingrediente.getNome()
      * nuova quantità = vecchia quantità + quantità passata in input dall'utente
      */
-    public void updateIngredient(Ingrediente ingrediente1, Ingrediente ingrediente2) {
+    private void updateIngredient(Ingrediente ingrediente1, Ingrediente ingrediente2) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
         //la quantità da inserire deve essere la sommma delle due quantità
