@@ -60,7 +60,6 @@ public class IngredienteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Ingrediente ingrediente = null;
-            int id = databaseManager.getLastId(DataString.INGREDIENTE_TABLE, DataString.COLUMN_ID_INGREDIENTE);
             try {
                 ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
             } catch (Exception e) {

@@ -82,7 +82,7 @@ public class RicetteActivity extends AppCompatActivity {
         listViewRicette.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+                ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
                 alert = new AlertDialog.Builder(RicetteActivity.this);
                 alert.setTitle("Cancellare?")
                         .setNegativeButton("Si", new DialogInterface.OnClickListener() {
