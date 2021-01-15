@@ -235,7 +235,6 @@ public class DatabaseManager {
     //azioni necessarie solo ai test
     public Context getContext() {
         return getContext();
-
     }
 
     public boolean deleteRicetta(Ricetta ricetta) {

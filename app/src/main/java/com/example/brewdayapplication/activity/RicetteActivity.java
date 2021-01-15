@@ -107,6 +107,30 @@ public class RicetteActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        //metodo che mostra gli ingredienti di una ricetta con un alert
+        listViewRicette.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String listaIngString = "";
+                alert = new AlertDialog.Builder(RicetteActivity.this);
+                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+                for(int i=0; i<ricetta.getDispensaIngrediente().size(); i++){
+                    listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(i).getNome()
+                            + " "
+                            + ricetta.getDispensaIngrediente().get(i).getQuantita()
+                            + "'\n");
+                }
+                alert.setTitle(ricetta.getNome());
+                alert.setMessage("data: " +
+                        ricetta.getDataCreazione().toString().substring(4,9) + " "
+                        + ricetta.getDataCreazione().toString().substring(24) + "'\n '\n"
+                        + listaIngString);
+                alertDialog = alert.create();
+                alertDialog.show();
+            }
+        });
+
     }
 
     //classe innestata per creare la ricetta
@@ -191,7 +215,7 @@ public class RicetteActivity extends AppCompatActivity {
     // stampa su una listview le ricette presenti sul db
     private void printList() throws ParseException {
         listRicette = databaseManager.mostraRicette();
-        resultQuery = new ListAdapterRicetta(this, listRicette);
+        resultQuery = new ListAdapterRicetta(this, listRicette);//ArrayAdapter<Ricetta> resultQuery;
         listViewRicette.setAdapter(resultQuery);
     }
 
