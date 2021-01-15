@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
@@ -11,81 +11,83 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/titolo_new_ricetta"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/birra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/birra_ricetta"
+        android:layout_below="@id/titoloRicetta"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/titoloRicetta"
-        app:layout_constraintTop_toBottomOf="@+id/titoloRicetta" />
-
+        android:hint="@string/birra_ricetta" />
 
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/birra"
-        app:layout_constraintTop_toBottomOf="@+id/birra"
+        android:layout_below="@id/birra"
+        android:layout_marginTop="10dp"
         android:columnCount="3">
 
         <TextView
             android:id="@+id/nome_ingrediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:textSize="20sp" />
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnSpan="1"/>
 
         <EditText
             android:id="@+id/quantita_ingrediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="Inserisci quantità"
             android:inputType="numberDecimal"
             android:textSize="20sp"
-            android:gravity="center"
-            android:hint="Inserisci quantità"/>
+            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnSpan="1"/>
 
         <Button
             android:id="@+id/plus_ingrediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/quantita_ingrediente"
+            android:text="+"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:backgroundTint="#DCDCDC"
             android:layout_row="0"
             android:layout_column="2"
-            android:layout_gravity="end"
-            android:background="@drawable/ic_baseline_add_24" />
+            android:layout_columnSpan="1"/>
+
     </GridLayout>
 
     <Button
         android:id="@+id/btn_back_ricetta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:text="@string/backricetta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/birra" />
+        android:layout_below="@id/gridLayout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="75dp"
+        android:text="@string/backricetta" />
 
     <Button
         android:id="@+id/btn_save_ricetta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:text="@string/salvaricetta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toEndOf="@+id/btn_back_ricetta"
-        app:layout_constraintTop_toBottomOf="@+id/birra" />
+        android:layout_below="@id/gridLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/btn_back_ricetta"
+        android:text="@string/salvaricetta" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
