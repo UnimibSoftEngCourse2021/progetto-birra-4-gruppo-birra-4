@@ -50,14 +50,14 @@ public class MagazzinoUnitTest {
 
     @Test
     public void aggiungiIngredientiTest(){
-        assertTrue(magazzino.aggiungiIngrediente(new Ingrediente(1,"luppolo", 11.0)));
+        assertTrue(magazzino.aggiungiIngrediente(new Ingrediente("luppolo", 11.0)));
         assertFalse(magazzino.aggiungiIngrediente(null));
     }
 
     @Test
     public void modificaQuantitaIngredienteTest(){
-        Ingrediente orzo1 = new Ingrediente(1,"orzo", 34.0);
-        Ingrediente orzo2 = new Ingrediente(1,"orzo", 100.0);
+        Ingrediente orzo1 = new Ingrediente("orzo", 34.0);
+        Ingrediente orzo2 = new Ingrediente("orzo", 100.0);
         magazzino.aggiungiIngrediente(orzo1);
         magazzino.modificaQuantitaIngrediente(orzo2);
         assertEquals(134.0, magazzino.getDispensaIngrediente().get(0).getQuantita(), 0.01);

@@ -3,6 +3,7 @@ package com.example.brewdayapplication.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -126,15 +127,14 @@ public class RicetteActivity extends AppCompatActivity {
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
 
-            textView.setText(arrayIngredienti[i]);
-
             btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
             btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
-
-
             button.setOnClickListener(new PlusIngrediente());
+
+            textView.setText(arrayIngredienti[i]);
             btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
             btnSalvaRicetta.setOnClickListener(new SalvaRicetta());
+
         }
     }
 
@@ -147,7 +147,7 @@ public class RicetteActivity extends AppCompatActivity {
             else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
-            if (i < arrayIngredienti.length-1) {
+            if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
                 i = 0;

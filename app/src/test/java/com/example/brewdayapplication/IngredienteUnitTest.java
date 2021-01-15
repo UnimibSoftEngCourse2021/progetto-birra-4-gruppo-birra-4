@@ -13,7 +13,7 @@ public class IngredienteUnitTest {
 
     @Before
     public void initMethod() {
-        ingrediente = new Ingrediente(1, "acqua", 1);
+        ingrediente = new Ingrediente( "acqua", 1);
     }
 
     @Test
@@ -56,9 +56,9 @@ public class IngredienteUnitTest {
 
     @Test
     public void equalsTest() {
-        Ingrediente o = new Ingrediente(1, "acqua", 1);
-        Ingrediente i = new Ingrediente(1, "acqua", 2);
-        Ingrediente p = new Ingrediente(1, "orzo", 3);
+        Ingrediente o = new Ingrediente( "acqua", 1);
+        Ingrediente i = new Ingrediente( "acqua", 2);
+        Ingrediente p = new Ingrediente( "orzo", 3);
         assertEquals(false, o.equals(p));
         assertEquals(true, o.equals(i));
     }

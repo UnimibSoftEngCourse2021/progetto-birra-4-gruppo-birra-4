@@ -8,13 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.R;
-import com.example.brewdayapplication.database.DatabaseHelper;
-import com.example.brewdayapplication.database.DatabaseManager;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
