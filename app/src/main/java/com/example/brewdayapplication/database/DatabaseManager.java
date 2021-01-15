@@ -21,8 +21,6 @@ public class DatabaseManager {
     private ContentValues cv;
     private SQLiteDatabase db;
     private List<Ingrediente> listaIngredienti;
-    private List<Ricetta> listaRicette;
-    private Cursor listaRicetteCursor;
     private Cursor listaIngredientiCursor;
     private Cursor idCursor;
 
@@ -182,11 +180,11 @@ public class DatabaseManager {
 
     // restituisce le ricette presenti nel db tramite un ArraList
     public List<Ricetta> mostraRicette() throws ParseException {
-        listaRicette = new ArrayList<>();
+        List<Ricetta> listaRicette = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
         //salva nell'array il risultato della select (query = select)
-        listaRicetteCursor = db.query(DataString.RICETTA_TABLE, null, null, null,
+        Cursor listaRicetteCursor = db.query(DataString.RICETTA_TABLE, null, null, null,
                 null, null, DataString.COLUMN_NOME_RICETTA);
         if (listaRicetteCursor.moveToNext()) {
             do {
@@ -270,12 +268,12 @@ public class DatabaseManager {
 
     }
 
-    public boolean deleteRicetta(Ricetta ricetta) {
+    public void deleteRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         try {
-            return db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_NOME_RICETTA + "=?", new String[]{ricetta.getNome()}) <= 0;
-        } catch (SQLiteException sqle) {
-            return false;
+            db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_NOME_RICETTA + "=?", new String[]{ricetta.getNome()});
+        } catch (SQLiteException ignored) {
+            //Gestione eccezioni
         }
     }
 

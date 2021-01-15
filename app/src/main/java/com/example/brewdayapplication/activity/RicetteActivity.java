@@ -3,7 +3,6 @@ package com.example.brewdayapplication.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -79,35 +78,8 @@ public class RicetteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        listViewRicette.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
-                alert = new AlertDialog.Builder(RicetteActivity.this);
-                alert.setTitle("Cancellare?")
-                        .setNegativeButton("Si", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                databaseManager.deleteRicetta(ricetta);
-                                try {
-                                    printList();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                alert.setCancelable(true);
-                            }
-                        })
-                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                alertDialog = alert.create();
-                alertDialog.show();
-                return true;
-            }
-        });
+        listViewRicette.setOnItemLongClickListener(new CancellaRicetta());
+
     }
 
     //classe innestata per creare la ricetta
@@ -150,8 +122,7 @@ public class RicetteActivity extends AppCompatActivity {
             if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
-                i = 0;
-                Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_LONG).show();
                 editText.setFocusable(false);
             }
             editText.setText(null);
@@ -163,6 +134,7 @@ public class RicetteActivity extends AppCompatActivity {
     private class BackRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            i = 0;
             alertDialog.dismiss();
         }
     }
@@ -171,7 +143,6 @@ public class RicetteActivity extends AppCompatActivity {
     private class SalvaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
                 databaseManager.saveRicetta(ricetta);
@@ -184,7 +155,6 @@ public class RicetteActivity extends AppCompatActivity {
                 }
             } else
                 Toast.makeText(getApplicationContext(), "Inserire il titolo della ricetta", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -193,6 +163,40 @@ public class RicetteActivity extends AppCompatActivity {
         listRicette = databaseManager.mostraRicette();
         resultQuery = new ListAdapterRicetta(this, listRicette);
         listViewRicette.setAdapter(resultQuery);
+    }
+
+    private class CancellaRicetta implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+            alert = new AlertDialog.Builder(RicetteActivity.this);
+            alert.setTitle("Cancellare?")
+                    .setNegativeButton("Si", new ConfermaCancellazione())
+                    .setPositiveButton("No", new AnnullaCancellazione());
+            alertDialog = alert.create();
+            alertDialog.show();
+            return true;
+        }
+    }
+
+    private class ConfermaCancellazione implements DialogInterface.OnClickListener{
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            databaseManager.deleteRicetta(ricetta);
+            try {
+                printList();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            alert.setCancelable(true);
+        }
+    }
+
+    private class AnnullaCancellazione implements  DialogInterface.OnClickListener{
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
