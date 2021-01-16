@@ -48,7 +48,7 @@ public class RicettaTest {
         assertEquals("Tue Dec 31 00:00:00 CET 2019", ricettaTest.getDataCreazione().toString());
         //assertEquals(2, ricettaTest.getIdRicetta() );
         assertEquals("birraChiara", ricettaTest.getNome());
-        assertEquals(0.01, ricettaTest.getQuantitaBirraProdotta());
+        assertEquals(2, ricettaTest.getQuantitaBirraProdotta(), 0.01);
         //assertEquals(2, ricettaTest.getIdRicetta());
     }
 
@@ -100,8 +100,8 @@ public class RicettaTest {
         Ingrediente ingrediente = new Ingrediente("orzo", 2);
         ricettaTest.aggiungiIngrediente(ingrediente);
         assertEquals("Ricetta{nome='birra', dataCreazione=Wed Jan 01 00:00:00 CET 2020}" +
-                "acqua quantita: 1.0" +
-                "gorzo quantita: 2.0g",
+                "acqua quantita: 1.0 g " +
+                "orzo quantita: 2.0 g ",
                 ricettaTest.toStringAllInformation());
     }
 

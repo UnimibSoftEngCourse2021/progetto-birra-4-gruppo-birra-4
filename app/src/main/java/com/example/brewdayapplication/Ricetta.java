@@ -13,6 +13,7 @@ public class Ricetta {
     public Ricetta(String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.nome = nome;
         this.dataCreazione = dataCreazione;
+        this.dataCreazione.setHours(0);
         this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
@@ -85,9 +86,14 @@ public class Ricetta {
                 ", dataCreazione=" + dataCreazione +
                 '}');
         for (int i = 0; i < listIngrediente.size(); i++) {
-            s.append(listIngrediente.get(i).toString());
+            s.append(listIngrediente.get(i).toString() + " ");
         }
         return s.toString();
+    }
+
+    //metodo per visualizzare le informazioni più importanti di una ricetta
+    public String toStringMinimo(){
+        return getNome() + " " + getDataCreazione().toLocaleString().substring(0,12);
     }
 
     @Override

@@ -115,16 +115,16 @@ public class RicetteActivity extends AppCompatActivity {
                 String listaIngString = "";
                 alert = new AlertDialog.Builder(RicetteActivity.this);
                 Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
-                for(int i=0; i<ricetta.getDispensaIngrediente().size(); i++){
+                for(int i=0; i<7; i++){
                     listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(i).getNome()
                             + " "
                             + ricetta.getDispensaIngrediente().get(i).getQuantita()
                             + "'\n");
                 }
                 alert.setTitle(ricetta.getNome());
-                alert.setMessage("data : " +
-                        ricetta.getDataCreazione().toString().substring(4,9) + " "
-                        + ricetta.getDataCreazione().toString().substring(24) + "'\n '\n"
+                alert.setMessage(
+                        ricetta.getDataCreazione().toLocaleString()
+                        + "\n\n"
                         + listaIngString);
                 alertDialog = alert.create();
                 alertDialog.show();
