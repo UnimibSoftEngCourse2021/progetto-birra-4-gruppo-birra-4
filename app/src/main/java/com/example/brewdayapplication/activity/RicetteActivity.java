@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
+//import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +49,7 @@ public class RicetteActivity extends AppCompatActivity {
 
     String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
     int i = 0;
-    GridLayout gridLayout;
+    //GridLayout gridLayout;
     TextView textView;
     EditText editText;
     Button button;
@@ -145,7 +145,7 @@ public class RicetteActivity extends AppCompatActivity {
             alertDialog.show();
 
             editTextTitoloRicetta = viewNewRicetta.findViewById(R.id.titoloRicetta);
-            gridLayout = viewNewRicetta.findViewById(R.id.gridLayout);
+            //gridLayout = viewNewRicetta.findViewById(R.id.gridLayout);
             textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
@@ -179,7 +179,7 @@ public class RicetteActivity extends AppCompatActivity {
                 editText.setFocusable(false);
             }
             editText.setText(null);
-            editText.setHint("Inserisci quantità");
+            editText.setHint("Quantità");
         }
     }
 

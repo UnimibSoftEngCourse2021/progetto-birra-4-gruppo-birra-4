@@ -9,6 +9,9 @@
         android:id="@+id/titoloRicetta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
         android:hint="@string/titolo_new_ricetta"
         android:textSize="20sp" />
 
@@ -17,77 +20,118 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titoloRicetta"
+        android:layout_alignStart="@id/titoloRicetta"
+        android:layout_alignEnd="@id/titoloRicetta"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:hint="@string/birra_ricetta" />
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layoutQuantita"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/birra"
+        android:layout_alignStart="@id/titoloRicetta"
+        android:layout_alignEnd="@id/titoloRicetta"
         android:layout_marginTop="10dp"
-        android:columnCount="3">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <TextView
-            android:id="@+id/nome_ingrediente"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nome_ingrediente"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnSpan="1"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/quantita_ingrediente"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/quantita_ingrediente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="Quantità"
+                android:inputType="numberDecimal"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Inserisci quantità"
-            android:inputType="numberDecimal"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_columnSpan="1"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/plus_ingrediente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/quantita_ingrediente"
-            android:text="+"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:backgroundTint="#DCDCDC"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_columnSpan="1"/>
+            <Button
+                android:id="@+id/plus_ingrediente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#DCDCDC"
+                android:text="+"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-    </GridLayout>
+        </LinearLayout>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_back_ricetta"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gridLayout"
-        android:layout_marginLeft="5dp"
+        android:layout_below="@id/layoutQuantita"
+        android:layout_alignStart="@id/titoloRicetta"
+        android:layout_alignEnd="@id/titoloRicetta"
         android:layout_marginTop="75dp"
-        android:text="@string/backricetta" />
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <Button
-        android:id="@+id/btn_save_ricetta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gridLayout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginRight="5dp"
-        android:layout_toRightOf="@id/btn_back_ricetta"
-        android:text="@string/salvaricetta" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_back_ricetta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/backricetta" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_save_ricetta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/salvaricetta" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>
