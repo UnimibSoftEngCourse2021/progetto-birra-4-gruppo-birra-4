@@ -66,7 +66,6 @@ public class RicetteActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
 
-
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
 
@@ -78,8 +77,33 @@ public class RicetteActivity extends AppCompatActivity {
 
         listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
         //metodo che mostra gli ingredienti di una ricetta con un alert
-        listViewRicette.setOnItemClickListener(new VisualizzaInfoRicettaListener());
-
+        listViewRicette.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String listaIngString = "";
+                alert = new AlertDialog.Builder(RicetteActivity.this);
+                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+                double piu = listViewRicette.getCount();
+                ArrayList<Ingrediente> listIng = new ArrayList<>();
+                for (int i = position; i < ricetta.getDispensaIngrediente().size(); i += piu) {
+                    listIng.add(ricetta.getDispensaIngrediente().get(i));
+                }
+                ricetta.setDispensaIngrediente(listIng);
+                for (int i = 0; i < 7; i++) {
+                    listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(i).getNome()
+                            + " "
+                            + ricetta.getDispensaIngrediente().get(i).getQuantita()
+                            + "'\n");
+                }
+                alert.setTitle(ricetta.getNome());
+                alert.setMessage(
+                        ricetta.getDataCreazione().toLocaleString()
+                                + "\n\n"
+                                + listaIngString);
+                alertDialog = alert.create();
+                alertDialog.show();
+            }
+        });
     }
 
     // stampa su una listview le ricette presenti sul db
@@ -156,6 +180,7 @@ public class RicetteActivity extends AppCompatActivity {
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();
+                ricettario.clear();
                 try {
                     printList();
                 } catch (ParseException e) {
