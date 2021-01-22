@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-//import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +48,6 @@ public class RicetteActivity extends AppCompatActivity {
 
     String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
     int i = 0;
-    //GridLayout gridLayout;
     TextView textView;
     EditText editText;
     Button button;
@@ -75,62 +73,20 @@ public class RicetteActivity extends AppCompatActivity {
         try {
             printList();
         } catch (ParseException e) {
-            e.printStackTrace();
+            // gestione eccezione
         }
 
-        listViewRicette.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
-                alert = new AlertDialog.Builder(RicetteActivity.this);
-                alert.setTitle("Cancellare?")
-                        .setNegativeButton("Si", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                databaseManager.deleteRicetta(ricetta);
-                                try {
-                                    printList();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                alert.setCancelable(true);
-                            }
-                        })
-                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                alertDialog = alert.create();
-                alertDialog.show();
-                return true;
-            }
-        });
-
+        listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
         //metodo che mostra gli ingredienti di una ricetta con un alert
-        listViewRicette.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String listaIngString = "";
-                alert = new AlertDialog.Builder(RicetteActivity.this);
-                Ricetta ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
-                for(int i=0; i<7; i++){
-                    listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(i).getNome()
-                            + " "
-                            + ricetta.getDispensaIngrediente().get(i).getQuantita()
-                            + "'\n");
-                }
-                alert.setTitle(ricetta.getNome());
-                alert.setMessage(
-                        ricetta.getDataCreazione().toLocaleString()
-                        + "\n\n"
-                        + listaIngString);
-                alertDialog = alert.create();
-                alertDialog.show();
-            }
-        });
+        listViewRicette.setOnItemClickListener(new VisualizzaInfoRicettaListener());
 
+    }
+
+    // stampa su una listview le ricette presenti sul db
+    private void printList() throws ParseException {
+        listRicette = databaseManager.mostraRicette();
+        resultQuery = new ListAdapterRicetta(this, listRicette);
+        listViewRicette.setAdapter(resultQuery);
     }
 
     //classe innestata per creare la ricetta
@@ -145,7 +101,6 @@ public class RicetteActivity extends AppCompatActivity {
             alertDialog.show();
 
             editTextTitoloRicetta = viewNewRicetta.findViewById(R.id.titoloRicetta);
-            //gridLayout = viewNewRicetta.findViewById(R.id.gridLayout);
             textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
@@ -171,7 +126,7 @@ public class RicetteActivity extends AppCompatActivity {
             else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
-            if (i < arrayIngredienti.length-1) {
+            if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
                 i = 0;
@@ -204,7 +159,7 @@ public class RicetteActivity extends AppCompatActivity {
                 try {
                     printList();
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    // gestione eccezione
                 }
             } else
                 Toast.makeText(getApplicationContext(), "Inserire il titolo della ricetta", Toast.LENGTH_SHORT).show();
@@ -212,11 +167,62 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
-    // stampa su una listview le ricette presenti sul db
-    private void printList() throws ParseException {
-        listRicette = databaseManager.mostraRicette();
-        resultQuery = new ListAdapterRicetta(this, listRicette);//ArrayAdapter<Ricetta> resultQuery;
-        listViewRicette.setAdapter(resultQuery);
+    private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String listaIngString = "";
+            alert = new AlertDialog.Builder(RicetteActivity.this);
+            ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+            int conta;
+            for (conta = 0; conta < 7; conta++) {
+                listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(conta).getNome()
+                        + " "
+                        + ricetta.getDispensaIngrediente().get(conta).getQuantita()
+                        + "'\n");
+            }
+            alert.setTitle(ricetta.getNome());
+            alert.setMessage(
+                    ricetta.getDataCreazione().toLocaleString()
+                            + "\n\n"
+                            + listaIngString);
+            alertDialog = alert.create();
+            alertDialog.show();
+        }
     }
+
+    private class CancellaRicettaListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+            alert = new AlertDialog.Builder(RicetteActivity.this);
+            alert.setTitle("Cancellare?")
+                    .setNegativeButton("Si", new CancellazioneAffermativaListener())
+                    .setPositiveButton("No", new CancellazioneNegativaListener());
+            alertDialog = alert.create();
+            alertDialog.show();
+            return true;
+        }
+    }
+
+    private class CancellazioneAffermativaListener implements  DialogInterface.OnClickListener{
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            databaseManager.deleteRicetta(ricetta);
+            try {
+                printList();
+            } catch (ParseException e) {
+                // gestione eccezione
+            }
+            alert.setCancelable(true);
+        }
+    }
+
+    private class CancellazioneNegativaListener implements DialogInterface.OnClickListener{
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 }
