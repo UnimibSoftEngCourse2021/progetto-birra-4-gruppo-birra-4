@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //in più
         btnFeatures = findViewById(R.id.btn_Features);
         db = new DatabaseManager(getApplicationContext());
-        btnFeatures.setOnClickListener(new BrewDayListener());
+        //btnFeatures.setOnClickListener(new BrewDayListener());
     }
 
     //permette di uscire dall'app e non tornare nell'activity che richiede la capacità dell'equipment
@@ -62,42 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //in più
-    public void scegliBirra() throws ParseException {
-        String nomeBirra = "";
-        List<Ricetta> listaRicette;
-        listaRicette = db.mostraRicette();
-        Ricetta ricetta;
-        List<Ingrediente> listaIngRic;
-        List<Ingrediente> listaIngMag = db.mostraIngredienti();
-        double[] quantitaIng = new double[listaRicette.size()];
-        int indiceRicettaMax = 1;
-        for (int i = 0; i < listaRicette.size(); i++) {
-            ricetta = listaRicette.get(i);
-            listaIngRic = ricetta.getDispensaIngrediente();
-            for (int j = 0, ok = 0; j < listaIngRic.size() && ok == 0; j++) {
-                if (listaIngMag.get(j).getQuantita() > listaIngRic.get(j).getQuantita()) {
-                    quantitaIng[i] = listaIngRic.get(j).getQuantita() / listaIngMag.get(j).getQuantita();
-                } else {
-                    quantitaIng[i] = 0;
-                    ok = 1;
-                }
-            }
-        }
 
-        double max = 0;
-        for (int i = 0; i < quantitaIng.length; i++) {
-            if (quantitaIng[i] > max) {
-                max = quantitaIng[i];
-                indiceRicettaMax = i;
-            }
-        }
-
-        nomeBirra = listaRicette.get(indiceRicettaMax).getNome();
-
-        toastBack = Toast.makeText(getApplicationContext(), nomeBirra, Toast.LENGTH_SHORT);
-        toastBack.show();
-    }
 
 
     //se premuto il bottone, parte IngredienteActivity.class
@@ -126,6 +91,44 @@ public class MainActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 // gestione eccezione
             }
+        }
+
+        //in più
+        private void scegliBirra() throws ParseException {
+            String nomeBirra = "";
+            List<Ricetta> listaRicette;
+            listaRicette = db.mostraRicette();
+            Ricetta ricetta;
+            List<Ingrediente> listaIngRic;
+            List<Ingrediente> listaIngMag = db.mostraIngredienti();
+            double[] quantitaIng = new double[listaRicette.size()];
+            int indiceRicettaMax = 1;
+            for (int i = 0; i < listaRicette.size(); i++) {
+                ricetta = listaRicette.get(i);
+                listaIngRic = ricetta.getDispensaIngrediente();
+                boolean ok = true;
+                for (int j = 0; j < listaIngRic.size() && ok ; j++) {
+                    if (listaIngMag.get(j).getQuantita() > listaIngRic.get(j).getQuantita()) {
+                        quantitaIng[i] = listaIngRic.get(j).getQuantita() / listaIngMag.get(j).getQuantita();
+                    } else {
+                        quantitaIng[i] = 0;
+                        ok = false;
+                    }
+                }
+            }
+
+            double max = 0;
+            for (int i = 0; i < quantitaIng.length; i++) {
+                if (quantitaIng[i] > max) {
+                    max = quantitaIng[i];
+                    indiceRicettaMax = i;
+                }
+            }
+
+            nomeBirra = listaRicette.get(indiceRicettaMax).getNome();
+
+            toastBack = Toast.makeText(getApplicationContext(), nomeBirra, Toast.LENGTH_SHORT);
+            toastBack.show();
         }
     }
 

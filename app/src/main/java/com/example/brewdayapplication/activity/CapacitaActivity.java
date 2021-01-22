@@ -19,7 +19,6 @@ public class CapacitaActivity extends AppCompatActivity {
     Button btnConferma;
     private Intent intent;
     DatabaseManager databaseManager;
-    Ingrediente ingrediente;
 
 
     @Override
@@ -29,6 +28,7 @@ public class CapacitaActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
 
+        Ingrediente ingrediente;
         String[] listIngredienti = {"Malto", "Orzo", "Luppolo", "Acqua", "Lievito", "Zucchero", "Additivi"};
         for (String s : listIngredienti) {
             ingrediente = new Ingrediente(s, 0);

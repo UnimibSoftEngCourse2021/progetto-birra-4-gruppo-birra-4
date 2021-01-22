@@ -133,6 +133,8 @@ public class Ricetta {
             case "Dec":
                 mese = "Dicembre";
                 break;
+            default:
+                break;
         }
         return giorno + " " + mese + " " + anno;
     }

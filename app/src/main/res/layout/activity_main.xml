@@ -7,19 +7,6 @@
     tools:context=".activity.MainActivity">
 
     <Button
-        android:id="@+id/btn_Features"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="scegliBirra"
-        android:text="what should i brew today?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_Ricette" />
-
-    <Button
         android:id="@+id/btn_Ingredienti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,6 +24,16 @@
         android:layout_marginEnd="8dp"
         android:text="@string/lista_ricette"
         android:layout_below="@id/btn_Ingredienti" />
+
+    <Button
+        android:id="@+id/btn_Features"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/what_should_i_brew_today"
+        android:layout_below="@id/btn_Ricette"
+        android:layout_marginTop="8dp" />
 
 
 </RelativeLayout>
