@@ -178,11 +178,11 @@ public class RicetteActivity extends AppCompatActivity {
                 listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(conta).getNome()
                         + " "
                         + ricetta.getDispensaIngrediente().get(conta).getQuantita()
-                        + "'\n");
+                        + " g \n");
             }
             alert.setTitle(ricetta.getNome());
             alert.setMessage(
-                    ricetta.getDataCreazione().toLocaleString()
+                    ricetta.convertiData()
                             + "\n\n"
                             + listaIngString);
             alertDialog = alert.create();

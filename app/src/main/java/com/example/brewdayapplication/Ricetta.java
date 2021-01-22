@@ -18,7 +18,7 @@ public class Ricetta {
         this.listIngrediente = listIngrediente;
     }
 
-    public Ricetta(String nome, Date dataCreazione, List<Ingrediente> listIngrediente){
+    public Ricetta(String nome, Date dataCreazione, List<Ingrediente> listIngrediente) {
         new Ricetta(nome, dataCreazione, 1, listIngrediente);
     }
 
@@ -63,7 +63,7 @@ public class Ricetta {
     }
 
     // aggiunge un ingrediente alla ricetta
-    public boolean aggiungiIngrediente(Ingrediente ingrediente){
+    public boolean aggiungiIngrediente(Ingrediente ingrediente) {
         if (ingrediente == null)
             return false;
         else
@@ -72,7 +72,7 @@ public class Ricetta {
     }
 
     // rimuove un ingrediente dalla ricette
-    public  boolean eliminaIngrediente(Ingrediente ingrediente){
+    public boolean eliminaIngrediente(Ingrediente ingrediente) {
         if (ingrediente == null)
             return false;
         else
@@ -91,16 +91,56 @@ public class Ricetta {
         return s.toString();
     }
 
-    //metodo per visualizzare le informazioni più importanti di una ricetta
-    public String toStringMinimo(){
-        return getNome() + " " + getDataCreazione().toLocaleString().substring(0,12);
+    public String convertiData() {
+        String dataOriginale = dataCreazione.toLocaleString().substring(0, 12);
+        String mese = dataOriginale.substring(0, 3);
+        String giorno = dataOriginale.substring(4, 6);
+        String anno = dataOriginale.substring(8, 12);
+        switch (mese) {
+            case "Jan":
+                mese = "Gennaio";
+                break;
+            case "Feb":
+                mese = "Febbraio";
+                break;
+            case "Mar":
+                mese = "Marzo";
+                break;
+            case "Apr":
+                mese = "Aprile";
+                break;
+            case "May":
+                mese = "Maggio";
+                break;
+            case "Jun":
+                mese = "Giugno";
+                break;
+            case "Jul":
+                mese = "Luglio";
+                break;
+            case "Aug":
+                mese = "Agosto";
+                break;
+            case "Sep":
+                mese = "Settembre";
+                break;
+            case "Oct":
+                mese = "Ottobre";
+                break;
+            case "Nov":
+                mese = "Novembre";
+                break;
+            case "Dec":
+                mese = "Dicembre";
+                break;
+        }
+        return giorno + " " + mese + " " + anno;
     }
 
     @Override
     public String toString() {
-        return "Ricetta{" +
-                "nome='" + nome + '\'' +
-                ", dataCreazione=" + dataCreazione +
-                '}';
+        return getNome() + " " + convertiData();
     }
+
+
 }

@@ -30,7 +30,7 @@ public class ListAdapterRicetta extends ArrayAdapter<Ricetta> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         TextView textView = convertView.findViewById(R.id.layoutListaIngredienti);
-        textView.setText(ricetta.toStringMinimo());
+        textView.setText(ricetta.toString());
         return convertView;
     }
 }
