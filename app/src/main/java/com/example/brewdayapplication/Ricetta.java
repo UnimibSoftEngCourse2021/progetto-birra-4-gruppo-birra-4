@@ -13,7 +13,6 @@ public class Ricetta {
     public Ricetta(String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.nome = nome;
         this.dataCreazione = dataCreazione;
-        this.dataCreazione.setHours(0);
         this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
@@ -92,51 +91,52 @@ public class Ricetta {
     }
 
     public String convertiData() {
-        String dataOriginale = dataCreazione.toLocaleString().substring(0, 12);
+        String dataOriginale = dataCreazione.toLocaleString().substring(0, 18);
         String mese = dataOriginale.substring(0, 3);
         String giorno = dataOriginale.substring(4, 6);
         String anno = dataOriginale.substring(8, 12);
+        String ora = dataOriginale.substring(13,18);
         switch (mese) {
             case "Jan":
-                mese = "Gennaio";
+                mese = "01";
                 break;
             case "Feb":
-                mese = "Febbraio";
+                mese = "02";
                 break;
             case "Mar":
-                mese = "Marzo";
+                mese = "03";
                 break;
             case "Apr":
-                mese = "Aprile";
+                mese = "04";
                 break;
             case "May":
-                mese = "Maggio";
+                mese = "05";
                 break;
             case "Jun":
-                mese = "Giugno";
+                mese = "06";
                 break;
             case "Jul":
-                mese = "Luglio";
+                mese = "07";
                 break;
             case "Aug":
-                mese = "Agosto";
+                mese = "08";
                 break;
             case "Sep":
-                mese = "Settembre";
+                mese = "09";
                 break;
             case "Oct":
-                mese = "Ottobre";
+                mese = "10";
                 break;
             case "Nov":
-                mese = "Novembre";
+                mese = "11";
                 break;
             case "Dec":
-                mese = "Dicembre";
+                mese = "12";
                 break;
             default:
                 break;
         }
-        return giorno + " " + mese + " " + anno;
+        return giorno + "-" + mese + "-" + anno + " " + ora;
     }
 
     @Override

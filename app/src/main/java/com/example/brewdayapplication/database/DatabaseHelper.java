@@ -38,14 +38,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DataString.COLUMN_DATA_RICETTA + " DATE NOT NULL,"
                 + DataString.COLUMN_QUANTITA_BIRRA + " DOUBLE NOT NULL)";
 
+
+
         //creazione tabella relazione Ricetta-Ingrediente
         String createTableStatementRelazioneRI = DataString.CREA_TABELLA + " " + DataString.RELAZIONE_TABLE + " ("
                 + DataString.COLUMN_ID_RICETTA + " INTEGER,"
                 + DataString.COLUMN_ID_INGREDIENTE + " INTEGER,"
                 + DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA + " DOUBLE NOT NULL,"
                 + "CONSTRAINT " + DataString.PK_RELAZIONE_RI + " PRIMARY KEY (" + DataString.COLUMN_ID_RICETTA + ", " + DataString.COLUMN_ID_INGREDIENTE + "),"
-                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + "),"
-                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + ") ON DELETE CASCADE )";
+                + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE,"
+                + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
 
         //esecuzione delle degli statement sql per la creazione delle tabelle nel db
         db.execSQL(createTableStatementMagazzino);

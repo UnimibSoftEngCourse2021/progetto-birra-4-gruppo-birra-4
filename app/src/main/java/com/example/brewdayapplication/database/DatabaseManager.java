@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.provider.ContactsContract;
 
 import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.Ricetta;
@@ -154,7 +155,7 @@ public class DatabaseManager {
         }
     }
 
-    private int readIdRicetta(Ricetta ricetta) {
+    public int readIdRicetta(Ricetta ricetta) {
         db = databaseHelper.getReadableDatabase();
         int id = 0;
         Cursor cursor = db.query(DataString.RICETTA_TABLE,null,
@@ -185,7 +186,7 @@ public class DatabaseManager {
         db = databaseHelper.getReadableDatabase();
         //salva nell'array il risultato della select (query = select)
         Cursor listaRicetteCursor = db.query(DataString.RICETTA_TABLE, null, null, null,
-                null, null, DataString.COLUMN_NOME_RICETTA);
+                null, null, null);
         if (listaRicetteCursor.moveToNext()) {
             do {
                 String nomeRicetta = listaRicetteCursor.getString(1);
@@ -225,53 +226,36 @@ public class DatabaseManager {
         return listaIngredienti;
     }
 
-    // restitutisce l'id dell'ultimo elemento salvato sul db, dato il nome e un campo della tabella passato in input
-    public int getLastId(String nomeTabella, String nomeColonna) {
-        int id = 0;
+    /// nome e data creazione ricetta, nome ingrediente e quantità di relazione
+
+    // restituisce la lista degli ingredienti presenti in ogni ricetta per ogni ricetta nel db
+    public List<Ingrediente> getIngredientiRicetta(int id) {
+        listaIngredienti = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();
-        idCursor = db.query(nomeTabella, new String[]{"MAX(" + nomeColonna + ") as MaxId"},
-                null, null, null, null, null);
-        if (idCursor.moveToNext()) {
-            id = idCursor.getInt(0);
+        String listaIngredientiRicettaQuery = "SELECT i.NOME_INGREDIENTE, rl.QUANTITA_INGREDIENTE " +
+                "FROM RICETTA r JOIN RELAZIONE rl " +
+                "ON r.ID_RICETTA = rl.ID_RICETTA " +
+                "JOIN INGREDIENTE i " +
+                "ON rl.ID_INGREDIENTE = i.ID_INGREDIENTE " +
+                "WHERE r.ID_RICETTA = " + id;
+        listaIngredientiCursor = db.rawQuery(listaIngredientiRicettaQuery, null);
+        if (listaIngredientiCursor.moveToNext()) {
+            do {
+                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getString(0), listaIngredientiCursor.getDouble(1));
+                listaIngredienti.add(ingrediente);
+            } while (listaIngredientiCursor.moveToNext());
         } else
-            idCursor.close();
-        if (id == 0)
-            id = 1;
-        return id;
-    }
-
-    // restitutisce l'id dell' ingrediente avente il nome passato dall'utente salvato sul db
-    public int getIngredienteId(String nome) {
-        int id = 0;
-        //accesso in lettura al db
-        db = databaseHelper.getReadableDatabase();
-        idCursor = db.query(DataString.INGREDIENTE_TABLE, new String[]{DataString.COLUMN_ID_INGREDIENTE},
-                DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{nome}, null, null, null);
-        if (idCursor.moveToNext()) {
-            id = idCursor.getInt(0);
-        } else
-            idCursor.close();
-        if (id == 0)
-            id = 1;
-        return id;
-    }
-
-    //azioni neccessarie solo ai test
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
-    }
-
-    //azioni necessarie solo ai test
-    public Context getContext() {
-        return getContext();
+            listaIngredientiCursor.close();
+        return listaIngredienti;
     }
 
     public void deleteRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys = ON;");
         try {
-            db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_NOME_RICETTA + "=?", new String[]{ricetta.getNome()});
-        } catch (SQLiteException ignored) {
+            db.delete(DataString.RICETTA_TABLE, DataString.COLUMN_NOME_RICETTA + " = ?", new String[]{ricetta.getNome()});
+        } catch (SQLiteException e) {
             //Gestione eccezioni
         }
     }

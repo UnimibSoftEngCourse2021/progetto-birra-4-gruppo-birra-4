@@ -75,7 +75,6 @@ public class RicetteActivity extends AppCompatActivity {
         } catch (ParseException e) {
             // gestione eccezione
         }
-
         listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
         //metodo che mostra gli ingredienti di una ricetta con un alert
         listViewRicette.setOnItemClickListener(new VisualizzaInfoRicettaListener());
@@ -104,12 +103,12 @@ public class RicetteActivity extends AppCompatActivity {
             textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
-
-            textView.setText(arrayIngredienti[i]);
-
             btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
             btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
+            btnSalvaRicetta.setEnabled(false);
+            i = 0;
 
+            textView.setText(arrayIngredienti[i]);
 
             button.setOnClickListener(new PlusIngrediente());
             btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
@@ -129,9 +128,9 @@ public class RicetteActivity extends AppCompatActivity {
             if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
-                i = 0;
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
+                btnSalvaRicetta.setEnabled(true);
             }
             editText.setText(null);
             editText.setHint("Quantità");
@@ -142,6 +141,7 @@ public class RicetteActivity extends AppCompatActivity {
     private class BackRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            i = 0;
             alertDialog.dismiss();
         }
     }
@@ -156,6 +156,7 @@ public class RicetteActivity extends AppCompatActivity {
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();
+                ricettario.removeAll(ricettario);
                 try {
                     printList();
                 } catch (ParseException e) {
@@ -169,16 +170,20 @@ public class RicetteActivity extends AppCompatActivity {
 
     private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long idPosition) {
             String listaIngString = "";
             alert = new AlertDialog.Builder(RicetteActivity.this);
+
+            try {
+                listRicette = databaseManager.mostraRicette();
+            } catch (ParseException e) {
+                // gestione eccezioni
+            }
+            ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
-            int conta;
-            for (conta = 0; conta < 7; conta++) {
-                listaIngString = listaIngString.concat(ricetta.getDispensaIngrediente().get(conta).getNome()
-                        + " "
-                        + ricetta.getDispensaIngrediente().get(conta).getQuantita()
-                        + " g \n");
+            List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+            for (Ingrediente i : ingredientiRicetta) {
+                listaIngString = listaIngString.concat(i.getNome() + " " + i.getQuantita() + " g \n");
             }
             alert.setTitle(ricetta.getNome());
             alert.setMessage(
