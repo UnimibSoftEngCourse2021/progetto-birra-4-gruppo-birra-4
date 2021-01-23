@@ -40,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DataString.COLUMN_QUANTITA_BIRRA + " DOUBLE NOT NULL)";
 
 
-
         //creazione tabella relazione Ricetta-Ingrediente
         String createTableStatementRelazioneRI = DataString.CREA_TABELLA + " " + DataString.RELAZIONE_TABLE + " ("
                 + DataString.COLUMN_ID_RICETTA + " INTEGER,"
@@ -50,11 +49,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE,"
                 + "CONSTRAINT FK_INGREDIENTE " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
 
+        //creazione tabella Note
         String createTableStatementNote = DataString.CREA_TABELLA + " " + DataString.NOTE_TABLE + " ("
-                + DataString.COLUMN_ID_NOTE + " " + DataString.INTERO_CHIAVE + ","
-                + DataString.COLUMN_TITOLO_NOTE + "TEXT,"
-                + DataString.COLUMN_TESTO_NOTE + "TEXT,"
-                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE)";
+                + DataString.COLUMN_ID_NOTE + " INTEGER,"
+                + DataString.COLUMN_TITOLO_NOTE + " TEXT NOT NULL,"
+                + DataString.COLUMN_TESTO_NOTE + " TEXT NOT NULL,"
+                + DataString.COLUMN_ID_RICETTA + " INTEGER,"
+                + "CONSTRAINT " + DataString.PK_NOTE + " PRIMARY KEY (" + DataString.COLUMN_ID_NOTE + ", " + DataString.COLUMN_ID_RICETTA + "),"
+                + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + "))";
 
 
         //esecuzione delle degli statement sql per la creazione delle tabelle nel db
