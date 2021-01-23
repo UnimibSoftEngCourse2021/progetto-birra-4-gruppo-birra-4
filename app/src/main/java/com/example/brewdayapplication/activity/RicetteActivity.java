@@ -66,7 +66,6 @@ public class RicetteActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
 
-
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
 
@@ -75,6 +74,7 @@ public class RicetteActivity extends AppCompatActivity {
         } catch (ParseException e) {
             // gestione eccezione
         }
+
         listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
         //metodo che mostra gli ingredienti di una ricetta con un alert
         listViewRicette.setOnItemClickListener(new VisualizzaInfoRicettaListener());
@@ -156,7 +156,7 @@ public class RicetteActivity extends AppCompatActivity {
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();
-                ricettario.removeAll(ricettario);
+                ricettario.clear();
                 try {
                     printList();
                 } catch (ParseException e) {
@@ -170,7 +170,7 @@ public class RicetteActivity extends AppCompatActivity {
 
     private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long idPosition) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listaIngString = "";
             alert = new AlertDialog.Builder(RicetteActivity.this);
 
