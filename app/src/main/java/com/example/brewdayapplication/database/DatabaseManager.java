@@ -204,6 +204,7 @@ public class DatabaseManager {
         return listaRicette;
     }
 
+
     // restituisce la lista degli ingredienti presenti in ogni ricetta per ogni ricetta nel db
     private List<Ingrediente> getIngredientiRicetta() {
         listaIngredienti = new ArrayList<>();

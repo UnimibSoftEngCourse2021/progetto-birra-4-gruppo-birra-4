@@ -139,6 +139,7 @@ public class Ricetta {
         return giorno + "-" + mese + "-" + anno + " " + ora;
     }
 
+
     @Override
     public String toString() {
         return getNome() + " " + convertiData();

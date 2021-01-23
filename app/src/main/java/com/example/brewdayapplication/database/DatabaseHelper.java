@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTableStatementRelazioneRI);
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);

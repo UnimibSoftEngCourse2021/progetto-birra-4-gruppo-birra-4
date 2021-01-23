@@ -195,6 +195,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+
     private class CancellaRicettaListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
