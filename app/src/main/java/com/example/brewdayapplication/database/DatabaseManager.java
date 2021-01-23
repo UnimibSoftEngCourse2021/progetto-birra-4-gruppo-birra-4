@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.provider.ContactsContract;
+
 
 import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.Ricetta;
@@ -23,7 +23,7 @@ public class DatabaseManager {
     private SQLiteDatabase db;
     private List<Ingrediente> listaIngredienti;
     private Cursor listaIngredientiCursor;
-    private Cursor idCursor;
+
 
 
     public DatabaseManager(Context ctx) {

@@ -186,9 +186,9 @@ public class RicetteActivity extends AppCompatActivity {
             ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
             List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
-            for (Ingrediente i : ingredientiRicetta) {
-                listaIngString = listaIngString.concat(i.getNome() + " " + i.getQuantita() + " g \n");
-            }
+            for (Ingrediente j : ingredientiRicetta)
+                listaIngString = listaIngString.concat(j.getNome() + " " + j.getQuantita() + " g \n");
+
             alert.setTitle(ricetta.getNome());
             alert.setMessage(
                     ricetta.convertiData()
@@ -214,7 +214,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
-    private class CancellazioneAffermativaListener implements  DialogInterface.OnClickListener{
+    private class CancellazioneAffermativaListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             databaseManager.deleteRicetta(ricetta);
@@ -227,7 +227,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
-    private class CancellazioneNegativaListener implements DialogInterface.OnClickListener{
+    private class CancellazioneNegativaListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();

@@ -26,10 +26,6 @@ public class IngredienteUnitTest {
         assertEquals(1, ingrediente.getQuantita(), 0.01);
     }
 
-    @Test
-    public void getIdTest() {
-        assertEquals(1, ingrediente.getId());
-    }
 
     @Test
     public void setNomeTest() {
@@ -43,11 +39,6 @@ public class IngredienteUnitTest {
         assertEquals(2, ingrediente.getQuantita(), 0.01);
     }
 
-    @Test
-    public void setIdTest() {
-        ingrediente.setId(2);
-        assertEquals(2, ingrediente.getId());
-    }
 
     @Test
     public void toStringTest() {
