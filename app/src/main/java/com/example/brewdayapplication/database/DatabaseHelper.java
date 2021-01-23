@@ -4,6 +4,7 @@ package com.example.brewdayapplication.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 
 import androidx.annotation.Nullable;
 
@@ -47,13 +48,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA + " DOUBLE NOT NULL,"
                 + "CONSTRAINT " + DataString.PK_RELAZIONE_RI + " PRIMARY KEY (" + DataString.COLUMN_ID_RICETTA + ", " + DataString.COLUMN_ID_INGREDIENTE + "),"
                 + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE,"
-                + "CONSTRAINT FK_INGREDIENTE" + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
+                + "CONSTRAINT FK_INGREDIENTE " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_INGREDIENTE + ") " + DataString.REFERENCES + " " + DataString.INGREDIENTE_TABLE + "(" + DataString.COLUMN_ID_INGREDIENTE + "))";
+
+        String createTableStatementNote = DataString.CREA_TABELLA + " " + DataString.NOTE_TABLE + " ("
+                + DataString.COLUMN_ID_NOTE + " " + DataString.INTERO_CHIAVE + ","
+                + DataString.COLUMN_TITOLO_NOTE + "TEXT,"
+                + DataString.COLUMN_TESTO_NOTE + "TEXT,"
+                + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE)";
+
 
         //esecuzione delle degli statement sql per la creazione delle tabelle nel db
         db.execSQL(createTableStatementMagazzino);
         db.execSQL(createTableStatementIngredient);
         db.execSQL(createTableStatementRicetta);
         db.execSQL(createTableStatementRelazioneRI);
+        db.execSQL(createTableStatementNote);
     }
 
 

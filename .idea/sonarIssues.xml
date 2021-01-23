@@ -13,6 +13,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/Ingrediente.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/Note.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/activity/CapacitaActivity.java">
           <value>
             <set />
@@ -29,6 +39,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/activity/RicetteActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/database/DataString.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/database/DatabaseHelper.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/brewdayapplication/database/DatabaseManager.java">
           <value>
             <set />
           </value>

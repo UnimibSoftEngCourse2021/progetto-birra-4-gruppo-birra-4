@@ -103,6 +103,9 @@ public class RicetteActivity extends AppCompatActivity {
             textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
+
+            textView.setText(arrayIngredienti[i]);
+
             btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
             btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
             btnSalvaRicetta.setEnabled(false);
@@ -128,6 +131,7 @@ public class RicetteActivity extends AppCompatActivity {
             if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
+                i = 0;
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
                 btnSalvaRicetta.setEnabled(true);

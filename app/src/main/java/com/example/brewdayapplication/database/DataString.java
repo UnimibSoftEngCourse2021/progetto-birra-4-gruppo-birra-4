@@ -2,6 +2,9 @@ package com.example.brewdayapplication.database;
 
 public class DataString {
 
+
+
+
     //creato solo per evitare smell
     private DataString() {
     }
@@ -11,6 +14,7 @@ public class DataString {
     public static final String MAGAZZINO_TABLE = "MAGAZZINO";
     public static final String RICETTA_TABLE = "RICETTA";
     public static final String RELAZIONE_TABLE = "RELAZIONE";
+    public static final String NOTE_TABLE = "NOTE";
 
     // costanti sql ripetute
     public static final String CREA_TABELLA = "CREATE TABLE";
@@ -35,5 +39,8 @@ public class DataString {
     public static final String COLUMN_QUANTITA_INGREDIENTE_RICETTA ="QUANTITA_INGREDIENTE";
     public static final String PK_RELAZIONE_RI = "PK_RICETTARIO";
 
+    public static final String COLUMN_ID_NOTE = "ID_NOTE";
+    public static final String COLUMN_TITOLO_NOTE = "TITOLO_NOTE";
+    public static final String COLUMN_TESTO_NOTE = "TESTO_NOTE";
 
 }
