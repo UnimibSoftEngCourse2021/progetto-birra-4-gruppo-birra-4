@@ -96,13 +96,13 @@ public class RicetteActivity extends AppCompatActivity {
         listViewRicette.setAdapter(resultQuery);
     }
 
-    private String creaData(String dataInStringa){
+    private String creaData(){
 
         LocalDate data = LocalDate.now();
         LocalTime ora = LocalTime.now();
         LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
-        dataInStringa = dataCreazione.format(formatter);
+        String dataInStringa = dataCreazione.format(formatter);
         return dataInStringa;
     }
 
@@ -173,7 +173,7 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
-                data = creaData(data);
+                data = creaData();
                 ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);

@@ -27,12 +27,12 @@ public class Ricetta {
         new Ricetta(nome, dataCreazione, 1, listIngrediente);
     }
 
-    private String creaDataCreazione(String dataConv) {
+    private String creaDataCreazione() {
         LocalDate data = LocalDate.now();
         LocalTime ora = LocalTime.now();
         LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
-        dataConv = dataCreazione.format(formatter);
+        String dataConv = dataCreazione.format(formatter);
         return dataConv;
     }
 
@@ -50,7 +50,7 @@ public class Ricetta {
     }
 
     public void setDataCreazione(String dataCreazione) {
-        creaDataCreazione(dataCreazione);
+        creaDataCreazione();
     }
 
     public double getQuantitaBirraProdotta() {
