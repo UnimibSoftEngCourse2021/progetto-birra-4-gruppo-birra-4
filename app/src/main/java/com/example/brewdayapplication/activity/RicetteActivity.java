@@ -3,14 +3,11 @@ package com.example.brewdayapplication.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -179,8 +176,15 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listaIngString = "";
+            String listaQuaString = "";
             alert = new AlertDialog.Builder(RicetteActivity.this);
+            viewNewRicetta = getLayoutInflater().inflate(R.layout.alert_note, null);
+            alert.setView(viewNewRicetta);
 
+            TextView textViewTitolo = viewNewRicetta.findViewById(R.id.textViewTitolo);
+            TextView textViewData = viewNewRicetta.findViewById(R.id.textViewData);
+            TextView textViewListaIng = viewNewRicetta.findViewById(R.id.textView_ListaIngredienti);
+            TextView textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
             try {
                 listRicette = databaseManager.mostraRicette();
             } catch (ParseException e) {
@@ -190,16 +194,15 @@ public class RicetteActivity extends AppCompatActivity {
             ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
             List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
-            for (Ingrediente j : ingredientiRicetta)
-                listaIngString = listaIngString.concat(j.getNome() + " " + j.getQuantita() + " g \n");
-            TextView textViewListaIng = (TextView) findViewById(R.id.textView_ListaIngredienti);
+            for (Ingrediente j : ingredientiRicetta) {
+                listaIngString = listaIngString.concat(j.getNome() + " \n");
+                listaQuaString = listaQuaString.concat(j.getQuantita() + " g \n");
+            }
+
+            textViewTitolo.setText(ricetta.getNome());
+            textViewData.setText(ricetta.getDataCreazione().toString());
             textViewListaIng.setText(listaIngString);
-            alert.setView(R.layout.alert_note);
-            alert.setTitle(ricetta.getNome());
-            /*alert.setMessage(
-                    ricetta.convertiData()
-                            + "\n\n"
-                            + listaIngString);*/
+            textViewListaQuant.setText(listaQuaString);
             alertDialog = alert.create();
             alertDialog.show();
         }
