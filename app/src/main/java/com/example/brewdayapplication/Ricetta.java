@@ -1,23 +1,39 @@
 package com.example.brewdayapplication;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.List;
+import java.util.Locale;
 
 public class Ricetta {
     private String nome;
-    private Date dataCreazione;
+    private String dataCreazione;
     private double quantitaBirraProdotta;
     private List<Ingrediente> listIngrediente;
+    private final ZoneId zona = ZoneId.of("Europe/Rome");
 
-    public Ricetta(String nome, Date dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
+    public Ricetta(String nome, String dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.nome = nome;
-        this.dataCreazione = dataCreazione;
+        this.dataCreazione = creaDataCreazione(dataCreazione);
         this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
 
-    public Ricetta(String nome, Date dataCreazione, List<Ingrediente> listIngrediente) {
+    public Ricetta(String nome, String dataCreazione, List<Ingrediente> listIngrediente) {
         new Ricetta(nome, dataCreazione, 1, listIngrediente);
+    }
+
+    private String creaDataCreazione(String dataConv) {
+        LocalDate data = LocalDate.now();
+        LocalTime ora = LocalTime.now(zona);
+        LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
+        dataConv = dataCreazione.format(formatter);
+        return dataConv;
     }
 
 
@@ -29,12 +45,12 @@ public class Ricetta {
         this.nome = nome;
     }
 
-    public Date getDataCreazione() {
+    public String getDataCreazione() {
         return dataCreazione;
     }
 
-    public void setDataCreazione(Date dataCreazione) {
-        this.dataCreazione = dataCreazione;
+    public void setDataCreazione(String dataCreazione) {
+        creaDataCreazione(dataCreazione);
     }
 
     public double getQuantitaBirraProdotta() {
@@ -72,59 +88,9 @@ public class Ricetta {
     }
 
 
-    public String convertiData() {
-        String dataOriginale = dataCreazione.toLocaleString().substring(0, 18);
-        String mese = dataOriginale.substring(0, 3);
-        String giorno = dataOriginale.substring(4, 6);
-        String anno = dataOriginale.substring(8, 12);
-        String ora = dataOriginale.substring(13,18);
-        switch (mese) {
-            case "Jan":
-                mese = "01";
-                break;
-            case "Feb":
-                mese = "02";
-                break;
-            case "Mar":
-                mese = "03";
-                break;
-            case "Apr":
-                mese = "04";
-                break;
-            case "May":
-                mese = "05";
-                break;
-            case "Jun":
-                mese = "06";
-                break;
-            case "Jul":
-                mese = "07";
-                break;
-            case "Aug":
-                mese = "08";
-                break;
-            case "Sep":
-                mese = "09";
-                break;
-            case "Oct":
-                mese = "10";
-                break;
-            case "Nov":
-                mese = "11";
-                break;
-            case "Dec":
-                mese = "12";
-                break;
-            default:
-                break;
-        }
-        return giorno + "-" + mese + "-" + anno + " " + ora;
-    }
-
-
     @Override
     public String toString() {
-        return getNome() + " " + convertiData();
+        return getNome() + " " + getDataCreazione();
     }
 
 

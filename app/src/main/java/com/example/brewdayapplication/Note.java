@@ -1,24 +1,23 @@
 package com.example.brewdayapplication;
 
 public class Note {
-    private String testo;
+    private String testoProblemi;
+    private String testoUtenti;
 
-    public Note(String testo) {
-        this.testo = testo;
+    public String getTestoProblemi() {
+        return testoProblemi;
     }
 
-    public String getTesto() {
-        return testo;
+    public void setTestoProblemi(String testoProblemi) {
+        this.testoProblemi = testoProblemi;
     }
 
-    public void setTesto(String testo) {
-        this.testo = testo;
+    public String getTestoUtenti() {
+        return testoUtenti;
     }
 
-    @Override
-    public String toString() {
-        return "Note{" +
-                ", testo='" + testo + '\'' +
-                '}';
+    public void setTestoUtenti(String testoUtenti) {
+        this.testoUtenti = testoUtenti;
     }
+
 }

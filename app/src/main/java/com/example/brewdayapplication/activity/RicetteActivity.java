@@ -26,9 +26,15 @@ import com.example.brewdayapplication.database.DatabaseManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RicetteActivity extends AppCompatActivity {
 
@@ -54,6 +60,8 @@ public class RicetteActivity extends AppCompatActivity {
     TextView textView;
     EditText editText;
     Button button;
+    String data = "";
+    final ZoneId zona = ZoneId.of("Europe/Rome");
 
     EditText editTextTitoloRicetta;
 
@@ -89,6 +97,16 @@ public class RicetteActivity extends AppCompatActivity {
         listRicette = databaseManager.mostraRicette();
         resultQuery = new ListAdapterRicetta(this, listRicette);
         listViewRicette.setAdapter(resultQuery);
+    }
+
+    private String creaData(String dataInStringa){
+
+        LocalDate data = LocalDate.now();
+        LocalTime ora = LocalTime.now();
+        LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").withZone(zona).withLocale(Locale.ITALY);
+        dataInStringa = dataCreazione.format(formatter);
+        return dataInStringa;
     }
 
     //classe innestata per creare la ricetta
@@ -159,7 +177,8 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
-                ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), new Date(), 1, ricettario);
+                data = creaData(data);
+                ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();
@@ -197,7 +216,7 @@ public class RicetteActivity extends AppCompatActivity {
             alert.setView(R.layout.alert_note);
             alert.setTitle(ricetta.getNome());
             /*alert.setMessage(
-                    ricetta.convertiData()
+                    ricetta.getDataCreazione()
                             + "\n\n"
                             + listaIngString);*/
             alertDialog = alert.create();

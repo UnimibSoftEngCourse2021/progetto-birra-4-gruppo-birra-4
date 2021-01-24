@@ -13,9 +13,13 @@ import com.example.brewdayapplication.Ricetta;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseManager {
 
@@ -24,6 +28,8 @@ public class DatabaseManager {
     private SQLiteDatabase db;
     private List<Ingrediente> listaIngredienti;
     private Cursor listaIngredientiCursor;
+
+    private final ZoneId zona = ZoneId.of("Europe/Rome");
 
 
     public DatabaseManager(Context ctx) {
@@ -127,7 +133,7 @@ public class DatabaseManager {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
         cv.put(DataString.COLUMN_NOME_RICETTA, ricetta.getNome());
-        cv.put(DataString.COLUMN_DATA_RICETTA, ricetta.getDataCreazione().toString());
+        cv.put(DataString.COLUMN_DATA_RICETTA, ricetta.getDataCreazione());
         cv.put(DataString.COLUMN_QUANTITA_BIRRA, ricetta.getQuantitaBirraProdotta());
         try {
             db.insert(DataString.RICETTA_TABLE, null, cv);
@@ -190,13 +196,8 @@ public class DatabaseManager {
         if (listaRicetteCursor.moveToNext()) {
             do {
                 String nomeRicetta = listaRicetteCursor.getString(1);
-                // creato un formato per la data
-                SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL dd HH:mm:ss zzz yyyy");
-                String dateString = listaRicetteCursor.getString(2);
-                // conversione da stringa a date
-                Date date = formatter.parse(dateString);
                 listaIngredienti = getIngredientiRicetta();
-                Ricetta ricetta = new Ricetta(nomeRicetta, date, listaRicetteCursor.getDouble(3), listaIngredienti);
+                Ricetta ricetta = new Ricetta(nomeRicetta, listaRicetteCursor.getString(2), listaRicetteCursor.getDouble(3), listaIngredienti);
                 listaRicette.add(ricetta);
             } while (listaRicetteCursor.moveToNext());
         } else
