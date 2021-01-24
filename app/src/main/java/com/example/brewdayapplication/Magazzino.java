@@ -9,8 +9,8 @@ public class Magazzino {
     private ArrayList<Ingrediente> dispensaIngrediente;
 
 
-    public Magazzino(int id, double capacita) {
-        this.id = id;
+    public Magazzino(double capacita) {
+
         this.capacita = capacita;
         dispensaIngrediente = new ArrayList<>();
     }
