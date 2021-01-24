@@ -14,7 +14,6 @@ import com.example.brewdayapplication.R;
 import com.example.brewdayapplication.Ricetta;
 import com.example.brewdayapplication.database.DatabaseManager;
 
-import java.text.ParseException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -86,15 +85,11 @@ public class MainActivity extends AppCompatActivity {
     private class BrewDayListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            try {
-                scegliBirra();
-            } catch (ParseException e) {
-                // gestione eccezione
-            }
+            scegliBirra();
         }
 
         //in più
-        private void scegliBirra() throws ParseException {
+        private void scegliBirra() {
             String nomeBirra = "";
             List<Ricetta> listaRicette;
             listaRicette = db.mostraRicette();

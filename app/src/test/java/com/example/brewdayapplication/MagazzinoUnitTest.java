@@ -17,12 +17,7 @@ public class MagazzinoUnitTest {
 
     @Before
      public void initMethod() {
-        magazzino = new Magazzino(23, 500);
-    }
-
-    @Test
-    public void getIdTest(){
-        assertEquals(23,magazzino.getId());
+        magazzino = new Magazzino( 500);
     }
 
     @Test
@@ -34,12 +29,6 @@ public class MagazzinoUnitTest {
     public void setCapacitaTest(){
         magazzino.setCapacita(200);
         assertEquals( 200, magazzino.getCapacita(),0.01);
-    }
-
-    //setId non implementato
-    public void setIdTest(){
-       // magazzino.setId(34);
-        assertEquals( 34,magazzino.getId());
     }
 
     @Test

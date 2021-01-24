@@ -22,14 +22,12 @@ import com.example.brewdayapplication.adapter.ListAdapterRicetta;
 import com.example.brewdayapplication.database.DatabaseManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,11 +75,8 @@ public class RicetteActivity extends AppCompatActivity {
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
 
-        try {
-            printList();
-        } catch (ParseException e) {
-            // gestione eccezione
-        }
+
+        printList();
 
         listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
         //metodo che mostra gli ingredienti di una ricetta con un alert
@@ -90,20 +85,10 @@ public class RicetteActivity extends AppCompatActivity {
     }
 
     // stampa su una listview le ricette presenti sul db
-    private void printList() throws ParseException {
+    private void printList() {
         listRicette = databaseManager.mostraRicette();
         resultQuery = new ListAdapterRicetta(this, listRicette);
         listViewRicette.setAdapter(resultQuery);
-    }
-
-    private String creaData(){
-
-        LocalDate data = LocalDate.now();
-        LocalTime ora = LocalTime.now();
-        LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
-        String dataInStringa = dataCreazione.format(formatter);
-        return dataInStringa;
     }
 
     //classe innestata per creare la ricetta
@@ -179,14 +164,18 @@ public class RicetteActivity extends AppCompatActivity {
                 listRicette.add(ricetta);
                 alertDialog.dismiss();
                 ricettario.clear();
-                try {
-                    printList();
-                } catch (ParseException e) {
-                    // gestione eccezione
-                }
+                printList();
             } else
                 Toast.makeText(getApplicationContext(), "Inserire il titolo della ricetta", Toast.LENGTH_SHORT).show();
 
+        }
+
+        private String creaData() {
+            LocalDate localdata = LocalDate.now();
+            LocalTime ora = LocalTime.now();
+            LocalDateTime dataCreazione = LocalDateTime.of(localdata, ora);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
+            return dataCreazione.format(formatter);
         }
     }
 
@@ -203,11 +192,7 @@ public class RicetteActivity extends AppCompatActivity {
             TextView textViewData = viewNewRicetta.findViewById(R.id.textViewData);
             TextView textViewListaIng = viewNewRicetta.findViewById(R.id.textView_ListaIngredienti);
             TextView textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
-            try {
-                listRicette = databaseManager.mostraRicette();
-            } catch (ParseException e) {
-                // gestione eccezioni
-            }
+            listRicette = databaseManager.mostraRicette();
 
             ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
@@ -245,11 +230,7 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             databaseManager.deleteRicetta(ricetta);
-            try {
-                printList();
-            } catch (ParseException e) {
-                // gestione eccezione
-            }
+            printList();
             alert.setCancelable(true);
         }
     }

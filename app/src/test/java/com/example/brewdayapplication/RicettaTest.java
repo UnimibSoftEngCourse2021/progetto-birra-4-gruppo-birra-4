@@ -15,13 +15,13 @@ import static org.junit.Assert.assertTrue;
 public class RicettaTest {
 
     Ricetta ricettaTest;
-    Date data;
+    String data;
     List<Ingrediente> listaIngredienteTest;
     Ingrediente ingredienteTest;
 
     @Before
     public void initMethod(){
-        data = new Date("1/1/2020");
+        data = "1-1-2020";
         listaIngredienteTest = new ArrayList<>();
         ingredienteTest = new Ingrediente("acqua", 1);
         listaIngredienteTest.add(ingredienteTest);
@@ -30,26 +30,19 @@ public class RicettaTest {
 
     @Test
     public void getTests(){
-        assertEquals("Wed Jan 01 00:00:00 CET 2020", ricettaTest.getDataCreazione().toString());
-        //assertEquals(1, ricettaTest.getIdRicetta());
+        assertEquals("01-01-2020 00:00", ricettaTest.getDataCreazione());
         assertEquals("birra", ricettaTest.getNome() );
         assertEquals(1, ricettaTest.getQuantitaBirraProdotta(),  0.01);
-        //assertEquals(1, ricettaTest.getIdRicetta());
     }
 
     @Test
     public void setTests(){
-        data.setDate(1/1/2020);
-        ricettaTest.setDataCreazione(data);
-        //ricettaTest.setIdRicetta(2);
+        ricettaTest.setDataCreazione();
         ricettaTest.setNome("birraChiara");
         ricettaTest.setQuantitaBirraProdotta(2);
-        //ricettaTest.setIdRicetta(2);
-        assertEquals("Tue Dec 31 00:00:00 CET 2019", ricettaTest.getDataCreazione().toString());
-        //assertEquals(2, ricettaTest.getIdRicetta() );
+        assertEquals("01-01-2020 00:00", ricettaTest.getDataCreazione());
         assertEquals("birraChiara", ricettaTest.getNome());
         assertEquals(2, ricettaTest.getQuantitaBirraProdotta(), 0.01);
-        //assertEquals(2, ricettaTest.getIdRicetta());
     }
 
     @Test
@@ -99,7 +92,7 @@ public class RicettaTest {
     public void toStringTest(){
         assertEquals("Ricetta{" +
                 "nome='" + "birra" + '\'' +
-                ", dataCreazione=" + "Wed Jan 01 00:00:00 CET 2020" +
+                ", dataCreazione=" + "01-01-2020 00:00" +
                 '}', ricettaTest.toString());
     }
 

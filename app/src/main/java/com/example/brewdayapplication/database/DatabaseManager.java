@@ -11,15 +11,8 @@ import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.Note;
 import com.example.brewdayapplication.Ricetta;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class DatabaseManager {
 
@@ -28,9 +21,6 @@ public class DatabaseManager {
     private SQLiteDatabase db;
     private List<Ingrediente> listaIngredienti;
     private Cursor listaIngredientiCursor;
-
-    private final ZoneId zona = ZoneId.of("Europe/Rome");
-
 
     public DatabaseManager(Context ctx) {
         databaseHelper = new DatabaseHelper(ctx);
@@ -186,7 +176,7 @@ public class DatabaseManager {
     }
 
     // restituisce le ricette presenti nel db tramite un ArraList
-    public List<Ricetta> mostraRicette() throws ParseException {
+    public List<Ricetta> mostraRicette() {
         List<Ricetta> listaRicette = new ArrayList<>();
         //accesso in lettura al db
         db = databaseHelper.getReadableDatabase();

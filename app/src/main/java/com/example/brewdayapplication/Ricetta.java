@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalField;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,10 +29,9 @@ public class Ricetta {
     private String creaDataCreazione() {
         LocalDate data = LocalDate.now();
         LocalTime ora = LocalTime.now();
-        LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
+        LocalDateTime dateTime = LocalDateTime.of(data, ora);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
-        String dataConv = dataCreazione.format(formatter);
-        return dataConv;
+        return dateTime.format(formatter);
     }
 
 
@@ -49,7 +47,7 @@ public class Ricetta {
         return dataCreazione;
     }
 
-    public void setDataCreazione(String dataCreazione) {
+    public void setDataCreazione() {
         creaDataCreazione();
     }
 
