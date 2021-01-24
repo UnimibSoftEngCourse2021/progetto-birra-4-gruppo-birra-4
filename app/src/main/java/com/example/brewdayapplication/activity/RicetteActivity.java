@@ -101,7 +101,7 @@ public class RicetteActivity extends AppCompatActivity {
         LocalDate data = LocalDate.now();
         LocalTime ora = LocalTime.now();
         LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").withZone(zona).withLocale(Locale.ITALY);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
         dataInStringa = dataCreazione.format(formatter);
         return dataInStringa;
     }
@@ -149,7 +149,6 @@ public class RicetteActivity extends AppCompatActivity {
             if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
-                i = 0;
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
                 btnSalvaRicetta.setEnabled(true);

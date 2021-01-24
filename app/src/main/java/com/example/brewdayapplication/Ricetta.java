@@ -18,7 +18,7 @@ public class Ricetta {
 
     public Ricetta(String nome, String dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
         this.nome = nome;
-        this.dataCreazione = creaDataCreazione(dataCreazione);
+        this.dataCreazione = dataCreazione;
         this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
