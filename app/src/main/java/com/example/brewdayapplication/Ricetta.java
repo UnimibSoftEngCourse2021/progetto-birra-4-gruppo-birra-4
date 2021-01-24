@@ -29,7 +29,7 @@ public class Ricetta {
 
     private String creaDataCreazione(String dataConv) {
         LocalDate data = LocalDate.now();
-        LocalTime ora = LocalTime.now(zona);
+        LocalTime ora = LocalTime.now();
         LocalDateTime dataCreazione = LocalDateTime.of(data, ora);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(zona).withLocale(Locale.ITALY);
         dataConv = dataCreazione.format(formatter);

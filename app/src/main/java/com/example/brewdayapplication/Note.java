@@ -4,6 +4,11 @@ public class Note {
     private String testoProblemi;
     private String testoUtenti;
 
+    public Note(String testoProblemi, String testoUtenti) {
+        this.testoProblemi = testoProblemi;
+        this.testoUtenti = testoUtenti;
+    }
+
     public String getTestoProblemi() {
         return testoProblemi;
     }

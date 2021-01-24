@@ -265,7 +265,8 @@ public class DatabaseManager {
     public void saveNote(Note note) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        cv.put(DataString.COLUMN_TESTO_NOTE, note.getTesto());
+        cv.put(DataString.COLUMN_TESTO_NOTE_PROBLEMI, note.getTestoProblemi());
+        cv.put(DataString.COLUMN_TESTO_NOTE_UTENTI, note.getTestoUtenti());
         try {
             db.insert(DataString.NOTE_TABLE, null, cv);
         } catch (SQLiteException e) {
@@ -278,7 +279,7 @@ public class DatabaseManager {
         Note nota = null;
         Cursor cursor = db.query(DataString.NOTE_TABLE, null, DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdRicetta(ricetta))}, null, null, null);
         if (cursor.moveToNext())
-            nota = new Note(cursor.getString(1));
+            nota = new Note(cursor.getString(1),cursor.getString(2));
         else
             cursor.close();
         return nota;

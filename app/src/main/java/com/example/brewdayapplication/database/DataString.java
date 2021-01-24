@@ -40,8 +40,8 @@ public class DataString {
     public static final String PK_RELAZIONE_RI = "PK_RICETTARIO";
 
     public static final String COLUMN_ID_NOTE = "ID_NOTE";
-    public static final String COLUMN_TITOLO_NOTE = "TITOLO_NOTE";
-    public static final String COLUMN_TESTO_NOTE = "TESTO_NOTE";
+    public static final String COLUMN_TESTO_NOTE_PROBLEMI = "TESTO_NOTE_PROBLEMI";
+    public static final String COLUMN_TESTO_NOTE_UTENTI = "TESTO_NOTE_UTENTI";
     public static final String PK_NOTE = "PK_NOTE";
 
     public static final String TEXT_NOT_NULL = "TEXT NOT NULL";

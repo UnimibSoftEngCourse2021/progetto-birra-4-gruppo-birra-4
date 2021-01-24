@@ -219,7 +219,7 @@ public class RicetteActivity extends AppCompatActivity {
             }
 
             textViewTitolo.setText(ricetta.getNome());
-            textViewData.setText(ricetta.getDataCreazione().toString());
+            textViewData.setText(ricetta.getDataCreazione());
             textViewListaIng.setText(listaIngString);
             textViewListaQuant.setText(listaQuaString);
             alertDialog = alert.create();
