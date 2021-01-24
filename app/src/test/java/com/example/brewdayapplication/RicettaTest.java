@@ -96,16 +96,6 @@ public class RicettaTest {
     }
 
     @Test
-    public void toStringAllInformationTest(){
-        Ingrediente ingrediente = new Ingrediente("orzo", 2);
-        ricettaTest.aggiungiIngrediente(ingrediente);
-        assertEquals("Ricetta{nome='birra', dataCreazione=Wed Jan 01 00:00:00 CET 2020}" +
-                "acqua quantita: 1.0 g " +
-                "orzo quantita: 2.0 g ",
-                ricettaTest.toStringAllInformation());
-    }
-
-    @Test
     public void toStringTest(){
         assertEquals("Ricetta{" +
                 "nome='" + "birra" + '\'' +

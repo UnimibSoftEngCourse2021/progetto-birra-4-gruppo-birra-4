@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -19,7 +18,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // metodo chiamato quando viene installata l'app per la prima volta
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //creazione tabella magazzino
         String createTableStatementMagazzino = DataString.CREA_TABELLA + " " + DataString.MAGAZZINO_TABLE + "("
                 + DataString.COLUMN_ID_MAGAZZINO + " " + DataString.INTERO_CHIAVE + ","
                 + DataString.COLUMN_CAPACITY_EQUIPMENT + " DOUBLE NOT NULL)";
@@ -27,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //creazione tabella ingredienti
         String createTableStatementIngredient = DataString.CREA_TABELLA + " " + DataString.INGREDIENTE_TABLE + "("
                 + DataString.COLUMN_ID_INGREDIENTE + " " + DataString.INTERO_CHIAVE + ","
-                + DataString.COLUMN_NOME_INGREDIENTE + " TEXT NOT NULL,"
+                + DataString.COLUMN_NOME_INGREDIENTE + " " + DataString.TEXT_NOT_NULL + ","
                 + DataString.COLUMN_QUANTITA_MAGAZZINO + " DOUBLE NOT NULL,"
                 + DataString.COLUMN_ID_MAGAZZINO + " INTEGER NOT NULL,"
                 + DataString.CHIAVE_ESTERNA + "(" + DataString.COLUMN_ID_MAGAZZINO + ") " + DataString.REFERENCES + " " + DataString.MAGAZZINO_TABLE + "(" + DataString.COLUMN_ID_MAGAZZINO + "))";
@@ -35,15 +33,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //creazione tabella ricetta
         String createTableStatementRicetta = DataString.CREA_TABELLA + " " + DataString.RICETTA_TABLE + "("
                 + DataString.COLUMN_ID_RICETTA + " " + DataString.INTERO_CHIAVE + ","
-                + DataString.COLUMN_NOME_RICETTA + " TEXT NOT NULL UNIQUE,"
+                + DataString.COLUMN_NOME_RICETTA + " " + DataString.TEXT_NOT_NULL + " UNIQUE,"
                 + DataString.COLUMN_DATA_RICETTA + " DATE NOT NULL,"
                 + DataString.COLUMN_QUANTITA_BIRRA + " DOUBLE NOT NULL)";
 
 
         //creazione tabella relazione Ricetta-Ingrediente
         String createTableStatementRelazioneRI = DataString.CREA_TABELLA + " " + DataString.RELAZIONE_TABLE + " ("
-                + DataString.COLUMN_ID_RICETTA + " INTEGER,"
-                + DataString.COLUMN_ID_INGREDIENTE + " INTEGER,"
+                + DataString.COLUMN_ID_RICETTA + " " + DataString.INTEGER + ","
+                + DataString.COLUMN_ID_INGREDIENTE + " " + DataString.INTEGER + ","
                 + DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA + " DOUBLE NOT NULL,"
                 + "CONSTRAINT " + DataString.PK_RELAZIONE_RI + " PRIMARY KEY (" + DataString.COLUMN_ID_RICETTA + ", " + DataString.COLUMN_ID_INGREDIENTE + "),"
                 + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + ") ON DELETE CASCADE,"
@@ -51,10 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //creazione tabella Note
         String createTableStatementNote = DataString.CREA_TABELLA + " " + DataString.NOTE_TABLE + " ("
-                + DataString.COLUMN_ID_NOTE + " INTEGER,"
-                + DataString.COLUMN_TITOLO_NOTE + " TEXT NOT NULL,"
-                + DataString.COLUMN_TESTO_NOTE + " TEXT NOT NULL,"
-                + DataString.COLUMN_ID_RICETTA + " INTEGER,"
+                + DataString.COLUMN_ID_NOTE + " " + DataString.INTEGER + ","
+                + DataString.COLUMN_TITOLO_NOTE + " " + DataString.TEXT_NOT_NULL + ","
+                + DataString.COLUMN_TESTO_NOTE + " " + DataString.TEXT_NOT_NULL + ","
+                + DataString.COLUMN_ID_RICETTA + " " + DataString.INTEGER + ","
                 + "CONSTRAINT " + DataString.PK_NOTE + " PRIMARY KEY (" + DataString.COLUMN_ID_NOTE + ", " + DataString.COLUMN_ID_RICETTA + "),"
                 + "CONSTRAINT FK_RICETTA " + DataString.CHIAVE_ESTERNA + " (" + DataString.COLUMN_ID_RICETTA + ") " + DataString.REFERENCES + " " + DataString.RICETTA_TABLE + "(" + DataString.COLUMN_ID_RICETTA + "))";
 

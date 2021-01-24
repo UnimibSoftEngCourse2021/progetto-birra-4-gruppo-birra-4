@@ -79,16 +79,6 @@ public class Ricetta {
         return true;
     }
 
-    public String toStringAllInformation() {
-        StringBuilder s = new StringBuilder("Ricetta{" +
-                "nome='" + nome + '\'' +
-                ", dataCreazione=" + dataCreazione +
-                '}');
-        for (int i = 0; i < listIngrediente.size(); i++) {
-            s.append(listIngrediente.get(i).toString() + " ");
-        }
-        return s.toString();
-    }
 
     public String convertiData() {
         String dataOriginale = dataCreazione.toLocaleString().substring(0, 18);

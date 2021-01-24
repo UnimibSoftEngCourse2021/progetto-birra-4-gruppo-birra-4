@@ -44,4 +44,6 @@ public class DataString {
     public static final String COLUMN_TESTO_NOTE = "TESTO_NOTE";
     public static final String PK_NOTE = "PK_NOTE";
 
+    public static final String TEXT_NOT_NULL = "TEXT NOT NULL";
+    public static final String INTEGER = "INTEGER";
 }
