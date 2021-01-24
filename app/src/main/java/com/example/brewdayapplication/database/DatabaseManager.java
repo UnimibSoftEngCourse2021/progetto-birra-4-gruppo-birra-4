@@ -278,6 +278,7 @@ public class DatabaseManager {
     }
 
     public Note getNote(Ricetta ricetta) {
+
         db = databaseHelper.getReadableDatabase();
         Note nota = null;
         Cursor cursor = db.query(DataString.NOTE_TABLE, null, DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdRicetta(ricetta))}, null, null, null);

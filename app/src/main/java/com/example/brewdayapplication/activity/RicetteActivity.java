@@ -52,7 +52,6 @@ public class RicetteActivity extends AppCompatActivity {
     boolean isUpdate = false;
     Note note;
 
-
     String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
     int i = 0;
     TextView textView;
