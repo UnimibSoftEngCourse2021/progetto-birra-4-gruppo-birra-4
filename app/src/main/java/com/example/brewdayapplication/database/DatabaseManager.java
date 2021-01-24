@@ -242,6 +242,19 @@ public class DatabaseManager {
         return listaIngredienti;
     }
 
+    public void updateRicetta(Ricetta ricetta, List<Ingrediente> ingredienteNuovo){
+        db=databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        for (Ingrediente ingrediente: ingredienteNuovo) {
+            cv.put(DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA, ingrediente.getQuantita());
+            try{
+                db.update(DataString.RELAZIONE_TABLE, cv, DataString.COLUMN_ID_INGREDIENTE + " = ? AND " + DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdIngrediente(ingrediente)), String.valueOf(readIdRicetta(ricetta))});
+            } catch (SQLiteException e) {
+                //Gestione eccezioni
+            }
+        }
+
+    }
     public void deleteRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         db.execSQL("PRAGMA foreign_keys = ON;");

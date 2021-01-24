@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.brewdayapplication.Ingrediente;
+import com.example.brewdayapplication.Note;
 import com.example.brewdayapplication.R;
 import com.example.brewdayapplication.Ricetta;
 import com.example.brewdayapplication.adapter.ListAdapterRicetta;
@@ -48,6 +49,8 @@ public class RicetteActivity extends AppCompatActivity {
     List<Ricetta> listRicette = new ArrayList<>();
     ArrayAdapter<Ricetta> resultQuery;
     Ricetta ricetta;
+    boolean isUpdate = false;
+    Note note;
 
 
     String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
@@ -107,14 +110,17 @@ public class RicetteActivity extends AppCompatActivity {
             editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
             button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
 
-            textView.setText(arrayIngredienti[i]);
-
             btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
             btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
             btnSalvaRicetta.setEnabled(false);
             i = 0;
 
             textView.setText(arrayIngredienti[i]);
+            if (isUpdate) {
+                editTextTitoloRicetta.setText(ricetta.getNome());
+                editTextTitoloRicetta.setEnabled(false);
+
+            }
 
             button.setOnClickListener(new PlusIngrediente());
             btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
@@ -156,7 +162,9 @@ public class RicetteActivity extends AppCompatActivity {
     private class SalvaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (isUpdate) {
+                databaseManager.updateRicetta(ricetta, ricettario);
+            }
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 data = creaData();
                 ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
@@ -192,6 +200,11 @@ public class RicetteActivity extends AppCompatActivity {
             TextView textViewData = viewNewRicetta.findViewById(R.id.textViewData);
             TextView textViewListaIng = viewNewRicetta.findViewById(R.id.textView_ListaIngredienti);
             TextView textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
+            Button buttonModificaRicetta = viewNewRicetta.findViewById(R.id.btn_ModificaRicetta);
+            Button buttonSalvaNota = viewNewRicetta.findViewById(R.id.btn_SalvaNote);
+            EditText editTextNotaProblema = viewNewRicetta.findViewById(R.id.editText_NotaBirraio);
+            EditText editTextNotaUtente = viewNewRicetta.findViewById(R.id.editText_NotaAmici);
+
             listRicette = databaseManager.mostraRicette();
 
             ricetta = listRicette.get(position);
@@ -206,8 +219,20 @@ public class RicetteActivity extends AppCompatActivity {
             textViewData.setText(ricetta.getDataCreazione());
             textViewListaIng.setText(listaIngString);
             textViewListaQuant.setText(listaQuaString);
+            note = databaseManager.getNote(ricetta);
+            if (note != null){
+                editTextNotaProblema.setText(note.getTestoProblemi());
+                editTextNotaUtente.setText(note.getTestoUtenti());
+            }
             alertDialog = alert.create();
             alertDialog.show();
+            isUpdate = true;
+            buttonModificaRicetta.setOnClickListener(new CreaRicetta());
+
+            note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
+
+            buttonSalvaNota.setOnClickListener(new SalvaNota());
+
         }
     }
 
@@ -242,5 +267,11 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
-
+    private class SalvaNota implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            databaseManager.saveNote(note);
+            alertDialog.dismiss();
+        }
+    }
 }
