@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Magazzino {
 
-    private int id;
     private double capacita;
     private ArrayList<Ingrediente> dispensaIngrediente;
 
@@ -16,9 +15,6 @@ public class Magazzino {
         dispensaIngrediente = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
-    }
 
     public double getCapacita() {
         return capacita;

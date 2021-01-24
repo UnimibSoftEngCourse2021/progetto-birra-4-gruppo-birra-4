@@ -1,15 +1,10 @@
 package com.example.brewdayapplication;
 
 public class Note {
-    private String titolo;
     private String testo;
 
-    public String getTitolo() {
-        return titolo;
-    }
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
+    public Note(String testo) {
+        this.testo = testo;
     }
 
     public String getTesto() {
@@ -23,7 +18,6 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "titolo='" + titolo + '\'' +
                 ", testo='" + testo + '\'' +
                 '}';
     }

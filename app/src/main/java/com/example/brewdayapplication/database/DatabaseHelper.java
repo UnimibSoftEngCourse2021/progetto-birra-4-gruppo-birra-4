@@ -50,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //creazione tabella Note
         String createTableStatementNote = DataString.CREA_TABELLA + " " + DataString.NOTE_TABLE + " ("
                 + DataString.COLUMN_ID_NOTE + " " + DataString.INTEGER + ","
-                + DataString.COLUMN_TITOLO_NOTE + " " + DataString.TEXT_NOT_NULL + ","
                 + DataString.COLUMN_TESTO_NOTE + " " + DataString.TEXT_NOT_NULL + ","
                 + DataString.COLUMN_ID_RICETTA + " " + DataString.INTEGER + ","
                 + "CONSTRAINT " + DataString.PK_NOTE + " PRIMARY KEY (" + DataString.COLUMN_ID_NOTE + ", " + DataString.COLUMN_ID_RICETTA + "),"

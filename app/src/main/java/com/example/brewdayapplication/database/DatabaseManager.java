@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 
 
 import com.example.brewdayapplication.Ingrediente;
+import com.example.brewdayapplication.Note;
 import com.example.brewdayapplication.Ricetta;
 
 import java.text.ParseException;
@@ -23,7 +24,6 @@ public class DatabaseManager {
     private SQLiteDatabase db;
     private List<Ingrediente> listaIngredienti;
     private Cursor listaIngredientiCursor;
-
 
 
     public DatabaseManager(Context ctx) {
@@ -158,7 +158,7 @@ public class DatabaseManager {
     public int readIdRicetta(Ricetta ricetta) {
         db = databaseHelper.getReadableDatabase();
         int id = 0;
-        Cursor cursor = db.query(DataString.RICETTA_TABLE,null,
+        Cursor cursor = db.query(DataString.RICETTA_TABLE, null,
                 DataString.COLUMN_NOME_RICETTA + " = ?", new String[]{ricetta.getNome()}, null, null, null);
         if (cursor.moveToNext()) {
             id = cursor.getInt(0);
@@ -170,7 +170,7 @@ public class DatabaseManager {
     private int readIdIngrediente(Ingrediente ingrediente) {
         db = databaseHelper.getReadableDatabase();
         int id = 0;
-        Cursor cursor = db.query(DataString.INGREDIENTE_TABLE,null,
+        Cursor cursor = db.query(DataString.INGREDIENTE_TABLE, null,
                 DataString.COLUMN_NOME_INGREDIENTE + " = ?", new String[]{ingrediente.getNome()}, null, null, null);
         if (cursor.moveToNext()) {
             id = cursor.getInt(0);
@@ -261,5 +261,26 @@ public class DatabaseManager {
         }
     }
 
+    public void saveNote(Note note) {
+        db = databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        cv.put(DataString.COLUMN_TESTO_NOTE, note.getTesto());
+        try {
+            db.insert(DataString.NOTE_TABLE, null, cv);
+        } catch (SQLiteException e) {
+            // Gestione delle eccezioni
+        }
+    }
+
+    public Note getNote(Ricetta ricetta) {
+        db = databaseHelper.getReadableDatabase();
+        Note nota = null;
+        Cursor cursor = db.query(DataString.NOTE_TABLE, null, DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdRicetta(ricetta))}, null, null, null);
+        if (cursor.moveToNext())
+            nota = new Note(cursor.getString(1));
+        else
+            cursor.close();
+        return nota;
+    }
 }
 

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Ricetta {
-    private int idRicetta;
     private String nome;
     private Date dataCreazione;
     private double quantitaBirraProdotta;
@@ -21,13 +20,6 @@ public class Ricetta {
         new Ricetta(nome, dataCreazione, 1, listIngrediente);
     }
 
-    public int getIdRicetta() {
-        return idRicetta;
-    }
-
-    public void setIdRicetta(int idRicetta) {
-        this.idRicetta = idRicetta;
-    }
 
     public String getNome() {
         return nome;
