@@ -3,11 +3,14 @@ package com.example.brewdayapplication.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -183,17 +186,20 @@ public class RicetteActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 // gestione eccezioni
             }
+
             ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
             List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
             for (Ingrediente j : ingredientiRicetta)
                 listaIngString = listaIngString.concat(j.getNome() + " " + j.getQuantita() + " g \n");
-
+            TextView textViewListaIng = (TextView) findViewById(R.id.textView_ListaIngredienti);
+            textViewListaIng.setText(listaIngString);
+            alert.setView(R.layout.alert_note);
             alert.setTitle(ricetta.getNome());
-            alert.setMessage(
+            /*alert.setMessage(
                     ricetta.convertiData()
                             + "\n\n"
-                            + listaIngString);
+                            + listaIngString);*/
             alertDialog = alert.create();
             alertDialog.show();
         }
