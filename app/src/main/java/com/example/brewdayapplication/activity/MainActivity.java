@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
     Toast toastBack;
     //in più
     Button btnFeatures;
-    DatabaseManager db;
+    DatabaseManager databaseManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         btnIngredienti = findViewById(R.id.btn_Ingredienti);
@@ -41,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         //in più
         btnFeatures = findViewById(R.id.btn_Features);
-        db = new DatabaseManager(getApplicationContext());
-        //btnFeatures.setOnClickListener(new BrewDayListener());
+        databaseManager = new DatabaseManager(getApplicationContext());
+        btnFeatures.setOnClickListener(new BrewDayListener());
     }
 
     //permette di uscire dall'app e non tornare nell'activity che richiede la capacità dell'equipment
@@ -92,22 +93,35 @@ public class MainActivity extends AppCompatActivity {
         private void scegliBirra() {
             String nomeBirra = "";
             List<Ricetta> listaRicette;
-            listaRicette = db.mostraRicette();
-            Ricetta ricetta;
+            listaRicette = databaseManager.mostraRicette();
             List<Ingrediente> listaIngRic;
-            List<Ingrediente> listaIngMag = db.mostraIngredienti();
+            List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
             double[] quantitaIng = new double[listaRicette.size()];
-            int indiceRicettaMax = 1;
-            for (int i = 0; i < listaRicette.size(); i++) {
-                ricetta = listaRicette.get(i);
-                listaIngRic = ricetta.getDispensaIngrediente();
-                boolean ok = true;
-                for (int j = 0; j < listaIngRic.size() && ok ; j++) {
-                    if (listaIngMag.get(j).getQuantita() > listaIngRic.get(j).getQuantita()) {
-                        quantitaIng[i] = listaIngRic.get(j).getQuantita() / listaIngMag.get(j).getQuantita();
-                    } else {
-                        quantitaIng[i] = 0;
+            int indiceRicettaMax = 0;
+            boolean ok = true;
+            for(int j=0; j<databaseManager.mostraRicette().size();j++) {
+                ok = true;
+                listaIngRic = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(listaRicette.get(j)));
+                for (int i = 0; i < listaIngRic.size() && ok; i++) {
+                    if (listaIngMag.get(i).getQuantita() < listaIngRic.get(i).getQuantita()) {
+                        quantitaIng[j] = 0;
                         ok = false;
+                    }
+                    else{
+                        if(i==6){
+                            if(listaIngRic.get(3).getQuantita()==0){
+                                //non fare nulla
+                            }
+                            else{
+                                 quantitaIng[j] -= listaIngRic.get(i).getQuantita() / listaIngRic.get(3).getQuantita();
+                            }
+                        }
+                        else{
+                            if(listaIngMag.get(i).getQuantita()==0){
+                                //non fare nulla
+                            }
+                            quantitaIng[j] += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
+                        }
                     }
                 }
             }
@@ -125,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
             toastBack = Toast.makeText(getApplicationContext(), nomeBirra, Toast.LENGTH_SHORT);
             toastBack.show();
         }
+
+
     }
 
 }
