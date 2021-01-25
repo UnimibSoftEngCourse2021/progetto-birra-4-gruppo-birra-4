@@ -1,5 +1,7 @@
 package com.example.brewdayapplication;
 
+import java.util.Objects;
+
 public class Note {
     private String testoProblemi;
     private String testoUtenti;
@@ -24,5 +26,4 @@ public class Note {
     public void setTestoUtenti(String testoUtenti) {
         this.testoUtenti = testoUtenti;
     }
-
 }

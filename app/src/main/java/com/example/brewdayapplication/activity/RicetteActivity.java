@@ -70,7 +70,7 @@ public class RicetteActivity extends AppCompatActivity {
     String data = "";
     final ZoneId zona = ZoneId.of("Europe/Rome");
 
-    EditText editTextTitoloRicetta;
+    EditText editTextTitoloRicetta, editTextNotaProblema, editTextNotaUtente;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -221,8 +221,8 @@ public class RicetteActivity extends AppCompatActivity {
             Button buttonModificaRicetta = viewNewRicetta.findViewById(R.id.btn_ModificaRicetta);
             Button buttonSalvaNota = viewNewRicetta.findViewById(R.id.btn_SalvaNote);
             Button buttonProduciRicetta = viewNewRicetta.findViewById(R.id.btn_ProduciRicetta);
-            EditText editTextNotaProblema = viewNewRicetta.findViewById(R.id.editText_NotaBirraio);
-            EditText editTextNotaUtente = viewNewRicetta.findViewById(R.id.editText_NotaAmici);
+            editTextNotaProblema = viewNewRicetta.findViewById(R.id.editText_NotaBirraio);
+            editTextNotaUtente = viewNewRicetta.findViewById(R.id.editText_NotaAmici);
 
             listRicette = databaseManager.mostraRicette();
             ricetta = listRicette.get(position);
@@ -230,30 +230,16 @@ public class RicetteActivity extends AppCompatActivity {
 
             descrizione();
 
-            /* = "";
-            listaQuaString = "";
-            List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
-            for (Ingrediente j : ingredientiRicetta) {
-                listaIngString = listaIngString.concat(j.getNome() + " \n");
-                listaQuaString = listaQuaString.concat(j.getQuantita() + " g \n");
-            }
-            /*textViewTitolo.setText(ricetta.getNome());
-            textViewData.setText(ricetta.getDataCreazione());
-            textViewListaIng.setText(listaIngString);
-            textViewListaQuant.setText(listaQuaString);
-
-            // note = databaseManager.getNote(ricetta);
-
-            /*if (note != null){
+            note = databaseManager.getNote(ricetta);
+            if (note != null) {
                 editTextNotaProblema.setText(note.getTestoProblemi());
                 editTextNotaUtente.setText(note.getTestoUtenti());
-            }*/
-
+            }
             alertDialog = alert.create();
             alertDialog.show();
             buttonModificaRicetta.setOnClickListener(new AggiornaRicetta());
 
-            //note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
+            note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
 
             buttonSalvaNota.setOnClickListener(new SalvaNota());
             buttonProduciRicetta.setOnClickListener(new ProduciRicetta());
@@ -309,7 +295,13 @@ public class RicetteActivity extends AppCompatActivity {
     private class SalvaNota implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            databaseManager.saveNote(note);
+            if (note != null) {
+                note.setTestoProblemi(editTextNotaProblema.getText().toString());
+                note.setTestoUtenti(editTextNotaUtente.getText().toString());
+            } else {
+                note = new Note(editTextNotaProblema.getText().toString(), editTextNotaUtente.getText().toString());
+            }
+            databaseManager.saveNote(note, ricetta);
             alertDialog.dismiss();
         }
     }

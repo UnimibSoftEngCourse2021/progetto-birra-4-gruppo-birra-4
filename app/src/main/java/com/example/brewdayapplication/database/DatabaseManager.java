@@ -242,12 +242,12 @@ public class DatabaseManager {
         return listaIngredienti;
     }
 
-    public void updateRicetta(Ricetta ricetta, List<Ingrediente> ingredienteNuovo){
-        db=databaseHelper.getWritableDatabase();
+    public void updateRicetta(Ricetta ricetta, List<Ingrediente> ingredienteNuovo) {
+        db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        for (Ingrediente ingrediente: ingredienteNuovo) {
+        for (Ingrediente ingrediente : ingredienteNuovo) {
             cv.put(DataString.COLUMN_QUANTITA_INGREDIENTE_RICETTA, ingrediente.getQuantita());
-            try{
+            try {
                 db.update(DataString.RELAZIONE_TABLE, cv, DataString.COLUMN_ID_INGREDIENTE + " = ? AND " + DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdIngrediente(ingrediente)), String.valueOf(readIdRicetta(ricetta))});
             } catch (SQLiteException e) {
                 //Gestione eccezioni
@@ -255,6 +255,7 @@ public class DatabaseManager {
         }
 
     }
+
     public void deleteRicetta(Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         db.execSQL("PRAGMA foreign_keys = ON;");
@@ -265,25 +266,65 @@ public class DatabaseManager {
         }
     }
 
-    public void saveNote(Note note) {
+    public void saveNote(Note nota, Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        cv.put(DataString.COLUMN_TESTO_NOTE_PROBLEMI, note.getTestoProblemi());
-        cv.put(DataString.COLUMN_TESTO_NOTE_UTENTI, note.getTestoUtenti());
-        try {
-            db.insert(DataString.NOTE_TABLE, null, cv);
-        } catch (SQLiteException e) {
-            // Gestione delle eccezioni
+        int id = readIdRicetta(ricetta);
+        if (elencaIdNote().contains(id)) {
+            List<Integer> listaidNote = elencaIdNote();
+            for (Integer i : listaidNote) {
+                if (i == id) {
+                    updateNota(nota, ricetta, id);
+                }
+            }
+        } else {
+            cv.put(DataString.COLUMN_TESTO_NOTE_PROBLEMI, nota.getTestoProblemi());
+            cv.put(DataString.COLUMN_TESTO_NOTE_UTENTI, nota.getTestoUtenti());
+            cv.put(DataString.COLUMN_ID_RICETTA, id);
+            try {
+                db.insert(DataString.NOTE_TABLE, null, cv);
+            } catch (SQLiteException e) {
+                // Gestione delle eccezioni
+            }
         }
     }
 
-    public Note getNote(Ricetta ricetta) {
+    private void updateNota(Note nota, Ricetta ricetta, int id) {
+        db = databaseHelper.getWritableDatabase();
+        cv = new ContentValues();
+        cv.put(DataString.COLUMN_TESTO_NOTE_PROBLEMI, nota.getTestoProblemi());
+        cv.put(DataString.COLUMN_TESTO_NOTE_UTENTI, nota.getTestoUtenti());
+        try {
+            db.update(DataString.NOTE_TABLE, cv,
+                    DataString.COLUMN_ID_NOTE + " = ? AND " + DataString.COLUMN_ID_RICETTA + " = ? ",
+                    new String[]{String.valueOf(id), String.valueOf(readIdRicetta(ricetta))});
+        } catch (SQLiteException e) {
+            // Gestione eccezioni
+        }
 
+    }
+
+    private List<Integer> elencaIdNote() {
+        List<Integer> listaId = new ArrayList<>();
+        db = databaseHelper.getReadableDatabase();
+        Cursor listaNoteCursor = db.query(DataString.NOTE_TABLE, new String[]{DataString.COLUMN_ID_NOTE}, null,
+                null, null, null, null);
+
+        if (listaNoteCursor.moveToNext()) {
+            do {
+                listaId.add(listaNoteCursor.getInt(0));
+            } while (listaNoteCursor.moveToNext());
+        } else
+            listaNoteCursor.close();
+        return listaId;
+    }
+
+    public Note getNote(Ricetta ricetta) {
         db = databaseHelper.getReadableDatabase();
         Note nota = null;
         Cursor cursor = db.query(DataString.NOTE_TABLE, null, DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdRicetta(ricetta))}, null, null, null);
         if (cursor.moveToNext())
-            nota = new Note(cursor.getString(1),cursor.getString(2));
+            nota = new Note(cursor.getString(1), cursor.getString(2));
         else
             cursor.close();
         return nota;
