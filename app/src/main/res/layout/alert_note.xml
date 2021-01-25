@@ -169,4 +169,16 @@
         android:text="Nota Amici"
         android:textSize="16sp" />
 
+    <Button
+        android:id="@+id/btn_ProduciRicetta"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_NotaAmici"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="24dp"
+        android:text="produci ricetta" />
+
 </RelativeLayout>

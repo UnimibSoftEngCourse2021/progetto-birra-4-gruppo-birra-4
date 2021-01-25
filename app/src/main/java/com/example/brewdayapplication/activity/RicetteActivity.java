@@ -220,6 +220,7 @@ public class RicetteActivity extends AppCompatActivity {
             textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
             Button buttonModificaRicetta = viewNewRicetta.findViewById(R.id.btn_ModificaRicetta);
             Button buttonSalvaNota = viewNewRicetta.findViewById(R.id.btn_SalvaNote);
+            Button buttonProduciRicetta = viewNewRicetta.findViewById(R.id.btn_ProduciRicetta);
             EditText editTextNotaProblema = viewNewRicetta.findViewById(R.id.editText_NotaBirraio);
             EditText editTextNotaUtente = viewNewRicetta.findViewById(R.id.editText_NotaAmici);
 
@@ -255,6 +256,7 @@ public class RicetteActivity extends AppCompatActivity {
             //note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
 
             buttonSalvaNota.setOnClickListener(new SalvaNota());
+            buttonProduciRicetta.setOnClickListener(new ProduciRicetta());
 
         }
     }
@@ -309,6 +311,12 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
             databaseManager.saveNote(note);
             alertDialog.dismiss();
+        }
+    }
+   private class ProduciRicetta implements  View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            databaseManager.produciBirra(ricetta);
         }
     }
 
