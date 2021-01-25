@@ -34,6 +34,12 @@ import java.util.Locale;
 
 public class RicetteActivity extends AppCompatActivity {
 
+    TextView textViewTitolo;
+    TextView textViewData;
+    TextView textViewListaIng;
+    TextView textViewListaQuant;
+
+
     //Dichiarazioni
     DatabaseManager databaseManager;
     ListView listViewRicette;
@@ -50,6 +56,10 @@ public class RicetteActivity extends AppCompatActivity {
     ArrayAdapter<Ricetta> resultQuery;
     Ricetta ricetta;
     boolean isUpdate = false;
+    String listaIngString;
+    String listaQuaString;
+
+
     Note note;
 
     String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
@@ -97,34 +107,38 @@ public class RicetteActivity extends AppCompatActivity {
     private class CreaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            alert = new AlertDialog.Builder(RicetteActivity.this);
-            viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
-            alert.setView(viewNewRicetta);
-            alertDialog = alert.create();
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
-
-            editTextTitoloRicetta = viewNewRicetta.findViewById(R.id.titoloRicetta);
-            textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
-            editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
-            button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
-
-            btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
-            btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
-            btnSalvaRicetta.setEnabled(false);
-            i = 0;
-
-            textView.setText(arrayIngredienti[i]);
-            if (isUpdate) {
-                editTextTitoloRicetta.setText(ricetta.getNome());
-                editTextTitoloRicetta.setEnabled(false);
-
-            }
-
-            button.setOnClickListener(new PlusIngrediente());
-            btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
-            btnSalvaRicetta.setOnClickListener(new SalvaRicetta());
+            provaaaa();
         }
+    }
+
+    private void provaaaa() {
+        alert = new AlertDialog.Builder(RicetteActivity.this);
+        viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
+        alert.setView(viewNewRicetta);
+        alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+
+        editTextTitoloRicetta = viewNewRicetta.findViewById(R.id.titoloRicetta);
+        textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
+        editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
+        button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
+
+        btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
+        btnSalvaRicetta = viewNewRicetta.findViewById(R.id.btn_save_ricetta);
+        btnSalvaRicetta.setEnabled(false);
+        i = 0;
+
+        textView.setText(arrayIngredienti[i]);
+
+        if (isUpdate) {
+            editTextTitoloRicetta.setText(ricetta.getNome());
+            editTextTitoloRicetta.setEnabled(false);
+        }
+
+        button.setOnClickListener(new PlusIngrediente());
+        btnTornaIndietroNewRicetta.setOnClickListener(new BackRicetta());
+        btnSalvaRicetta.setOnClickListener(new SalvaRicetta());
     }
 
     // classe innestata per aggiungere gli ingredienti alla ricetta
@@ -153,7 +167,8 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             i = 0;
-            alertDialog.dismiss();
+            isUpdate = false;
+            alertDialog.cancel();
         }
     }
 
@@ -163,7 +178,12 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (isUpdate) {
                 databaseManager.updateRicetta(ricetta, ricettario);
+                isUpdate = false;
+                alertDialog.cancel();
+                descrizione();
+                ricettario.clear();
             }
+
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 data = creaData();
                 ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
@@ -189,49 +209,67 @@ public class RicetteActivity extends AppCompatActivity {
     private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String listaIngString = "";
-            String listaQuaString = "";
+
             alert = new AlertDialog.Builder(RicetteActivity.this);
             viewNewRicetta = getLayoutInflater().inflate(R.layout.alert_note, null);
             alert.setView(viewNewRicetta);
 
-            TextView textViewTitolo = viewNewRicetta.findViewById(R.id.textViewTitolo);
-            TextView textViewData = viewNewRicetta.findViewById(R.id.textViewData);
-            TextView textViewListaIng = viewNewRicetta.findViewById(R.id.textView_ListaIngredienti);
-            TextView textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
+            textViewTitolo = viewNewRicetta.findViewById(R.id.textViewTitolo);
+            textViewData = viewNewRicetta.findViewById(R.id.textViewData);
+            textViewListaIng = viewNewRicetta.findViewById(R.id.textView_ListaIngredienti);
+            textViewListaQuant = viewNewRicetta.findViewById(R.id.textView_QuantitaIngredienti);
             Button buttonModificaRicetta = viewNewRicetta.findViewById(R.id.btn_ModificaRicetta);
             Button buttonSalvaNota = viewNewRicetta.findViewById(R.id.btn_SalvaNote);
             EditText editTextNotaProblema = viewNewRicetta.findViewById(R.id.editText_NotaBirraio);
             EditText editTextNotaUtente = viewNewRicetta.findViewById(R.id.editText_NotaAmici);
 
             listRicette = databaseManager.mostraRicette();
-
             ricetta = listRicette.get(position);
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
+
+            descrizione();
+
+            /* = "";
+            listaQuaString = "";
             List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
             for (Ingrediente j : ingredientiRicetta) {
                 listaIngString = listaIngString.concat(j.getNome() + " \n");
                 listaQuaString = listaQuaString.concat(j.getQuantita() + " g \n");
             }
+            /*textViewTitolo.setText(ricetta.getNome());
+            textViewData.setText(ricetta.getDataCreazione());
+            textViewListaIng.setText(listaIngString);
+            textViewListaQuant.setText(listaQuaString);
 
+            // note = databaseManager.getNote(ricetta);
+
+            /*if (note != null){
+                editTextNotaProblema.setText(note.getTestoProblemi());
+                editTextNotaUtente.setText(note.getTestoUtenti());
+            }*/
+
+            alertDialog = alert.create();
+            alertDialog.show();
+            buttonModificaRicetta.setOnClickListener(new AggiornaRicetta());
+
+            //note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
+
+            buttonSalvaNota.setOnClickListener(new SalvaNota());
+
+        }
+    }
+
+    private void descrizione() {
+        listaIngString = "";
+        listaQuaString = "";
+        List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+        for (Ingrediente j : ingredientiRicetta) {
+            listaIngString = listaIngString.concat(j.getNome() + " \n");
+            listaQuaString = listaQuaString.concat(j.getQuantita() + " g \n");
             textViewTitolo.setText(ricetta.getNome());
             textViewData.setText(ricetta.getDataCreazione());
             textViewListaIng.setText(listaIngString);
             textViewListaQuant.setText(listaQuaString);
-            note = databaseManager.getNote(ricetta);
-            if (note != null){
-                editTextNotaProblema.setText(note.getTestoProblemi());
-                editTextNotaUtente.setText(note.getTestoUtenti());
-            }
-            alertDialog = alert.create();
-            alertDialog.show();
-            isUpdate = true;
-            buttonModificaRicetta.setOnClickListener(new CreaRicetta());
-
-            note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
-
-            buttonSalvaNota.setOnClickListener(new SalvaNota());
-
         }
     }
 
@@ -271,6 +309,14 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
             databaseManager.saveNote(note);
             alertDialog.dismiss();
+        }
+    }
+
+    private class AggiornaRicetta implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            isUpdate = true;
+            provaaaa();
         }
     }
 }
