@@ -70,7 +70,9 @@ public class RicetteActivity extends AppCompatActivity {
     String data = "";
     final ZoneId zona = ZoneId.of("Europe/Rome");
 
-    EditText editTextTitoloRicetta, editTextNotaProblema, editTextNotaUtente;
+    EditText editTextTitoloRicetta;
+    EditText editTextNotaProblema;
+    EditText editTextNotaUtente;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
