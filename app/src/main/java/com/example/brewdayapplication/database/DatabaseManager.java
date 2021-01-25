@@ -329,6 +329,26 @@ public class DatabaseManager {
             cursor.close();
         return nota;
     }
+    public boolean controlloQuantita(Ricetta ricetta){
+        db = databaseHelper.getReadableDatabase();
+        cv = new ContentValues();
+        Cursor cursor;
+        List<Ingrediente> listaIngRic= getIngredientiRicetta(readIdRicetta(ricetta));
+        for(Ingrediente ing:listaIngRic){
+            String nome = "\'" + ing.getNome() + "\'";
+            cursor = db.query(DataString.INGREDIENTE_TABLE,
+                    new String[] {DataString.COLUMN_QUANTITA_MAGAZZINO},
+                    DataString.COLUMN_NOME_INGREDIENTE + " = " + nome,
+                    null, null, null, null);
+            cursor.moveToFirst();
+            double quantitaMag = cursor.getDouble(0);
+            if(quantitaMag<ing.getQuantita()){
+                return false;
+            }
+            cursor.close();
+        }
+        return true;
+    }
 
     public void produciBirra(Ricetta ricetta){
         db = databaseHelper.getWritableDatabase();

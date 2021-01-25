@@ -310,9 +310,17 @@ public class RicetteActivity extends AppCompatActivity {
    private class ProduciRicetta implements  View.OnClickListener{
         @Override
         public void onClick(View v){
-            databaseManager.produciBirra(ricetta);
+            if(databaseManager.controlloQuantita(ricetta)){
+                databaseManager.produciBirra(ricetta);
+                alertDialog.dismiss();
+                Toast toastBack = Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT);
+                toastBack.show();}
+            else{
+                Toast toastBack = Toast.makeText(getApplicationContext(), "RCHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT);
+                toastBack.show();
+            }
         }
-    }
+   }
 
     private class AggiornaRicetta implements View.OnClickListener {
         @Override
