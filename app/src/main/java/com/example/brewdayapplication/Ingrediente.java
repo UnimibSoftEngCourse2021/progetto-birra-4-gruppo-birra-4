@@ -45,12 +45,4 @@ public class Ingrediente {
     public int hashCode() {
         return super.hashCode();
     }
-
-    public double convertiGrammiAKilo(double grammi){
-        return grammi / 1000;
-    }
-
-    public double convertiKiloAGrammi(double kilo){
-        return kilo * 1000;
-    }
 }

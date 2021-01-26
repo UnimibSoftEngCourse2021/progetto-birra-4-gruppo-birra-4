@@ -3,6 +3,8 @@ package com.example.brewdayapplication.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,6 +27,7 @@ public class IngredienteActivity extends AppCompatActivity {
     Button modificaIngrediente;
     EditText quantitaView;
     Spinner ingredienteView;
+    Spinner ingredienteMisura;
     ListView listviewIngredienti;
     List<Ingrediente> ingredienteList;
     ListAdapter resultQuery;
@@ -39,6 +42,7 @@ public class IngredienteActivity extends AppCompatActivity {
         modificaIngrediente = findViewById(R.id.modifica_ingrediente);
         quantitaView = findViewById(R.id.quantita_ingrediente);
         ingredienteView = findViewById(R.id.nome_ingrediente);
+        ingredienteMisura = findViewById(R.id.misura);
         databaseManager = new DatabaseManager(getApplicationContext());
         printList();
 
@@ -47,7 +51,6 @@ public class IngredienteActivity extends AppCompatActivity {
         modificaIngrediente.setOnClickListener(new ModificaIngredienteListener());
 
     }
-
 
     //crea l'ingrediente con nome selezionato dallo spinner e quantità  inserita dall'utente
     //creato l'ingrediente lo salva nel db
@@ -58,7 +61,11 @@ public class IngredienteActivity extends AppCompatActivity {
         public void onClick(View v) {
             Ingrediente ingrediente = null;
             try {
-                ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
+                if (ingredienteMisura.getSelectedItem().toString().equalsIgnoreCase(String.valueOf(R.string.grammi)))
+                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
+                else{
+                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), 1000*(Double.parseDouble(quantitaView.getText().toString())));
+                }
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
@@ -76,7 +83,6 @@ public class IngredienteActivity extends AppCompatActivity {
         resultQuery = new ListAdapter(this, ingredienteList);
         listviewIngredienti.setAdapter(resultQuery);
     }
-
 
 }
 

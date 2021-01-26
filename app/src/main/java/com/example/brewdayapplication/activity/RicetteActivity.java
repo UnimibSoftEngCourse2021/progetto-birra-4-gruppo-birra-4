@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class RicetteActivity extends AppCompatActivity {
     boolean isUpdate = false;
     String listaIngString;
     String listaQuaString;
+    Spinner unitaMisura;
 
 
     Note note;
@@ -126,6 +128,7 @@ public class RicetteActivity extends AppCompatActivity {
         editTextTitoloRicetta = viewNewRicetta.findViewById(R.id.titoloRicetta);
         textView = viewNewRicetta.findViewById(R.id.nome_ingrediente);
         editText = viewNewRicetta.findViewById(R.id.quantita_ingrediente);
+        unitaMisura = viewNewRicetta.findViewById(R.id.misura);
         button = viewNewRicetta.findViewById(R.id.plus_ingrediente);
 
         btnTornaIndietroNewRicetta = viewNewRicetta.findViewById(R.id.btn_back_ricetta);
@@ -150,7 +153,10 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (!editText.getText().toString().isEmpty())
-                ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
+                if (unitaMisura.getSelectedItem().toString().equalsIgnoreCase("g"))
+                    ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
+                else
+                    ricettario.add(new Ingrediente(textView.getText().toString(), 1000 * Double.parseDouble(editText.getText().toString())));
             else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 

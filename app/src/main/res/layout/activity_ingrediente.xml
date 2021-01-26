@@ -9,7 +9,7 @@
 
     <Spinner
         android:id="@+id/nome_ingrediente"
-        android:layout_width="200dp"
+        android:layout_width="140dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -17,14 +17,25 @@
 
     <EditText
         android:id="@+id/quantita_ingrediente"
-        android:layout_width="200dp"
+        android:layout_width="140dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="number"
         android:hint="@string/Quantità"
-        android:layout_toRightOf="@id/nome_ingrediente"/>
+        android:layout_toEndOf="@id/nome_ingrediente"/>
+
+    <Spinner
+        android:id="@+id/misura"
+
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@+id/quantita_ingrediente"
+        android:entries="@array/unitaMisura"/>
+
 
     <Button
         android:id="@+id/modifica_ingrediente"
