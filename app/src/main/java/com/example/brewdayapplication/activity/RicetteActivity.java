@@ -311,7 +311,15 @@ public class RicetteActivity extends AppCompatActivity {
     private class ProduciRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (databaseManager.controlloQuantita(ricetta)) {
+            List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
+            List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+            boolean producibile = true;
+            for(int i = 0; i < ingredientiRicetta.size(); i++){
+                int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(i));
+                if(ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(i).getQuantita())
+                    producibile = false;
+            }
+            if (producibile) {
                 databaseManager.produciBirra(ricetta);
                 alertDialog.dismiss();
                 Toast toastBack = Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT);

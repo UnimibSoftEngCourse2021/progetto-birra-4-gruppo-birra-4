@@ -34,20 +34,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         btnIngredienti = findViewById(R.id.btn_Ingredienti);
         btnIngredienti.setOnClickListener(new StartIngredienteActivity());
 
         btnRicette = findViewById(R.id.btn_Ricette);
         btnRicette.setOnClickListener(new StartRicetteActivity());
-
-        //in più
         btnFeatures = findViewById(R.id.btn_Features);
+
         databaseManager = new DatabaseManager(getApplicationContext());
         if(databaseManager.mostraRicette().size() == 0)
             btnFeatures.setVisibility(View.INVISIBLE);
         else {
-            btnFeatures.setOnClickListener(new BrewDayListener());
+           btnFeatures.setOnClickListener(new BrewDayListener());
         }
     }
 
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             scegliBirra();
         }
 
-        //in più
         private void scegliBirra() {
             String nomeBirra = "";
             List<Ricetta> listaRicette = databaseManager.mostraRicette();
@@ -102,8 +99,13 @@ public class MainActivity extends AppCompatActivity {
             int indiceRicettaMax = 0;
             for (int j = 0; j < listaRicette.size(); j++) {
                 listaIngRic = listaRicette.get(j).getDispensaIngrediente();
-                //// GESTIRE CONTROLLO QUANTITA
-                if (!databaseManager.controlloQuantita(listaRicette.get(j))) {
+                boolean producibile = true;
+                for(int i = 0; i < listaIngRic.size(); i++){
+                    int indice = listaIngMag.indexOf(listaIngRic.get(i));
+                    if(listaIngMag.get(indice).getQuantita() < listaIngRic.get(i).getQuantita())
+                        producibile = false;
+                }
+                if (!producibile) {
                     quantitaIng[j] = -100000;
                 } else {
                     for (int i = 0; i < listaIngRic.size(); i++) {
@@ -148,9 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             } else {
                 Toast.makeText(getApplicationContext(), "Non e' possibile produrre nessuna ricetta", Toast.LENGTH_SHORT).show();
-                /*alert.setTitle("Non e' possibile produrre nessuna ricetta");
-                alertDialog = alert.create();
-                alertDialog.show(); */
+
             }
 
         }
