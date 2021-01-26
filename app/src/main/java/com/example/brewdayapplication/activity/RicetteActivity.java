@@ -113,6 +113,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // serve per gestire la creazione e la modifica delle ricette tramite alert
     private void creaDialogRicetta() {
         alert = new AlertDialog.Builder(RicetteActivity.this);
         viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
@@ -178,6 +179,7 @@ public class RicetteActivity extends AppCompatActivity {
     private class SalvaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            // verifica che sia già presente la ricetta sul db e la aggiorna con i dati inseriti
             if (isUpdate) {
                 databaseManager.updateRicetta(ricetta, ricettario);
                 isUpdate = false;
@@ -186,6 +188,7 @@ public class RicetteActivity extends AppCompatActivity {
                 ricettario.clear();
             }
 
+            // crea la ricetta con i dati inseriti
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 data = creaData();
                 ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
@@ -199,6 +202,7 @@ public class RicetteActivity extends AppCompatActivity {
 
         }
 
+        // metodo che per creare la data da inserire nella ricetta nel db nel formato "dd-MM-yyyy HH:mm"
         private String creaData() {
             LocalDate localdata = LocalDate.now();
             LocalTime ora = LocalTime.now();
@@ -208,6 +212,7 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
+    // classe innestate per visualizzare le info di una ricetta al premere su ognuna di esse
     private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -233,6 +238,7 @@ public class RicetteActivity extends AppCompatActivity {
             descrizione();
 
             note = databaseManager.getNote(ricetta);
+            // se le note sono già presenti le imposta con il contenuto del db
             if (note != null) {
                 editTextNotaProblema.setText(note.getTestoProblemi());
                 editTextNotaUtente.setText(note.getTestoUtenti());
@@ -241,7 +247,7 @@ public class RicetteActivity extends AppCompatActivity {
             alertDialog.show();
             buttonModificaRicetta.setOnClickListener(new AggiornaRicetta());
 
-            note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
+            //note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
 
             buttonSalvaNota.setOnClickListener(new SalvaNota());
             buttonProduciRicetta.setOnClickListener(new ProduciRicetta());

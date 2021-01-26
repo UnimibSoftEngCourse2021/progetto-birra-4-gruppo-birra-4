@@ -247,15 +247,16 @@ public class DatabaseManager {
     public void saveNote(Note nota, Ricetta ricetta) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
-        int id = readIdRicetta(ricetta);
-        if (elencaIdNote().contains(id)) {
+        int idNota = readIdNota(ricetta);
+        if (elencaIdNote().contains(idNota)) {
             List<Integer> listaidNote = elencaIdNote();
             for (Integer i : listaidNote) {
-                if (i == id) {
-                    updateNota(nota, ricetta, id);
+                if (i == idNota) {
+                    updateNota(nota, ricetta, idNota);
                 }
             }
         } else {
+            int id = readIdRicetta(ricetta);
             cv.put(DataString.COLUMN_TESTO_NOTE_PROBLEMI, nota.getTestoProblemi());
             cv.put(DataString.COLUMN_TESTO_NOTE_UTENTI, nota.getTestoUtenti());
             cv.put(DataString.COLUMN_ID_RICETTA, id);
@@ -265,6 +266,18 @@ public class DatabaseManager {
                 // Gestione delle eccezioni
             }
         }
+    }
+
+    private int readIdNota(Ricetta ricetta) {
+        db = databaseHelper.getReadableDatabase();
+        int id = 0;
+        Cursor cursor = db.query(DataString.NOTE_TABLE, null,
+                DataString.COLUMN_ID_RICETTA + " = ?", new String[]{String.valueOf(readIdRicetta(ricetta))}, null, null, null);
+        if (cursor.moveToNext()) {
+            id = cursor.getInt(0);
+        } else
+            cursor.close();
+        return id;
     }
 
     private void updateNota(Note nota, Ricetta ricetta, int id) {
@@ -287,7 +300,6 @@ public class DatabaseManager {
         db = databaseHelper.getReadableDatabase();
         Cursor listaNoteCursor = db.query(DataString.NOTE_TABLE, new String[]{DataString.COLUMN_ID_NOTE}, null,
                 null, null, null, null);
-
         if (listaNoteCursor.moveToNext()) {
             do {
                 listaId.add(listaNoteCursor.getInt(0));

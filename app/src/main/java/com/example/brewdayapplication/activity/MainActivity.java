@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         btnFeatures = findViewById(R.id.btn_Features);
 
         databaseManager = new DatabaseManager(getApplicationContext());
+        // se non ci sono ricette nel db, non si da' l'oppurtina di usare "what should i brew today?"
         if(databaseManager.mostraRicette().size() == 0)
             btnFeatures.setVisibility(View.INVISIBLE);
         else {
@@ -97,18 +98,26 @@ public class MainActivity extends AppCompatActivity {
             List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
             double[] quantitaIng = new double[listaRicette.size()];
             int indiceRicettaMax = 0;
+            // scorre la lista di ricette presenti nel db
             for (int j = 0; j < listaRicette.size(); j++) {
                 listaIngRic = listaRicette.get(j).getDispensaIngrediente();
                 boolean producibile = true;
+                /*scorre gli ingredienti di una ricetta e verifica se essi sono producibili ovvero ci sia abbastanza quantità
+                  in magazzino per ogni ingrediente in ricetta */
                 for(int i = 0; i < listaIngRic.size(); i++){
                     int indice = listaIngMag.indexOf(listaIngRic.get(i));
                     if(listaIngMag.get(indice).getQuantita() < listaIngRic.get(i).getQuantita())
                         producibile = false;
                 }
                 if (!producibile) {
+                    // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
                     quantitaIng[j] = -100000;
                 } else {
+                    // scorre gli ingredienti di una ricetta
                     for (int i = 0; i < listaIngRic.size(); i++) {
+                        /* viene scelta la  ricetta che consuma la maggior quantità in percentuale di ingredienti in magazzino
+                           preferendo la birra con minor quantità di additivi (rispetto alla quantità di acqua).
+                           Il valore massimo è 6, che corrisponde al consumo totale degli ingredienti in magazzino (esclusi gli additivi) */
                         if (i == 1 && listaIngRic.get(0).getQuantita() != 0) {
                             quantitaIng[j] -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
                         } else if (listaIngMag.get(i).getQuantita() != 0) {
@@ -117,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+            // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
             double max = -1000;
             boolean trova = false;
+            // viene trovata la ricetta con valore di gradimento maggiore
             for (int i = 0; i < quantitaIng.length; i++) {
                 if (quantitaIng[i] > max) {
                     max = quantitaIng[i];
@@ -127,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            // serve per mostrare a video il risultato
             int indice = indiceRicettaMax;
             nomeBirra = listaRicette.get(indiceRicettaMax).getNome();
             AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
