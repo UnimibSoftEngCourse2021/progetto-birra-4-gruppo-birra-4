@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             nomeBirra = listaRicette.get(indiceRicettaMax).getNome();
 
+
             toastBack = Toast.makeText(getApplicationContext(), nomeBirra, Toast.LENGTH_SHORT);
             toastBack.show();
         }

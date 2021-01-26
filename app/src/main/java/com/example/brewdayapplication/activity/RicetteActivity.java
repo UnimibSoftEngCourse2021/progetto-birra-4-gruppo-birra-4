@@ -307,20 +307,21 @@ public class RicetteActivity extends AppCompatActivity {
             alertDialog.dismiss();
         }
     }
-   private class ProduciRicetta implements  View.OnClickListener{
+
+    private class ProduciRicetta implements View.OnClickListener {
         @Override
-        public void onClick(View v){
-            if(databaseManager.controlloQuantita(ricetta)){
+        public void onClick(View v) {
+            if (databaseManager.controlloQuantita(ricetta)) {
                 databaseManager.produciBirra(ricetta);
                 alertDialog.dismiss();
                 Toast toastBack = Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT);
-                toastBack.show();}
-            else{
-                Toast toastBack = Toast.makeText(getApplicationContext(), "RCHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT);
+                toastBack.show();
+            } else {
+                Toast toastBack = Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT);
                 toastBack.show();
             }
         }
-   }
+    }
 
     private class AggiornaRicetta implements View.OnClickListener {
         @Override
