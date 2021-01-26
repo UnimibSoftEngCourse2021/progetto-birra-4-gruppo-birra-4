@@ -109,11 +109,11 @@ public class RicetteActivity extends AppCompatActivity {
     private class CreaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            provaaaa();
+            creaDialogRicetta();
         }
     }
 
-    private void provaaaa() {
+    private void creaDialogRicetta() {
         alert = new AlertDialog.Builder(RicetteActivity.this);
         viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
         alert.setView(viewNewRicetta);
@@ -327,7 +327,7 @@ public class RicetteActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             isUpdate = true;
-            provaaaa();
+            creaDialogRicetta();
         }
     }
 }

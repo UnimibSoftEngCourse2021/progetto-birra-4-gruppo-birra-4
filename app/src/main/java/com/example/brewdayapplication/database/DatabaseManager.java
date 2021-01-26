@@ -186,36 +186,13 @@ public class DatabaseManager {
         if (listaRicetteCursor.moveToNext()) {
             do {
                 String nomeRicetta = listaRicetteCursor.getString(1);
-                listaIngredienti = getIngredientiRicetta();
+                listaIngredienti = getIngredientiRicetta(listaRicetteCursor.getInt(0));
                 Ricetta ricetta = new Ricetta(nomeRicetta, listaRicetteCursor.getString(2), listaRicetteCursor.getDouble(3), listaIngredienti);
                 listaRicette.add(ricetta);
             } while (listaRicetteCursor.moveToNext());
         } else
             listaRicetteCursor.close();
         return listaRicette;
-    }
-
-
-    // restituisce la lista degli ingredienti presenti in ogni ricetta per ogni ricetta nel db
-    private List<Ingrediente> getIngredientiRicetta() {
-        listaIngredienti = new ArrayList<>();
-        //accesso in lettura al db
-        db = databaseHelper.getReadableDatabase();
-        String listaIngredientiRicettaQuery = "SELECT i.ID_INGREDIENTE, i.NOME_INGREDIENTE, rl.QUANTITA_INGREDIENTE " +
-                "FROM RICETTA r JOIN RELAZIONE rl " +
-                "ON r.ID_RICETTA = rl.ID_RICETTA " +
-                "JOIN INGREDIENTE i " +
-                "ON rl.ID_INGREDIENTE = i.ID_INGREDIENTE " +
-                "ORDER BY i.ID_INGREDIENTE";
-        listaIngredientiCursor = db.rawQuery(listaIngredientiRicettaQuery, null);
-        if (listaIngredientiCursor.moveToNext()) {
-            do {
-                Ingrediente ingrediente = new Ingrediente(listaIngredientiCursor.getString(1), listaIngredientiCursor.getDouble(2));
-                listaIngredienti.add(ingrediente);
-            } while (listaIngredientiCursor.moveToNext());
-        } else
-            listaIngredientiCursor.close();
-        return listaIngredienti;
     }
 
     /// nome e data creazione ricetta, nome ingrediente e quantità di relazione
@@ -230,7 +207,8 @@ public class DatabaseManager {
                 "ON r.ID_RICETTA = rl.ID_RICETTA " +
                 "JOIN INGREDIENTE i " +
                 "ON rl.ID_INGREDIENTE = i.ID_INGREDIENTE " +
-                "WHERE r.ID_RICETTA = " + id;
+                "WHERE r.ID_RICETTA = " + id +
+                " ORDER BY i.NOME_INGREDIENTE";
         listaIngredientiCursor = db.rawQuery(listaIngredientiRicettaQuery, null);
         if (listaIngredientiCursor.moveToNext()) {
             do {
