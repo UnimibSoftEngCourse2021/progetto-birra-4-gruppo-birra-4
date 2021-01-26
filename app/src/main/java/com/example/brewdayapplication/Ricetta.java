@@ -22,10 +22,6 @@ public class Ricetta {
         this.listIngrediente = listIngrediente;
     }
 
-    public Ricetta(String nome, String dataCreazione, List<Ingrediente> listIngrediente) {
-        new Ricetta(nome, dataCreazione, 1, listIngrediente);
-    }
-
     private String creaDataCreazione() {
         LocalDate data = LocalDate.now();
         LocalTime ora = LocalTime.now();
@@ -85,11 +81,9 @@ public class Ricetta {
         return true;
     }
 
-
     @Override
     public String toString() {
         return getNome() + " " + getDataCreazione();
     }
-
 
 }

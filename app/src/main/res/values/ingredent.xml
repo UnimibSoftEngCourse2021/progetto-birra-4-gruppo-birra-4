@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="nameIngredient">
+        <item>Acqua</item>
+        <item>Additivi</item>
+        <item>Lievito</item>
+        <item>Luppolo</item>
         <item>Malto</item>
         <item>Orzo</item>
-        <item>Acqua</item>
-        <item>Luppolo</item>
-        <item>Lievito</item>
         <item>Zucchero</item>
-        <item>Additivi</item>
     </string-array>
 </resources>

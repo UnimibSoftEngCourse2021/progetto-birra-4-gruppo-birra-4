@@ -1,8 +1,5 @@
 package com.example.brewdayapplication.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.R;
@@ -28,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnFeatures;
     DatabaseManager databaseManager;
 
+    AlertDialog.Builder alert;
+    AlertDialog alertDialog;
+    List<Ricetta> listaRicette;
+    int indice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         databaseManager = new DatabaseManager(getApplicationContext());
         // se non ci sono ricette nel db, non si da' l'oppurtina di usare "what should i brew today?"
-        if(databaseManager.mostraRicette().size() == 0)
+        if (databaseManager.mostraRicette().isEmpty())
             btnFeatures.setVisibility(View.INVISIBLE);
         else {
-           btnFeatures.setOnClickListener(new BrewDayListener());
+            btnFeatures.setOnClickListener(new BrewDayListener());
         }
     }
 
@@ -88,41 +91,43 @@ public class MainActivity extends AppCompatActivity {
     private class BrewDayListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            scegliBirra();
-        }
-
-        private void scegliBirra() {
-            String nomeBirra = "";
-            List<Ricetta> listaRicette = databaseManager.mostraRicette();
+            String nomeBirra;
+            listaRicette = databaseManager.mostraRicette();
             List<Ingrediente> listaIngRic;
             List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
+
             double[] quantitaIng = new double[listaRicette.size()];
             int indiceRicettaMax = 0;
+
             // scorre la lista di ricette presenti nel db
             for (int j = 0; j < listaRicette.size(); j++) {
                 listaIngRic = listaRicette.get(j).getDispensaIngrediente();
                 boolean producibile = true;
                 /*scorre gli ingredienti di una ricetta e verifica se essi sono producibili ovvero ci sia abbastanza quantità
                   in magazzino per ogni ingrediente in ricetta */
-                for(int i = 0; i < listaIngRic.size(); i++){
-                    int indice = listaIngMag.indexOf(listaIngRic.get(i));
-                    if(listaIngMag.get(indice).getQuantita() < listaIngRic.get(i).getQuantita())
+
+                int k = 0;
+                while (k < listaIngRic.size() && producibile) {
+                    int index = listaIngMag.indexOf(listaIngRic.get(k));
+                    if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
                         producibile = false;
+                    k++;
                 }
-                if (!producibile) {
+
+                if (!producibile)
                     // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
                     quantitaIng[j] = -100000;
-                } else {
+                else {
                     // scorre gli ingredienti di una ricetta
                     for (int i = 0; i < listaIngRic.size(); i++) {
                         /* viene scelta la  ricetta che consuma la maggior quantità in percentuale di ingredienti in magazzino
                            preferendo la birra con minor quantità di additivi (rispetto alla quantità di acqua).
                            Il valore massimo è 6, che corrisponde al consumo totale degli ingredienti in magazzino (esclusi gli additivi) */
-                        if (i == 1 && listaIngRic.get(0).getQuantita() != 0) {
+                        if (i == 1 && listaIngRic.get(0).getQuantita() != 0)
                             quantitaIng[j] -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
-                        } else if (listaIngMag.get(i).getQuantita() != 0) {
+                        else if (listaIngMag.get(i).getQuantita() != 0)
                             quantitaIng[j] += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
-                        }
+
                     }
                 }
             }
@@ -139,35 +144,40 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // serve per mostrare a video il risultato
-            int indice = indiceRicettaMax;
+            indice = indiceRicettaMax;
             nomeBirra = listaRicette.get(indiceRicettaMax).getNome();
-            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-            AlertDialog alertDialog;
+            alert = new AlertDialog.Builder(MainActivity.this);
+
             if (trova) {
-                // toastBack = Toast.makeText(getApplicationContext(), nomeBirra, Toast.LENGTH_SHORT).show();
                 String ingredienti = nomeBirra.toUpperCase() + " \n \n";
-                for (Ingrediente i : listaRicette.get(indiceRicettaMax).getDispensaIngrediente()) {
+                for (Ingrediente i : listaRicette.get(indiceRicettaMax).getDispensaIngrediente())
                     ingredienti = ingredienti.concat(i.getNome() + " " + i.getQuantita() + "\n");
-                }
-                //ingredienti = ingredienti.concat("\n \n Vuoi produrre la ricetta?");
+
                 alert.setMessage(ingredienti);
                 alert.setTitle("Vuoi produrre la ricetta seguente ?")
-                        .setNegativeButton("No", (dialog, which) -> alert.setCancelable(true))
-                        .setPositiveButton("Si", (dialog, which) -> {
-                            /// CONTROLLO BIRRA
-                            databaseManager.produciBirra(listaRicette.get(indice));
-                            alert.setCancelable(true);
-                        });
+                        .setPositiveButton("Si", new ProduzioneAffermativaListener())
+                        .setNegativeButton("No", new ProduzioneNegativaListener());
+
                 alertDialog = alert.create();
                 alertDialog.show();
-            } else {
+            } else
                 Toast.makeText(getApplicationContext(), "Non e' possibile produrre nessuna ricetta", Toast.LENGTH_SHORT).show();
-
-            }
-
         }
+    }
 
+    private class ProduzioneAffermativaListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            databaseManager.produciBirra(listaRicette.get(indice));
+            alert.setCancelable(true);
+        }
+    }
 
+    private class ProduzioneNegativaListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            alert.setCancelable(true);
+        }
     }
 
 }

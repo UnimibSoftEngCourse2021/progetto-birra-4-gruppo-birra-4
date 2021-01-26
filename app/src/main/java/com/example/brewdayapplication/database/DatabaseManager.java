@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-
 import com.example.brewdayapplication.Ingrediente;
 import com.example.brewdayapplication.Note;
 import com.example.brewdayapplication.Ricetta;
@@ -326,7 +325,7 @@ public class DatabaseManager {
         Cursor cursor;
         List<Ingrediente> listaIngRic = getIngredientiRicetta(readIdRicetta(ricetta));
         for (Ingrediente ing : listaIngRic) {
-            String nome = "\'" + ing.getNome() + "\'";
+            String nome = "'" + ing.getNome() + "'";
             cursor = db.query(DataString.INGREDIENTE_TABLE,
                     new String[]{DataString.COLUMN_QUANTITA_MAGAZZINO},
                     DataString.COLUMN_NOME_INGREDIENTE + " = " + nome,

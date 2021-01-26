@@ -1,5 +1,6 @@
 package com.example.brewdayapplication.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ public class RicetteActivity extends AppCompatActivity {
 
     Note note;
 
-    String[] arrayIngredienti = new String[]{"Malto", "Orzo", "Lievito", "Acqua", "Zucchero", "Luppolo", "Additivi"};
+    String[] arrayIngredienti = new String[]{"Acqua", "Additivi", "Lievito", "Luppolo", "Malto", "Orzo", "Zucchero"};
     int i = 0;
     TextView textView;
     EditText editText;
@@ -89,7 +90,6 @@ public class RicetteActivity extends AppCompatActivity {
         //cliccato il bottone rimanda alla classe innestata che crea la dialog e chiede i parametri per creare la ricetta
         aggiungiRicetta.setOnClickListener(new CreaRicetta());
 
-
         printList();
 
         listViewRicette.setOnItemLongClickListener(new CancellaRicettaListener());
@@ -114,6 +114,7 @@ public class RicetteActivity extends AppCompatActivity {
     }
 
     // serve per gestire la creazione e la modifica delle ricette tramite alert
+    @SuppressLint("InflateParams")
     private void creaDialogRicetta() {
         alert = new AlertDialog.Builder(RicetteActivity.this);
         viewNewRicetta = getLayoutInflater().inflate(R.layout.activity_dialog_new_ricetta, null);
@@ -156,7 +157,7 @@ public class RicetteActivity extends AppCompatActivity {
             if (i < arrayIngredienti.length - 1) {
                 textView.setText(arrayIngredienti[++i]);
             } else {
-                Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere il pulsante Conferma per salvare la ricetta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere salva ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
                 btnSalvaRicetta.setEnabled(true);
             }
@@ -214,6 +215,7 @@ public class RicetteActivity extends AppCompatActivity {
 
     // classe innestate per visualizzare le info di una ricetta al premere su ognuna di esse
     private class VisualizzaInfoRicettaListener implements AdapterView.OnItemClickListener {
+        @SuppressLint("InflateParams")
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -247,8 +249,6 @@ public class RicetteActivity extends AppCompatActivity {
             alertDialog.show();
             buttonModificaRicetta.setOnClickListener(new AggiornaRicetta());
 
-            //note = new Note(editTextNotaProblema.getText().toString(), editTextNotaProblema.getText().toString());
-
             buttonSalvaNota.setOnClickListener(new SalvaNota());
             buttonProduciRicetta.setOnClickListener(new ProduciRicetta());
 
@@ -262,11 +262,11 @@ public class RicetteActivity extends AppCompatActivity {
         for (Ingrediente j : ingredientiRicetta) {
             listaIngString = listaIngString.concat(j.getNome() + " \n");
             listaQuaString = listaQuaString.concat(j.getQuantita() + " g \n");
-            textViewTitolo.setText(ricetta.getNome());
-            textViewData.setText(ricetta.getDataCreazione());
-            textViewListaIng.setText(listaIngString);
-            textViewListaQuant.setText(listaQuaString);
         }
+        textViewTitolo.setText(ricetta.getNome());
+        textViewData.setText(ricetta.getDataCreazione());
+        textViewListaIng.setText(listaIngString);
+        textViewListaQuant.setText(listaQuaString);
     }
 
 
@@ -276,8 +276,8 @@ public class RicetteActivity extends AppCompatActivity {
             ricetta = (Ricetta) listViewRicette.getItemAtPosition(position);
             alert = new AlertDialog.Builder(RicetteActivity.this);
             alert.setTitle("Cancellare?")
-                    .setNegativeButton("Si", new CancellazioneAffermativaListener())
-                    .setPositiveButton("No", new CancellazioneNegativaListener());
+                    .setNegativeButton("No", new CancellazioneNegativaListener())
+                    .setPositiveButton("Si", new CancellazioneAffermativaListener());
             alertDialog = alert.create();
             alertDialog.show();
             return true;
@@ -296,7 +296,7 @@ public class RicetteActivity extends AppCompatActivity {
     private class CancellazioneNegativaListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "torna indietro", Toast.LENGTH_LONG).show();
+            alert.setCancelable(true);
         }
     }
 
@@ -319,21 +319,22 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
             List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
             List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+
             boolean producibile = true;
-            for(int i = 0; i < ingredientiRicetta.size(); i++){
-                int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(i));
-                if(ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(i).getQuantita())
+            int k = 0;
+            while (k < ingredientiRicetta.size() && producibile) {
+                int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(k));
+                if (ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(k).getQuantita())
                     producibile = false;
+                k++;
             }
+
             if (producibile) {
                 databaseManager.produciBirra(ricetta);
                 alertDialog.dismiss();
-                Toast toastBack = Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT);
-                toastBack.show();
-            } else {
-                Toast toastBack = Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT);
-                toastBack.show();
-            }
+                Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT).show();
         }
     }
 
