@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnRicette;
     long backPressedTime;
     Toast toastBack;
-    //in più
     Button btnFeatures;
     DatabaseManager databaseManager;
 
@@ -113,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
             double max = -1000;
             boolean trova = false;
-
             // viene trovata la ricetta con valore di gradimento maggiore
             for (int i = 0; i < quantitaIng.length; i++) {
                 if (quantitaIng[i] > max) {
@@ -143,38 +141,38 @@ public class MainActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Non e' possibile produrre nessuna ricetta", Toast.LENGTH_SHORT).show();
         }
-    }
 
-    //metodo che dice se una ricetta è producibile, creato per diminuire la complessità di scegliBirra
-    public boolean producibile(Ricetta ricetta){
-         List<Ingrediente> listaIngRic = ricetta.getDispensaIngrediente();
-         List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
-        int k = 0;
-        boolean producibile = true;
-        while (k < listaIngRic.size() && producibile) {
-            int index = listaIngMag.indexOf(listaIngRic.get(k));
-            if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
-                producibile = false;
-            k++;
+        //metodo che dice se una ricetta è producibile, creato per diminuire la complessità di scegliBirra
+        public boolean producibile(Ricetta ricetta){
+            List<Ingrediente> listaIngRic = ricetta.getDispensaIngrediente();
+            List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
+            int k = 0;
+            boolean producibile = true;
+            while (k < listaIngRic.size() && producibile) {
+                int index = listaIngMag.indexOf(listaIngRic.get(k));
+                if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
+                    producibile = false;
+                k++;
+            }
+            return producibile;
         }
-        return producibile;
-    }
 
-    public double valoreDiScelta(List<Ingrediente> listaIngRic){
-        List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
-        double quantitaIng=0;
-        // scorre gli ingredienti di una ricetta
-        for (int i = 0; i < listaIngRic.size(); i++) {
+        public double valoreDiScelta(List<Ingrediente> listaIngRic){
+            List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
+            double quantitaIng=0;
+            // scorre gli ingredienti di una ricetta
+            for (int i = 0; i < listaIngRic.size(); i++) {
                         /* viene scelta la  ricetta che consuma la maggior quantità in percentuale di ingredienti in magazzino
                            preferendo la birra con minor quantità di additivi (rispetto alla quantità di acqua).
                            Il valore massimo è 6, che corrisponde al consumo totale degli ingredienti in magazzino (esclusi gli additivi) */
-            if (i == 1 && listaIngRic.get(0).getQuantita() != 0)
-                quantitaIng -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
-            else if (listaIngMag.get(i).getQuantita() != 0)
-                quantitaIng += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
+                if (i == 1 && listaIngRic.get(0).getQuantita() != 0)
+                    quantitaIng -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
+                else if (listaIngMag.get(i).getQuantita() != 0)
+                    quantitaIng += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
 
+            }
+            return quantitaIng;
         }
-        return quantitaIng;
     }
 
     private class ProduzioneAffermativaListener implements DialogInterface.OnClickListener {
