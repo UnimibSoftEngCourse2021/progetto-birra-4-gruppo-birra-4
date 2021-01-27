@@ -160,9 +160,9 @@ public class RicetteActivity extends AppCompatActivity {
             else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
-            if (i < arrayIngredienti.length - 1) {
+            if (i < arrayIngredienti.length - 1)
                 textView.setText(arrayIngredienti[++i]);
-            } else {
+            else {
                 Toast.makeText(getApplicationContext(), "Lista ingredienti finita, premere salva ricetta", Toast.LENGTH_SHORT).show();
                 editText.setFocusable(false);
                 btnSalvaRicetta.setEnabled(true);
