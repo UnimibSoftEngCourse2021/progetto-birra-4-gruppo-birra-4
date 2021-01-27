@@ -59,11 +59,11 @@ public class IngredienteActivity extends AppCompatActivity {
         public void onClick(View v) {
             Ingrediente ingrediente = null;
             try {
-                if (ingredienteMisura.getSelectedItem().toString().equalsIgnoreCase(String.valueOf(R.string.grammi)))
+                if (ingredienteMisura.getSelectedItem().toString().equalsIgnoreCase("g"))
                     ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), Double.parseDouble(quantitaView.getText().toString()));
-                else{
-                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), 1000*(Double.parseDouble(quantitaView.getText().toString())));
-                }
+                else
+                    ingrediente = new Ingrediente(ingredienteView.getSelectedItem().toString(), 1000 * (Double.parseDouble(quantitaView.getText().toString())));
+
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
