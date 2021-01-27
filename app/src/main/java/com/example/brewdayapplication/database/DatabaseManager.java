@@ -319,7 +319,7 @@ public class DatabaseManager {
         return nota;
     }
 
-    public void produciBirra(Ricetta ricetta) {
+    public void produciBirra(Ricetta ricetta, int quantity) {
         db = databaseHelper.getWritableDatabase();
         cv = new ContentValues();
         Cursor cursor;
@@ -332,7 +332,7 @@ public class DatabaseManager {
                     null, null, null, null);
             cursor.moveToFirst();
             double quantitaMag = cursor.getDouble(0);
-            cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, (quantitaMag - ing.getQuantita()));
+            cv.put(DataString.COLUMN_QUANTITA_MAGAZZINO, (quantitaMag - ing.getQuantita() * quantity));
             try {
                 db.update(DataString.INGREDIENTE_TABLE, cv,
                         DataString.COLUMN_NOME_INGREDIENTE + " = " + nome,

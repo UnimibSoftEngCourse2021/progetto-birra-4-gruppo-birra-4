@@ -178,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
     private class ProduzioneAffermativaListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            databaseManager.produciBirra(listaRicette.get(indice));
+            databaseManager.produciBirra(listaRicette.get(indice), 1);
+            Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
             alert.setCancelable(true);
         }
     }

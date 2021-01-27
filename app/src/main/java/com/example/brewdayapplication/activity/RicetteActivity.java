@@ -61,8 +61,8 @@ public class RicetteActivity extends AppCompatActivity {
     String listaIngString;
     String listaQuaString;
     Spinner unitaMisura;
-
-
+    int quantity;
+    EditText quantita;
     Note note;
 
     String[] arrayIngredienti = new String[]{"Acqua", "Additivi", "Lievito", "Luppolo", "Malto", "Orzo", "Zucchero"};
@@ -152,15 +152,13 @@ public class RicetteActivity extends AppCompatActivity {
     private class PlusIngrediente implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (!editText.getText().toString().isEmpty()){
+            if (!editText.getText().toString().isEmpty()) {
                 if (unitaMisura.getSelectedItem().toString().equalsIgnoreCase("g")) {
                     ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
-                }
-                else {
+                } else {
                     ricettario.add(new Ingrediente(textView.getText().toString(), 1000 * Double.parseDouble(editText.getText().toString())));
                 }
-            }
-            else
+            } else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
             if (i < arrayIngredienti.length - 1)
@@ -326,25 +324,42 @@ public class RicetteActivity extends AppCompatActivity {
     private class ProduciRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
-            List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
 
-            boolean producibile = true;
-            int k = 0;
-            while (k < ingredientiRicetta.size() && producibile) {
-                int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(k));
-                if (ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(k).getQuantita())
-                    producibile = false;
-                k++;
-            }
+            alert = new AlertDialog.Builder(RicetteActivity.this);
+            viewNewRicetta = getLayoutInflater().inflate(R.layout.alert_produci, null);
+            alert.setView(viewNewRicetta);
 
-            if (producibile) {
-                databaseManager.produciBirra(ricetta);
-                alertDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
-            } else
-                Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT).show();
+            quantita = viewNewRicetta.findViewById(R.id.editTextNumber);
+            Button annulla = viewNewRicetta.findViewById(R.id.annulla);
+            Button conferma = viewNewRicetta.findViewById(R.id.conferma);
+            alertDialog = alert.create();
+            alertDialog.show();
+
+            conferma.setOnClickListener(new ConfermaProduzione());
+            annulla.setOnClickListener(new AnnullaProduzione());
+
         }
+    }
+
+    private void produci() {
+        List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
+        List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+
+        boolean producibile = true;
+        int k = 0;
+        while (k < ingredientiRicetta.size() && producibile) {
+            int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(k));
+            if (ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(k).getQuantita() * quantity)
+                producibile = false;
+            k++;
+        }
+
+        if (producibile) {
+            databaseManager.produciBirra(ricetta, quantity);
+            alertDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT).show();
     }
 
     private class AggiornaRicetta implements View.OnClickListener {
@@ -352,6 +367,24 @@ public class RicetteActivity extends AppCompatActivity {
         public void onClick(View v) {
             isUpdate = true;
             creaDialogRicetta();
+        }
+    }
+
+    private class ConfermaProduzione implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if (Double.parseDouble(quantita.getText().toString()) > 0) {
+                quantity = Integer.parseInt(quantita.getText().toString());
+                produci();
+            } else
+                Toast.makeText(getApplicationContext(), "Inserire un numero positivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class AnnullaProduzione implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            alertDialog.cancel();
         }
     }
 }
