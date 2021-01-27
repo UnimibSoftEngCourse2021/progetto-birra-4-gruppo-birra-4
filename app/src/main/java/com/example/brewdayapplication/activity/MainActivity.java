@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
             double max = -1000;
             boolean trova = false;
+
             // viene trovata la ricetta con valore di gradimento maggiore
             for (int i = 0; i < quantitaIng.length; i++) {
                 if (quantitaIng[i] > max) {
@@ -149,13 +150,14 @@ public class MainActivity extends AppCompatActivity {
          List<Ingrediente> listaIngRic = ricetta.getDispensaIngrediente();
          List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
         int k = 0;
-        while (k < listaIngRic.size()) {
+        boolean producibile = true;
+        while (k < listaIngRic.size() && producibile) {
             int index = listaIngMag.indexOf(listaIngRic.get(k));
             if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
-                return false;
+                producibile = false;
             k++;
         }
-        return true;
+        return producibile;
     }
 
     public double valoreDiScelta(List<Ingrediente> listaIngRic){
