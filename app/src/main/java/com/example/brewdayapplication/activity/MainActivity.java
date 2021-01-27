@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             if (trova) {
                 String ingredienti = nomeBirra.toUpperCase() + " \n \n";
                 for (Ingrediente i : listaRicette.get(indiceRicettaMax).getDispensaIngrediente())
-                    ingredienti = ingredienti.concat(i.getNome() + " " + i.getQuantita() + "\n");
+                    ingredienti = ingredienti.concat(i.getNome() + " " + i.getQuantita() + " g \n");
 
                 alert.setMessage(ingredienti);
                 alert.setTitle("Vuoi produrre la ricetta seguente ?")
