@@ -94,41 +94,20 @@ public class MainActivity extends AppCompatActivity {
             String nomeBirra;
             listaRicette = databaseManager.mostraRicette();
             List<Ingrediente> listaIngRic;
-            List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
-
             double[] quantitaIng = new double[listaRicette.size()];
             int indiceRicettaMax = 0;
 
             // scorre la lista di ricette presenti nel db
             for (int j = 0; j < listaRicette.size(); j++) {
                 listaIngRic = listaRicette.get(j).getDispensaIngrediente();
-                boolean producibile = true;
                 /*scorre gli ingredienti di una ricetta e verifica se essi sono producibili ovvero ci sia abbastanza quantità
                   in magazzino per ogni ingrediente in ricetta */
 
-                int k = 0;
-                while (k < listaIngRic.size() && producibile) {
-                    int index = listaIngMag.indexOf(listaIngRic.get(k));
-                    if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
-                        producibile = false;
-                    k++;
-                }
-
-                if (!producibile)
+                if (!producibile(listaRicette.get(j)))
                     // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
                     quantitaIng[j] = -100000;
                 else {
-                    // scorre gli ingredienti di una ricetta
-                    for (int i = 0; i < listaIngRic.size(); i++) {
-                        /* viene scelta la  ricetta che consuma la maggior quantità in percentuale di ingredienti in magazzino
-                           preferendo la birra con minor quantità di additivi (rispetto alla quantità di acqua).
-                           Il valore massimo è 6, che corrisponde al consumo totale degli ingredienti in magazzino (esclusi gli additivi) */
-                        if (i == 1 && listaIngRic.get(0).getQuantita() != 0)
-                            quantitaIng[j] -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
-                        else if (listaIngMag.get(i).getQuantita() != 0)
-                            quantitaIng[j] += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
-
-                    }
+                    quantitaIng[j] = valoreDiScelta(listaIngRic);
                 }
             }
             // assegnato valore infinitesimale simbolico per massimizzazione ingredienti
@@ -163,6 +142,37 @@ public class MainActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Non e' possibile produrre nessuna ricetta", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //metodo che dice se una ricetta è producibile, creato per diminuire la complessità di scegliBirra
+    public boolean producibile(Ricetta ricetta){
+         List<Ingrediente> listaIngRic = ricetta.getDispensaIngrediente();
+         List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
+        int k = 0;
+        while (k < listaIngRic.size()) {
+            int index = listaIngMag.indexOf(listaIngRic.get(k));
+            if (listaIngMag.get(index).getQuantita() < listaIngRic.get(k).getQuantita())
+                return false;
+            k++;
+        }
+        return true;
+    }
+
+    public double valoreDiScelta(List<Ingrediente> listaIngRic){
+        List<Ingrediente> listaIngMag = databaseManager.mostraIngredienti();
+        double quantitaIng=0;
+        // scorre gli ingredienti di una ricetta
+        for (int i = 0; i < listaIngRic.size(); i++) {
+                        /* viene scelta la  ricetta che consuma la maggior quantità in percentuale di ingredienti in magazzino
+                           preferendo la birra con minor quantità di additivi (rispetto alla quantità di acqua).
+                           Il valore massimo è 6, che corrisponde al consumo totale degli ingredienti in magazzino (esclusi gli additivi) */
+            if (i == 1 && listaIngRic.get(0).getQuantita() != 0)
+                quantitaIng -= listaIngRic.get(i).getQuantita() / listaIngRic.get(0).getQuantita();
+            else if (listaIngMag.get(i).getQuantita() != 0)
+                quantitaIng += listaIngRic.get(i).getQuantita() / listaIngMag.get(i).getQuantita();
+
+        }
+        return quantitaIng;
     }
 
     private class ProduzioneAffermativaListener implements DialogInterface.OnClickListener {

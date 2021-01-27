@@ -152,11 +152,14 @@ public class RicetteActivity extends AppCompatActivity {
     private class PlusIngrediente implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (!editText.getText().toString().isEmpty())
-                if (unitaMisura.getSelectedItem().toString().equalsIgnoreCase("g"))
+            if (!editText.getText().toString().isEmpty()){
+                if (unitaMisura.getSelectedItem().toString().equalsIgnoreCase("g")) {
                     ricettario.add(new Ingrediente(textView.getText().toString(), Double.parseDouble(editText.getText().toString())));
-                else
+                }
+                else {
                     ricettario.add(new Ingrediente(textView.getText().toString(), 1000 * Double.parseDouble(editText.getText().toString())));
+                }
+            }
             else
                 ricettario.add(new Ingrediente(textView.getText().toString(), 0));
 
