@@ -199,7 +199,7 @@ public class RicetteActivity extends AppCompatActivity {
             // crea la ricetta con i dati inseriti
             if (!editTextTitoloRicetta.getText().toString().isEmpty()) {
                 data = creaData();
-                ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, 1, ricettario);
+                ricetta = new Ricetta(editTextTitoloRicetta.getText().toString(), data, ricettario);
                 databaseManager.saveRicetta(ricetta);
                 listRicette.add(ricetta);
                 alertDialog.dismiss();

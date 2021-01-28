@@ -34,7 +34,6 @@ public class DataString {
     public static final String COLUMN_ID_RICETTA = "ID_RICETTA";
     public static final String COLUMN_NOME_RICETTA = "NOME_RICETTA";
     public static final String COLUMN_DATA_RICETTA = "DATA_RICETTA";
-    public static final String COLUMN_QUANTITA_BIRRA = "QUANTITA_BIRRA";
 
     public static final String COLUMN_QUANTITA_INGREDIENTE_RICETTA ="QUANTITA_INGREDIENTE";
     public static final String PK_RELAZIONE_RI = "PK_RICETTARIO";

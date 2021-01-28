@@ -123,7 +123,6 @@ public class DatabaseManager {
         cv = new ContentValues();
         cv.put(DataString.COLUMN_NOME_RICETTA, ricetta.getNome());
         cv.put(DataString.COLUMN_DATA_RICETTA, ricetta.getDataCreazione());
-        cv.put(DataString.COLUMN_QUANTITA_BIRRA, ricetta.getQuantitaBirraProdotta());
         try {
             db.insert(DataString.RICETTA_TABLE, null, cv);
             saveRicettario(ricetta);
@@ -186,7 +185,7 @@ public class DatabaseManager {
             do {
                 String nomeRicetta = listaRicetteCursor.getString(1);
                 listaIngredienti = getIngredientiRicetta(listaRicetteCursor.getInt(0));
-                Ricetta ricetta = new Ricetta(nomeRicetta, listaRicetteCursor.getString(2), listaRicetteCursor.getDouble(3), listaIngredienti);
+                Ricetta ricetta = new Ricetta(nomeRicetta, listaRicetteCursor.getString(2),  listaIngredienti);
                 listaRicette.add(ricetta);
             } while (listaRicetteCursor.moveToNext());
         } else

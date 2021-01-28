@@ -34,8 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createTableStatementRicetta = DataString.CREA_TABELLA + " " + DataString.RICETTA_TABLE + "("
                 + DataString.COLUMN_ID_RICETTA + " " + DataString.INTERO_CHIAVE + ","
                 + DataString.COLUMN_NOME_RICETTA + " " + DataString.TEXT_NOT_NULL + " UNIQUE,"
-                + DataString.COLUMN_DATA_RICETTA + " DATE NOT NULL,"
-                + DataString.COLUMN_QUANTITA_BIRRA + " DOUBLE NOT NULL)";
+                + DataString.COLUMN_DATA_RICETTA + " DATE NOT NULL)";
 
 
         //creazione tabella relazione Ricetta-Ingrediente

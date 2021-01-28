@@ -11,14 +11,12 @@ import java.util.Locale;
 public class Ricetta {
     private String nome;
     private String dataCreazione;
-    private double quantitaBirraProdotta;
     private List<Ingrediente> listIngrediente;
     private final ZoneId zona = ZoneId.of("Europe/Rome");
 
-    public Ricetta(String nome, String dataCreazione, double quantitaBirraProdotta, List<Ingrediente> listIngrediente) {
+    public Ricetta(String nome, String dataCreazione, List<Ingrediente> listIngrediente) {
         this.nome = nome;
         this.dataCreazione = dataCreazione;
-        this.quantitaBirraProdotta = quantitaBirraProdotta;
         this.listIngrediente = listIngrediente;
     }
 
@@ -47,13 +45,6 @@ public class Ricetta {
         creaDataCreazione();
     }
 
-    public double getQuantitaBirraProdotta() {
-        return quantitaBirraProdotta;
-    }
-
-    public void setQuantitaBirraProdotta(double quantitaBirraProdotta) {
-        this.quantitaBirraProdotta = quantitaBirraProdotta;
-    }
 
     public List<Ingrediente> getDispensaIngrediente() {
         return listIngrediente;
