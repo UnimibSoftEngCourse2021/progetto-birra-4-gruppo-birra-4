@@ -341,27 +341,6 @@ public class RicetteActivity extends AppCompatActivity {
         }
     }
 
-    private void produci() {
-        List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
-        List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
-
-        boolean producibile = true;
-        int k = 0;
-        while (k < ingredientiRicetta.size() && producibile) {
-            int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(k));
-            if (ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(k).getQuantita() * quantity)
-                producibile = false;
-            k++;
-        }
-
-        if (producibile) {
-            databaseManager.produciBirra(ricetta, quantity);
-            alertDialog.dismiss();
-            Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
-        } else
-            Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT).show();
-    }
-
     private class AggiornaRicetta implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -379,6 +358,28 @@ public class RicetteActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Inserire un numero positivo", Toast.LENGTH_SHORT).show();
         }
+
+        private void produci() {
+            List<Ingrediente> ingredientiMagazzino = databaseManager.mostraIngredienti();
+            List<Ingrediente> ingredientiRicetta = databaseManager.getIngredientiRicetta(databaseManager.readIdRicetta(ricetta));
+
+            boolean producibile = true;
+            int k = 0;
+            while (k < ingredientiRicetta.size() && producibile) {
+                int indice = ingredientiMagazzino.indexOf(ingredientiRicetta.get(k));
+                if (ingredientiMagazzino.get(indice).getQuantita() < ingredientiRicetta.get(k).getQuantita() * quantity)
+                    producibile = false;
+                k++;
+            }
+
+            if (producibile) {
+                databaseManager.produciBirra(ricetta, quantity);
+                alertDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "BIRRA PRODOTTA", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(getApplicationContext(), "RICHIEDE TROPPI INGREDIENTI", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private class AnnullaProduzione implements View.OnClickListener {
