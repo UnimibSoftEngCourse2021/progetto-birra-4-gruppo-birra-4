@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BrewDayApplication</string>
+    <string name="app_name">Brew Day</string>
     <string name="benvenuto">Benvenuto</string>
     <string name="lista_ingredienti">Dispensa</string>
     <string name="Modifica">Modifica Lista</string>
